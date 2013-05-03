@@ -20,8 +20,6 @@ public class GameScreen extends Screen {
 
 	private int fps;
 
-	private InputManager inputManager;
-
 	private Ship ship;
 
 	/**
@@ -50,7 +48,8 @@ public class GameScreen extends Screen {
 		this.height -= this.insets.top + this.insets.bottom;
 		setTitle("Game Screen");
 
-		this.inputManager = new InputManager(this);
+		addKeyListener(InputManager.getInstance());
+		
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 10);
 	}
 
@@ -80,13 +79,13 @@ public class GameScreen extends Screen {
 	 * Updates the elements on screen and checks for events.
 	 */
 	private void update() {
-		if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-				|| inputManager.isKeyDown(KeyEvent.VK_D))
+		if (InputManager.isKeyDown(KeyEvent.VK_RIGHT)
+				|| InputManager.isKeyDown(KeyEvent.VK_D))
 			this.ship.moveRight();
-		if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
-				|| inputManager.isKeyDown(KeyEvent.VK_A))
+		if (InputManager.isKeyDown(KeyEvent.VK_LEFT)
+				|| InputManager.isKeyDown(KeyEvent.VK_A))
 			this.ship.moveLeft();
-		if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
 			this.ship.shoot();
 		draw();
 	}

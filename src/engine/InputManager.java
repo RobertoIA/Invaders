@@ -12,6 +12,11 @@ import java.awt.event.KeyListener;
 public class InputManager implements KeyListener {
 
 	private static boolean[] keys = new boolean[256];
+	private static InputManager instance = new InputManager();
+	
+	public static InputManager getInstance() {
+		return instance;
+	}
 
 	/**
 	 * Returns true if the provided key is currently pressed.
