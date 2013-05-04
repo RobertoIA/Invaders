@@ -36,11 +36,13 @@ public class BulletPool {
 		if (!pool.isEmpty()) {
 			bullet = pool.iterator().next();
 			pool.remove(bullet);
-			bullet.setPositionX(positionX);
+			bullet.setPositionX(positionX - bullet.getWidth() / 2);
 			bullet.setPositionY(positionY);
 			bullet.setSpeed(speed);
-		} else
+		} else {
 			bullet = new Bullet(screen, positionX, positionY, speed);
+			bullet.setPositionX(positionX - bullet.getWidth() / 2);
+		}
 		return bullet;
 	}
 

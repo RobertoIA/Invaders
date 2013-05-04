@@ -43,16 +43,6 @@ public class Entity {
 	}
 
 	/**
-	 * Draws the entity in a given buffer. All entities are green.
-	 * 
-	 * @param backBufferGraphics
-	 *            Buffer to draw on.
-	 */
-	public void draw(Graphics backBufferGraphics) {
-		backBufferGraphics.setColor(Color.GREEN);
-	}
-
-	/**
 	 * Getter for the X axis position of the entity.
 	 * 
 	 * @return Position of the entity in the X axis.

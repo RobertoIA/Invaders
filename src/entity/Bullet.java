@@ -1,7 +1,5 @@
 package entity;
 
-import java.awt.Graphics;
-
 import screen.Screen;
 
 /**
@@ -28,27 +26,15 @@ public class Bullet extends Entity {
 	 *            direction - positive is down.
 	 */
 	public Bullet(Screen screen, int positionX, int positionY, int speed) {
-		super(screen, positionX, positionY, 5, 10);
-		this.positionX -= this.width / 2;
-		this.positionY -= this.height / 2;
+		super(screen, positionX, positionY, 3 * 2, 5 * 2);
+
 		this.speed = speed;
-	}
-
-	/**
-	 * Draws the bullet on the screen in its new position.
-	 */
-	public void draw(Graphics backBufferGraphics) {
-		super.draw(backBufferGraphics);
-
-		update();
-		backBufferGraphics.fillRect(this.positionX, this.positionY, this.width,
-				this.height);
 	}
 
 	/**
 	 * Updates the bullet's position.
 	 */
-	private void update() {
+	public void update() {
 		this.positionY += this.speed;
 	}
 
@@ -67,5 +53,12 @@ public class Bullet extends Entity {
 	 */
 	public int getPositionY() {
 		return this.positionY;
+	}
+	
+	/**
+	 * Getter for the image width of the bullet.
+	 */
+	public int getWidth() {
+		return this.width;
 	}
 }

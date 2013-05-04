@@ -13,7 +13,12 @@ public class InputManager implements KeyListener {
 
 	private static boolean[] keys = new boolean[256];
 	private static InputManager instance = new InputManager();
-	
+
+	/**
+	 * Returns shared instance of InputManager.
+	 * 
+	 * @return Shared instance of InputManager.
+	 */
 	public static InputManager getInstance() {
 		return instance;
 	}

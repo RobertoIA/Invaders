@@ -1,11 +1,9 @@
 package screen;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
+import engine.DrawManager;
 import engine.InputManager;
 import entity.Ship;
 
@@ -93,17 +91,10 @@ public class GameScreen extends Screen {
 	/**
 	 * Draws the elements associated with the screen.
 	 */
-	private void draw() {
-		BufferedImage backBuffer = new BufferedImage(this.width, this.height,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics graphics = getGraphics();
-		Graphics backBufferGraphics = backBuffer.getGraphics();
-
-		backBufferGraphics.setColor(Color.BLACK);
-		backBufferGraphics.fillRect(0, 0, this.width, this.height);
-
-		this.ship.draw(backBufferGraphics);
-
-		graphics.drawImage(backBuffer, insets.left, insets.top, this);
+	private void draw() {		
+		DrawManager.initDrawing(this);
+		DrawManager.drawEntity(this.ship, this.ship.getPositionX(), this.ship.getPositionY());
+		this.ship.drawBullets();
+		DrawManager.completeDrawing(this);
 	}
 }

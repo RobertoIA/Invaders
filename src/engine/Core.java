@@ -12,8 +12,8 @@ import screen.Screen;
 public class Core {
 
 	private static Screen currentScreen;
-	private static final int screenWidth = 800;
-	private static final int screenHeight = 600;
+	private static final int width = 448;
+	private static final int height = 520;
 	private static int fps = 60;
 
 	/**
@@ -22,7 +22,7 @@ public class Core {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		currentScreen = new GameScreen(screenWidth, screenHeight, fps);
+		currentScreen = new GameScreen(width, height, fps);
 		currentScreen.initialize();
 		currentScreen.run();
 

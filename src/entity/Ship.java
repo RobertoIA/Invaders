@@ -1,11 +1,11 @@
 package entity;
 
-import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
 import screen.Screen;
 import engine.Cooldown;
+import engine.DrawManager;
 
 /**
  * Implements a ship, to be controlled by the player.
@@ -32,28 +32,25 @@ public class Ship extends Entity {
 	 *            Absolute speed of the ship, when ordered to move.
 	 */
 	public Ship(Screen screen, int positionX, int positionY, int speed) {
-		super(screen, positionX, positionY, 20, 20);
-		this.positionX -= this.width / 2;
-		this.positionY -= this.height / 2;
+		super(screen, positionX, positionY, 13 * 2, 8 * 2);
+		
 		this.speed = speed;
 		this.bullets = new HashSet<Bullet>();
 		this.shootingCooldown = new Cooldown(350);
 		this.bullets = new HashSet<Bullet>();
+		
+
 	}
 
 	/**
-	 * Draws the ship and the bullets it has shot. Bullets that fall outside the
-	 * screen are recycled.
+	 * Draws the bullets shot by this ship.
 	 */
-	public void draw(Graphics backBufferGraphics) {
-		super.draw(backBufferGraphics);
-
-		backBufferGraphics.fillRect(this.positionX - this.width / 2,
-				this.positionY - this.height / 2, this.width, this.height);
-
+	public void drawBullets() {
+		// TODO Move bullets and bullet logic to GameScreen.
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets) {
-			bullet.draw(backBufferGraphics);
+			bullet.update();
+			DrawManager.drawEntity(bullet, bullet.getPositionX(), bullet.positionY);
 			if (bullet.positionY < 0
 					|| bullet.positionY > this.screen.getHeight())
 				recyclable.add(bullet);
@@ -67,8 +64,8 @@ public class Ship extends Entity {
 	 */
 	public void moveRight() {
 		this.positionX += this.speed;
-		if (this.positionX > this.screen.getWidth() - this.width / 2 - 1)
-			this.positionX = this.screen.getWidth() - this.width / 2 - 1;
+		if (this.positionX > this.screen.getWidth() - this.width - 1)
+			this.positionX = this.screen.getWidth() - this.width - 1;
 	}
 
 	/**
@@ -77,8 +74,8 @@ public class Ship extends Entity {
 	 */
 	public void moveLeft() {
 		this.positionX -= this.speed;
-		if (this.positionX < this.width / 2)
-			this.positionX = this.width / 2;
+		if (this.positionX < 1)
+			this.positionX = 1;
 	}
 
 	/**
@@ -87,8 +84,8 @@ public class Ship extends Entity {
 	public void shoot() {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
-			this.bullets.add(BulletPool.getBullet(this.screen, positionX,
-					positionY, -10));
+			this.bullets.add(BulletPool.getBullet(this.screen, positionX + this.width / 2,
+					positionY, -5));
 		}
 	}
 }
