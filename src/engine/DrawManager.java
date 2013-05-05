@@ -46,6 +46,7 @@ public class DrawManager {
 				.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 
 		// drawBorders(screen);
+		// drawGrid(screen);
 
 		initImages();
 	}
@@ -95,6 +96,21 @@ public class DrawManager {
 				screen.getWidth() - 1, screen.getHeight() - 1);
 		backBufferGraphics.drawLine(0, screen.getHeight() - 1,
 				screen.getWidth() - 1, screen.getHeight() - 1);
+	}
+
+	/**
+	 * For debugging purpouses, draws a grid over the canvas.
+	 * 
+	 * @param screen
+	 *            Screen to draw in.
+	 */
+	@SuppressWarnings("unused")
+	private static void drawGrid(Screen screen) {
+		backBufferGraphics.setColor(Color.DARK_GRAY);
+		for (int i = 0; i < screen.getHeight() - 1; i += 2)
+			backBufferGraphics.drawLine(0, i, screen.getWidth() - 1, i);
+		for (int j = 0; j < screen.getWidth() - 1; j += 2)
+			backBufferGraphics.drawLine(j, 0, j, screen.getHeight() - 1);
 	}
 
 	/**

@@ -5,7 +5,6 @@ import java.util.Set;
 
 import screen.Screen;
 import engine.Cooldown;
-import engine.DrawManager;
 
 /**
  * Implements a ship, to be controlled by the player.
@@ -33,29 +32,11 @@ public class Ship extends Entity {
 	 */
 	public Ship(Screen screen, int positionX, int positionY, int speed) {
 		super(screen, positionX, positionY, 13 * 2, 8 * 2);
-		
+
 		this.speed = speed;
 		this.bullets = new HashSet<Bullet>();
 		this.shootingCooldown = new Cooldown(350);
 		this.bullets = new HashSet<Bullet>();
-		
-
-	}
-
-	/**
-	 * Draws the bullets shot by this ship.
-	 */
-	public void drawBullets() {
-		// TODO Move bullets and bullet logic to GameScreen.
-		Set<Bullet> recyclable = new HashSet<Bullet>();
-		for (Bullet bullet : this.bullets) {
-			bullet.update();
-			DrawManager.drawEntity(bullet, bullet.getPositionX(), bullet.positionY);
-			if (bullet.positionY < 0
-					|| bullet.positionY > this.screen.getHeight())
-				recyclable.add(bullet);
-		}
-		BulletPool.recycle(recyclable);
 	}
 
 	/**
@@ -84,8 +65,23 @@ public class Ship extends Entity {
 	public void shoot() {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
-			this.bullets.add(BulletPool.getBullet(this.screen, positionX + this.width / 2,
-					positionY, -5));
+			this.bullets.add(BulletPool.getBullet(this.screen, positionX
+					+ this.width / 2, positionY, -4));
 		}
+	}
+
+	/**
+	 * Returns the set of bullets shot by the ship.
+	 */
+	public Set<Bullet> getBullets() {
+		Set<Bullet> recyclable = new HashSet<Bullet>();
+		for (Bullet bullet : this.bullets) {
+			bullet.update();
+			if (bullet.positionY < 0
+					|| bullet.positionY > this.screen.getHeight())
+				recyclable.add(bullet);
+		}
+		BulletPool.recycle(recyclable);
+		return this.bullets;
 	}
 }

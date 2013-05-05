@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import engine.DrawManager;
 import engine.InputManager;
+import entity.Bullet;
 import entity.Ship;
 
 /**
@@ -47,8 +48,8 @@ public class GameScreen extends Screen {
 		setTitle("Game Screen");
 
 		addKeyListener(InputManager.getInstance());
-		
-		this.ship = new Ship(this, this.width / 2, this.height - 30, 10);
+
+		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 	}
 
 	/**
@@ -85,16 +86,20 @@ public class GameScreen extends Screen {
 			this.ship.moveLeft();
 		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
 			this.ship.shoot();
+
 		draw();
 	}
 
 	/**
 	 * Draws the elements associated with the screen.
 	 */
-	private void draw() {		
+	private void draw() {
 		DrawManager.initDrawing(this);
-		DrawManager.drawEntity(this.ship, this.ship.getPositionX(), this.ship.getPositionY());
-		this.ship.drawBullets();
+		DrawManager.drawEntity(this.ship, this.ship.getPositionX(),
+				this.ship.getPositionY());
+		for (Bullet bullet : this.ship.getBullets())
+			DrawManager.drawEntity(bullet, bullet.getPositionX(),
+					bullet.getPositionY());
 		DrawManager.completeDrawing(this);
 	}
 }
