@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import screen.Screen;
+import entity.EnemyShip;
 import entity.Entity;
 import entity.Ship;
 
@@ -16,6 +17,7 @@ public class DrawManager {
 	private static BufferedImage backBuffer;
 
 	private static boolean[][] shipImage;
+	private static boolean[][] enemyShipTypeB;
 	private static boolean[][] bulletImage;
 
 	/**
@@ -70,6 +72,8 @@ public class DrawManager {
 		boolean[][] image;
 		if (entity.getClass() == Ship.class)
 			image = shipImage;
+		else if (entity.getClass() == EnemyShip.class)
+			image = enemyShipTypeB;
 		else
 			image = bulletImage;
 
@@ -132,6 +136,20 @@ public class DrawManager {
 		shipImage[10][3] = shipImage[10][4] = shipImage[10][5] = shipImage[10][6] = shipImage[10][7] = true;
 		shipImage[11][3] = shipImage[11][4] = shipImage[11][5] = shipImage[11][6] = shipImage[11][7] = true;
 		shipImage[12][4] = shipImage[12][5] = shipImage[12][6] = shipImage[12][7] = true;
+		
+		enemyShipTypeB = new boolean[12][8];
+		enemyShipTypeB[0][4] = enemyShipTypeB[0][5] = enemyShipTypeB[0][6] = true;
+		enemyShipTypeB[1][3] = enemyShipTypeB[1][4] = true;
+		enemyShipTypeB[2][0] = enemyShipTypeB[2][2] = enemyShipTypeB[2][3] = enemyShipTypeB[2][4] = enemyShipTypeB[2][5] = enemyShipTypeB[2][6] = true;
+		enemyShipTypeB[3][1] = enemyShipTypeB[3][2] = enemyShipTypeB[3][4] = enemyShipTypeB[3][5] = enemyShipTypeB[3][7] = true;
+		enemyShipTypeB[4][2] = enemyShipTypeB[4][3] = enemyShipTypeB[4][4] = enemyShipTypeB[4][5] = enemyShipTypeB[4][7] = true;
+		enemyShipTypeB[5][2] = enemyShipTypeB[5][3] = enemyShipTypeB[5][4] = enemyShipTypeB[5][5] = true;
+		enemyShipTypeB[6][2] = enemyShipTypeB[6][3] = enemyShipTypeB[6][4] = enemyShipTypeB[6][5] = true;		
+		enemyShipTypeB[7][2] = enemyShipTypeB[7][3] = enemyShipTypeB[7][4] = enemyShipTypeB[7][5] = enemyShipTypeB[7][7] = true;
+		enemyShipTypeB[8][1] = enemyShipTypeB[8][2] = enemyShipTypeB[8][4] = enemyShipTypeB[8][5] = enemyShipTypeB[8][7] = true;
+		enemyShipTypeB[9][0] = enemyShipTypeB[9][2] = enemyShipTypeB[9][3] = enemyShipTypeB[9][4] = enemyShipTypeB[9][5] = enemyShipTypeB[9][6] = true;
+		enemyShipTypeB[10][3] = enemyShipTypeB[10][4] = true;
+		enemyShipTypeB[11][4] = enemyShipTypeB[11][5] = enemyShipTypeB[11][6] = true;
 
 		bulletImage = new boolean[3][5];
 		bulletImage[0][0] = true;

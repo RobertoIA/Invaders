@@ -19,7 +19,7 @@ public class Ship extends Entity {
 	private Set<Bullet> bullets;
 
 	/**
-	 * Constructor, establishes the bullet's properties.
+	 * Constructor, establishes the ship's properties.
 	 * 
 	 * @param screen
 	 *            Screen where the ship will be drawn.

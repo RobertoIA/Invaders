@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import engine.DrawManager;
 import engine.InputManager;
 import entity.Bullet;
+import entity.EnemyShipFormation;
 import entity.Ship;
 
 /**
@@ -50,6 +51,8 @@ public class GameScreen extends Screen {
 		addKeyListener(InputManager.getInstance());
 
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
+		EnemyShipFormation.attach(this);
+		EnemyShipFormation.reset();
 	}
 
 	/**
@@ -95,11 +98,16 @@ public class GameScreen extends Screen {
 	 */
 	private void draw() {
 		DrawManager.initDrawing(this);
+
 		DrawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
+
+		EnemyShipFormation.draw();
+
 		for (Bullet bullet : this.ship.getBullets())
 			DrawManager.drawEntity(bullet, bullet.getPositionX(),
 					bullet.getPositionY());
+
 		DrawManager.completeDrawing(this);
 	}
 }
