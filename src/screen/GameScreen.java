@@ -46,7 +46,7 @@ public class GameScreen extends Screen {
 		this.insets = getInsets();
 		this.width -= this.insets.left + this.insets.right;
 		this.height -= this.insets.top + this.insets.bottom;
-		setTitle("Game Screen");
+		setTitle("Invaders");
 
 		addKeyListener(InputManager.getInstance());
 
