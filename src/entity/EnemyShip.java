@@ -1,5 +1,6 @@
 package entity;
 
+import engine.DrawManager.SpriteType;
 import screen.Screen;
 
 public class EnemyShip extends Entity {
@@ -16,6 +17,8 @@ public class EnemyShip extends Entity {
 	 */
 	public EnemyShip(Screen screen, int positionX, int positionY) {
 		super(screen, positionX, positionY, 12 * 2, 8 * 2);
+		
+		this.spriteType = SpriteType.EnemyShipB1;
 	}
 	
 	public void move(int distanceX, int distanceY) {

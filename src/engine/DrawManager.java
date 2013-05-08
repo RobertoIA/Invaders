@@ -5,9 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import screen.Screen;
-import entity.EnemyShip;
 import entity.Entity;
-import entity.Ship;
 
 public class DrawManager {
 
@@ -19,6 +17,16 @@ public class DrawManager {
 	private static boolean[][] shipImage;
 	private static boolean[][] enemyShipTypeB;
 	private static boolean[][] bulletImage;
+	
+	public static enum SpriteType {
+		Ship, ShipDestroyed,
+		Bullet, EnemyBullet,
+		EnemyShipA1, EnemyShipA2,
+		EnemyShipB1, EnemyShipB2,
+		EnemyShipC1, EnemyShipC2,
+		EnemyShipSpecial,
+		Explosion
+	};
 
 	/**
 	 * Returns shared instance of DrawManager.
@@ -70,12 +78,25 @@ public class DrawManager {
 	 */
 	public static void drawEntity(Entity entity, int positionX, int positionY) {
 		boolean[][] image;
-		if (entity.getClass() == Ship.class)
+
+		switch (entity.getSpriteType()) {
+		case Ship:
 			image = shipImage;
-		else if (entity.getClass() == EnemyShip.class)
+			break;
+		case EnemyShipA1:
+		case EnemyShipA2:
+		case EnemyShipB1:
+		case EnemyShipB2:
+		case EnemyShipC1:
+		case EnemyShipC2:
 			image = enemyShipTypeB;
-		else
+			break;
+		case Bullet:
+		case EnemyBullet:
+		default:
 			image = bulletImage;
+			break;
+		}
 
 		backBufferGraphics.setColor(Color.GREEN);
 		for (int i = 0; i < image.length; i++)

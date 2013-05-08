@@ -1,5 +1,6 @@
 package entity;
 
+import engine.DrawManager.SpriteType;
 import screen.Screen;
 
 /**
@@ -28,6 +29,11 @@ public class Bullet extends Entity {
 	public Bullet(Screen screen, int positionX, int positionY, int speed) {
 		super(screen, positionX, positionY, 3 * 2, 5 * 2);
 
+		if(speed < 0)
+			this.spriteType = SpriteType.Bullet;
+		else
+			this.spriteType = SpriteType.EnemyBullet;
+		
 		this.speed = speed;
 	}
 

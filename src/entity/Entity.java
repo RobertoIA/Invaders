@@ -1,6 +1,7 @@
 package entity;
 
 import screen.Screen;
+import engine.DrawManager.SpriteType;
 
 /**
  * Implements a generic game entity.
@@ -15,6 +16,7 @@ public class Entity {
 	protected int positionY;
 	protected int width;
 	protected int height;
+	protected SpriteType spriteType;
 
 	/**
 	 * Constructor, establishes the entity's generic properties.
@@ -75,5 +77,14 @@ public class Entity {
 	 */
 	public void setPositionY(int positionY) {
 		this.positionY = positionY;
+	}
+
+	/**
+	 * Getter for the sprite that the entity will be drawn as.
+	 * 
+	 * @return Sprite corresponding to the entity.
+	 */
+	public SpriteType getSpriteType() {
+		return this.spriteType;
 	}
 }
