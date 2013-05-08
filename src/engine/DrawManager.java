@@ -3,6 +3,8 @@ package engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import screen.Screen;
 import entity.Entity;
@@ -14,19 +16,29 @@ public class DrawManager {
 	private static Graphics backBufferGraphics;
 	private static BufferedImage backBuffer;
 
-	private static boolean[][] shipImage;
-	private static boolean[][] enemyShipTypeB;
-	private static boolean[][] bulletImage;
-	
+	private static boolean[][] ship, shipDestroyed;
+	private static boolean[][] bullet, enemyBullet;
+	private static boolean[][] enemyShipTypeA1, enemyShipTypeA2;
+//	private static boolean[][] enemyShipTypeB1, enemyShipTypeB2;
+//	private static boolean[][] enemyShipTypeC1, enemyShipTypeC2;
+//	private static boolean[][] enemyShipSpecial;
+	//private static boolean[][] explosion;
+
 	public static enum SpriteType {
-		Ship, ShipDestroyed,
-		Bullet, EnemyBullet,
-		EnemyShipA1, EnemyShipA2,
-		EnemyShipB1, EnemyShipB2,
-		EnemyShipC1, EnemyShipC2,
-		EnemyShipSpecial,
-		Explosion
+		Ship, ShipDestroyed, Bullet, EnemyBullet, EnemyShipA1, EnemyShipA2, EnemyShipB1, EnemyShipB2, EnemyShipC1, EnemyShipC2, EnemyShipSpecial, Explosion
 	};
+	
+	/**
+	 * Private constructor;
+	 */
+	private DrawManager() {
+		try {
+			load();
+		} catch (IOException e) {
+			// TODO handle exception
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Returns shared instance of DrawManager.
@@ -57,8 +69,6 @@ public class DrawManager {
 
 		// drawBorders(screen);
 		// drawGrid(screen);
-
-		initImages();
 	}
 
 	public static void completeDrawing(Screen screen) {
@@ -81,20 +91,34 @@ public class DrawManager {
 
 		switch (entity.getSpriteType()) {
 		case Ship:
-			image = shipImage;
+			image = ship;
 			break;
 		case EnemyShipA1:
-		case EnemyShipA2:
-		case EnemyShipB1:
-		case EnemyShipB2:
-		case EnemyShipC1:
-		case EnemyShipC2:
-			image = enemyShipTypeB;
+			image = enemyShipTypeA1;
 			break;
+		case EnemyShipA2:
+			image = enemyShipTypeA2;
+			break;
+//		case EnemyShipB1:
+//			image = enemyShipTypeB1;
+//			break;
+//		case EnemyShipB2:
+//			image = enemyShipTypeB2;
+//			break;
+//		case EnemyShipC1:
+//			image = enemyShipTypeC1;
+//			break;
+//		case EnemyShipC2:
+//			image = enemyShipTypeC1;
+//			break;
 		case Bullet:
+			image = bullet;
+			break;
 		case EnemyBullet:
+			image = enemyBullet;
+			break;
 		default:
-			image = bulletImage;
+			image = enemyShipTypeA2; // can be used to test new designs.
 			break;
 		}
 
@@ -137,44 +161,87 @@ public class DrawManager {
 		for (int j = 0; j < screen.getWidth() - 1; j += 2)
 			backBufferGraphics.drawLine(j, 0, j, screen.getHeight() - 1);
 	}
-
+	
 	/**
-	 * Prepares the images.
+	 * Loads the images from disk.
 	 */
-	private static void initImages() {
-		// TODO Reads images from a file.
-		shipImage = new boolean[13][8];
-		shipImage[0][4] = shipImage[0][5] = shipImage[0][6] = shipImage[0][7] = true;
-		shipImage[1][3] = shipImage[1][4] = shipImage[1][5] = shipImage[1][6] = shipImage[1][7] = true;
-		shipImage[2][3] = shipImage[2][4] = shipImage[2][5] = shipImage[2][6] = shipImage[2][7] = true;
-		shipImage[3][3] = shipImage[3][4] = shipImage[3][5] = shipImage[3][6] = shipImage[3][7] = true;
-		shipImage[4][3] = shipImage[4][4] = shipImage[4][5] = shipImage[4][6] = shipImage[4][7] = true;
-		shipImage[5][1] = shipImage[5][2] = shipImage[5][3] = shipImage[5][4] = shipImage[5][5] = shipImage[5][6] = shipImage[5][7] = true;
-		shipImage[6][0] = shipImage[6][1] = shipImage[6][2] = shipImage[6][3] = shipImage[6][4] = shipImage[6][5] = shipImage[6][6] = shipImage[6][7] = true;
-		shipImage[7][1] = shipImage[7][2] = shipImage[7][3] = shipImage[7][4] = shipImage[7][5] = shipImage[7][6] = shipImage[7][7] = true;
-		shipImage[8][3] = shipImage[8][4] = shipImage[8][5] = shipImage[8][6] = shipImage[8][7] = true;
-		shipImage[9][3] = shipImage[9][4] = shipImage[9][5] = shipImage[9][6] = shipImage[9][7] = true;
-		shipImage[10][3] = shipImage[10][4] = shipImage[10][5] = shipImage[10][6] = shipImage[10][7] = true;
-		shipImage[11][3] = shipImage[11][4] = shipImage[11][5] = shipImage[11][6] = shipImage[11][7] = true;
-		shipImage[12][4] = shipImage[12][5] = shipImage[12][6] = shipImage[12][7] = true;
+	private static void load() throws IOException{
+		FileInputStream inputStream = null;
 		
-		enemyShipTypeB = new boolean[12][8];
-		enemyShipTypeB[0][4] = enemyShipTypeB[0][5] = enemyShipTypeB[0][6] = true;
-		enemyShipTypeB[1][3] = enemyShipTypeB[1][4] = true;
-		enemyShipTypeB[2][0] = enemyShipTypeB[2][2] = enemyShipTypeB[2][3] = enemyShipTypeB[2][4] = enemyShipTypeB[2][5] = enemyShipTypeB[2][6] = true;
-		enemyShipTypeB[3][1] = enemyShipTypeB[3][2] = enemyShipTypeB[3][4] = enemyShipTypeB[3][5] = enemyShipTypeB[3][7] = true;
-		enemyShipTypeB[4][2] = enemyShipTypeB[4][3] = enemyShipTypeB[4][4] = enemyShipTypeB[4][5] = enemyShipTypeB[4][7] = true;
-		enemyShipTypeB[5][2] = enemyShipTypeB[5][3] = enemyShipTypeB[5][4] = enemyShipTypeB[5][5] = true;
-		enemyShipTypeB[6][2] = enemyShipTypeB[6][3] = enemyShipTypeB[6][4] = enemyShipTypeB[6][5] = true;		
-		enemyShipTypeB[7][2] = enemyShipTypeB[7][3] = enemyShipTypeB[7][4] = enemyShipTypeB[7][5] = enemyShipTypeB[7][7] = true;
-		enemyShipTypeB[8][1] = enemyShipTypeB[8][2] = enemyShipTypeB[8][4] = enemyShipTypeB[8][5] = enemyShipTypeB[8][7] = true;
-		enemyShipTypeB[9][0] = enemyShipTypeB[9][2] = enemyShipTypeB[9][3] = enemyShipTypeB[9][4] = enemyShipTypeB[9][5] = enemyShipTypeB[9][6] = true;
-		enemyShipTypeB[10][3] = enemyShipTypeB[10][4] = true;
-		enemyShipTypeB[11][4] = enemyShipTypeB[11][5] = enemyShipTypeB[11][6] = true;
-
-		bulletImage = new boolean[3][5];
-		bulletImage[0][0] = true;
-		bulletImage[1][0] = bulletImage[1][1] = bulletImage[1][2] = bulletImage[1][3] = bulletImage[1][4] = true;
-		bulletImage[2][0] = true;
+		try {
+			inputStream = new FileInputStream("res/graphics");
+			
+			int c;
+			
+			// TODO graphics for:
+			// enemyShipTypeB1, enemyShipTypeB2
+			// enemyShipTypeC1, enemyShipTypeC2
+			// enemyShipSpecial
+			// explosion
+			
+			ship = new boolean[13][8];
+			for(int i = 0; i < ship.length; i++)
+				for(int j = 0; j < ship[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						ship[i][j] = true;
+					else
+						ship[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			shipDestroyed = new boolean[13][8];
+			for(int i = 0; i < shipDestroyed.length; i++)
+				for(int j = 0; j < shipDestroyed[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						shipDestroyed[i][j] = true;
+					else
+						shipDestroyed[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			bullet = new boolean[3][5];
+			for(int i = 0; i < bullet.length; i++)
+				for(int j = 0; j < bullet[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						bullet[i][j] = true;
+					else
+						bullet[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyBullet = new boolean[3][5];
+			for(int i = 0; i < enemyBullet.length; i++)
+				for(int j = 0; j < enemyBullet[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyBullet[i][j] = true;
+					else
+						enemyBullet[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeA1 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeA1.length; i++)
+				for(int j = 0; j < enemyShipTypeA1[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeA1[i][j] = true;
+					else
+						enemyShipTypeA1[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeA2 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeA2.length; i++)
+				for(int j = 0; j < enemyShipTypeA2[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeA2[i][j] = true;
+					else
+						enemyShipTypeA2[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+		} finally {
+			if(inputStream != null)
+				inputStream.close();
+		}
 	}
 }
