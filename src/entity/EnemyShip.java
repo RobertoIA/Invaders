@@ -15,10 +15,10 @@ public class EnemyShip extends Entity {
 	 * @param positionY
 	 *            Initial position of the ship in the Y axis.
 	 */
-	public EnemyShip(Screen screen, int positionX, int positionY) {
+	public EnemyShip(Screen screen, int positionX, int positionY, SpriteType spriteType) {
 		super(screen, positionX, positionY, 12 * 2, 8 * 2);
 		
-		this.spriteType = SpriteType.EnemyShipB1;
+		this.spriteType = spriteType;
 	}
 	
 	public void move(int distanceX, int distanceY) {

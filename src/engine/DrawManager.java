@@ -19,8 +19,8 @@ public class DrawManager {
 	private static boolean[][] ship, shipDestroyed;
 	private static boolean[][] bullet, enemyBullet;
 	private static boolean[][] enemyShipTypeA1, enemyShipTypeA2;
-//	private static boolean[][] enemyShipTypeB1, enemyShipTypeB2;
-//	private static boolean[][] enemyShipTypeC1, enemyShipTypeC2;
+	private static boolean[][] enemyShipTypeB1, enemyShipTypeB2;
+	private static boolean[][] enemyShipTypeC1, enemyShipTypeC2;
 //	private static boolean[][] enemyShipSpecial;
 	//private static boolean[][] explosion;
 
@@ -99,18 +99,18 @@ public class DrawManager {
 		case EnemyShipA2:
 			image = enemyShipTypeA2;
 			break;
-//		case EnemyShipB1:
-//			image = enemyShipTypeB1;
-//			break;
-//		case EnemyShipB2:
-//			image = enemyShipTypeB2;
-//			break;
-//		case EnemyShipC1:
-//			image = enemyShipTypeC1;
-//			break;
-//		case EnemyShipC2:
-//			image = enemyShipTypeC1;
-//			break;
+		case EnemyShipB1:
+			image = enemyShipTypeB1; //
+			break;
+		case EnemyShipB2:
+			image = enemyShipTypeB2;
+			break;
+		case EnemyShipC1:
+			image = enemyShipTypeC1;
+			break;
+		case EnemyShipC2:
+			image = enemyShipTypeC1;
+			break;
 		case Bullet:
 			image = bullet;
 			break;
@@ -118,7 +118,7 @@ public class DrawManager {
 			image = enemyBullet;
 			break;
 		default:
-			image = enemyShipTypeA2; // can be used to test new designs.
+			image = enemyShipTypeB2;
 			break;
 		}
 
@@ -174,7 +174,6 @@ public class DrawManager {
 			int c;
 			
 			// TODO graphics for:
-			// enemyShipTypeB1, enemyShipTypeB2
 			// enemyShipTypeC1, enemyShipTypeC2
 			// enemyShipSpecial
 			// explosion
@@ -236,6 +235,46 @@ public class DrawManager {
 						enemyShipTypeA2[i][j] = true;
 					else
 						enemyShipTypeA2[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeB1 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeB1.length; i++)
+				for(int j = 0; j < enemyShipTypeB1[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeB1[i][j] = true;
+					else
+						enemyShipTypeB1[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeB2 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeB2.length; i++)
+				for(int j = 0; j < enemyShipTypeB2[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeB2[i][j] = true;
+					else
+						enemyShipTypeB2[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeC1 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeC1.length; i++)
+				for(int j = 0; j < enemyShipTypeC1[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeC1[i][j] = true;
+					else
+						enemyShipTypeC1[i][j] = false;
+			inputStream.read(); // line break.
+			inputStream.read();
+			
+			enemyShipTypeC2 = new boolean[12][8];
+			for(int i = 0; i < enemyShipTypeC2.length; i++)
+				for(int j = 0; j < enemyShipTypeC2[i].length; j++)
+					if(((c = inputStream.read()) != -1) && (char) c == '1')
+						enemyShipTypeC2[i][j] = true;
+					else
+						enemyShipTypeC2[i][j] = false;
 			inputStream.read(); // line break.
 			inputStream.read();
 			

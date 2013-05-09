@@ -1,7 +1,8 @@
 package entity;
 
-import engine.DrawManager;
 import screen.Screen;
+import engine.DrawManager;
+import engine.DrawManager.SpriteType;
 
 public class EnemyShipFormation {
 
@@ -27,10 +28,18 @@ public class EnemyShipFormation {
 	public static void reset() {
 		currentDirection = Direction.RIGHT;
 		movementInterval = 0;
-		for (int i = 0; i < enemyShips.length; i++)
-			for (int j = 0; j < enemyShips[i].length; j++)
+		SpriteType spriteType;
+		for (int i = 0; i < enemyShips.length; i++) {
+			spriteType = SpriteType.EnemyShipC1;
+			for (int j = 0; j < enemyShips[i].length; j++) {
+				if (j == (enemyShips[i].length / 2) - 1)
+					spriteType = SpriteType.EnemyShipB1;
+				else if (j == enemyShips[i].length - 2)
+					spriteType = SpriteType.EnemyShipA1;
 				enemyShips[i][j] = new EnemyShip(screen, 40 * (i + 1),
-						40 * (j + 1));
+						40 * (j + 1), spriteType);
+			}
+		}
 	}
 
 	public static void draw() {
