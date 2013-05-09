@@ -84,9 +84,11 @@ public class EnemyShipFormation {
 				movementY = 4;
 			
 			for (int i = 0; i < enemyShips.length; i++)
-				for (int j = 0; j < enemyShips[i].length; j++)
+				for (int j = 0; j < enemyShips[i].length; j++) {
 					enemyShips[i][j].move(movementX,
 							movementY);
+					enemyShips[i][j].update();
+				}
 			
 			if(enemyShips[0][enemyShips[0].length - 1].getPositionY() > screen.getHeight() - 80)
 				reset();

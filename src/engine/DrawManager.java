@@ -109,7 +109,7 @@ public class DrawManager {
 			image = enemyShipTypeC1;
 			break;
 		case EnemyShipC2:
-			image = enemyShipTypeC1;
+			image = enemyShipTypeC2;
 			break;
 		case Bullet:
 			image = bullet;
@@ -174,7 +174,6 @@ public class DrawManager {
 			int c;
 			
 			// TODO graphics for:
-			// enemyShipTypeC1, enemyShipTypeC2
 			// enemyShipSpecial
 			// explosion
 			
