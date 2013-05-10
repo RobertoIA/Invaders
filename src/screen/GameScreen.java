@@ -19,6 +19,7 @@ import entity.Ship;
 public class GameScreen extends Screen {
 
 	private int fps;
+	private DrawManager drawManager;
 
 	private Ship ship;
 
@@ -35,6 +36,7 @@ public class GameScreen extends Screen {
 	public GameScreen(int width, int height, int fps) {
 		super(width, height);
 		this.fps = fps;
+		this.drawManager = DrawManager.getInstance();
 	}
 
 	/**
@@ -97,17 +99,17 @@ public class GameScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
-		DrawManager.initDrawing(this);
+		drawManager.initDrawing(this);
 
-		DrawManager.drawEntity(this.ship, this.ship.getPositionX(),
+		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
 
 		EnemyShipFormation.draw();
 
 		for (Bullet bullet : this.ship.getBullets())
-			DrawManager.drawEntity(bullet, bullet.getPositionX(),
+			drawManager.drawEntity(bullet, bullet.getPositionX(),
 					bullet.getPositionY());
 
-		DrawManager.completeDrawing(this);
+		drawManager.completeDrawing(this);
 	}
 }

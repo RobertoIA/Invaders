@@ -3,36 +3,45 @@ package engine;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import screen.Screen;
 import entity.Entity;
 
 public class DrawManager {
 
-	private static DrawManager instance = new DrawManager();
+	private static DrawManager instance;
 	private static Graphics graphics;
 	private static Graphics backBufferGraphics;
 	private static BufferedImage backBuffer;
 
-	private static boolean[][] ship, shipDestroyed;
-	private static boolean[][] bullet, enemyBullet;
-	private static boolean[][] enemyShipTypeA1, enemyShipTypeA2;
-	private static boolean[][] enemyShipTypeB1, enemyShipTypeB2;
-	private static boolean[][] enemyShipTypeC1, enemyShipTypeC2;
-//	private static boolean[][] enemyShipSpecial;
-	//private static boolean[][] explosion;
+	private static Map<SpriteType, boolean[][]> spriteMap;
 
 	public static enum SpriteType {
 		Ship, ShipDestroyed, Bullet, EnemyBullet, EnemyShipA1, EnemyShipA2, EnemyShipB1, EnemyShipB2, EnemyShipC1, EnemyShipC2, EnemyShipSpecial, Explosion
 	};
-	
+
 	/**
 	 * Private constructor;
 	 */
 	private DrawManager() {
 		try {
+			spriteMap = new LinkedHashMap<SpriteType, boolean[][]>();
+
+			spriteMap.put(SpriteType.Ship, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipDestroyed, new boolean[13][8]);
+			spriteMap.put(SpriteType.Bullet, new boolean[3][5]);
+			spriteMap.put(SpriteType.EnemyBullet, new boolean[3][5]);
+			spriteMap.put(SpriteType.EnemyShipA1, new boolean[12][8]);
+			spriteMap.put(SpriteType.EnemyShipA2, new boolean[12][8]);
+			spriteMap.put(SpriteType.EnemyShipB1, new boolean[12][8]);
+			spriteMap.put(SpriteType.EnemyShipB2, new boolean[12][8]);
+			spriteMap.put(SpriteType.EnemyShipC1, new boolean[12][8]);
+			spriteMap.put(SpriteType.EnemyShipC2, new boolean[12][8]);
+
 			load();
 		} catch (IOException e) {
 			// TODO handle exception
@@ -46,6 +55,8 @@ public class DrawManager {
 	 * @return Shared instance of DrawManager.
 	 */
 	public static DrawManager getInstance() {
+		if (instance == null)
+			instance = new DrawManager();
 		return instance;
 	}
 
@@ -56,7 +67,7 @@ public class DrawManager {
 	 * @param screen
 	 *            Screen to draw in.
 	 */
-	public static void initDrawing(Screen screen) {
+	public void initDrawing(Screen screen) {
 		backBuffer = new BufferedImage(screen.getWidth(), screen.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 
@@ -71,7 +82,7 @@ public class DrawManager {
 		// drawGrid(screen);
 	}
 
-	public static void completeDrawing(Screen screen) {
+	public void completeDrawing(Screen screen) {
 		graphics.drawImage(backBuffer, screen.getInsets().left,
 				screen.getInsets().top, screen);
 	}
@@ -86,41 +97,8 @@ public class DrawManager {
 	 * @param positionY
 	 *            Coordinates for the upper side of the image.
 	 */
-	public static void drawEntity(Entity entity, int positionX, int positionY) {
-		boolean[][] image;
-
-		switch (entity.getSpriteType()) {
-		case Ship:
-			image = ship;
-			break;
-		case EnemyShipA1:
-			image = enemyShipTypeA1;
-			break;
-		case EnemyShipA2:
-			image = enemyShipTypeA2;
-			break;
-		case EnemyShipB1:
-			image = enemyShipTypeB1; //
-			break;
-		case EnemyShipB2:
-			image = enemyShipTypeB2;
-			break;
-		case EnemyShipC1:
-			image = enemyShipTypeC1;
-			break;
-		case EnemyShipC2:
-			image = enemyShipTypeC2;
-			break;
-		case Bullet:
-			image = bullet;
-			break;
-		case EnemyBullet:
-			image = enemyBullet;
-			break;
-		default:
-			image = enemyShipTypeB2;
-			break;
-		}
+	public void drawEntity(Entity entity, int positionX, int positionY) {
+		boolean[][] image = spriteMap.get(entity.getSpriteType());
 
 		backBufferGraphics.setColor(Color.GREEN);
 		for (int i = 0; i < image.length; i++)
@@ -137,7 +115,7 @@ public class DrawManager {
 	 *            Screen to draw in.
 	 */
 	@SuppressWarnings("unused")
-	private static void drawBorders(Screen screen) {
+	private void drawBorders(Screen screen) {
 		backBufferGraphics.setColor(Color.GREEN);
 		backBufferGraphics.drawLine(0, 0, screen.getWidth() - 1, 0);
 		backBufferGraphics.drawLine(0, 0, 0, screen.getHeight() - 1);
@@ -154,131 +132,42 @@ public class DrawManager {
 	 *            Screen to draw in.
 	 */
 	@SuppressWarnings("unused")
-	private static void drawGrid(Screen screen) {
+	private void drawGrid(Screen screen) {
 		backBufferGraphics.setColor(Color.DARK_GRAY);
 		for (int i = 0; i < screen.getHeight() - 1; i += 2)
 			backBufferGraphics.drawLine(0, i, screen.getWidth() - 1, i);
 		for (int j = 0; j < screen.getWidth() - 1; j += 2)
 			backBufferGraphics.drawLine(j, 0, j, screen.getHeight() - 1);
 	}
-	
+
 	/**
 	 * Loads the images from disk.
 	 */
-	private static void load() throws IOException{
-		FileInputStream inputStream = null;
-		
+	private void load() throws IOException {
+		InputStream inputStream = null;
+
 		try {
-			inputStream = new FileInputStream("res/graphics");
-			
+			inputStream = DrawManager.class.getClassLoader()
+					.getResourceAsStream("graphics");
 			int c;
-			
+
 			// TODO graphics for:
 			// enemyShipSpecial
 			// explosion
-			
-			ship = new boolean[13][8];
-			for(int i = 0; i < ship.length; i++)
-				for(int j = 0; j < ship[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						ship[i][j] = true;
-					else
-						ship[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			shipDestroyed = new boolean[13][8];
-			for(int i = 0; i < shipDestroyed.length; i++)
-				for(int j = 0; j < shipDestroyed[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						shipDestroyed[i][j] = true;
-					else
-						shipDestroyed[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			bullet = new boolean[3][5];
-			for(int i = 0; i < bullet.length; i++)
-				for(int j = 0; j < bullet[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						bullet[i][j] = true;
-					else
-						bullet[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyBullet = new boolean[3][5];
-			for(int i = 0; i < enemyBullet.length; i++)
-				for(int j = 0; j < enemyBullet[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyBullet[i][j] = true;
-					else
-						enemyBullet[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeA1 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeA1.length; i++)
-				for(int j = 0; j < enemyShipTypeA1[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeA1[i][j] = true;
-					else
-						enemyShipTypeA1[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeA2 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeA2.length; i++)
-				for(int j = 0; j < enemyShipTypeA2[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeA2[i][j] = true;
-					else
-						enemyShipTypeA2[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeB1 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeB1.length; i++)
-				for(int j = 0; j < enemyShipTypeB1[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeB1[i][j] = true;
-					else
-						enemyShipTypeB1[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeB2 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeB2.length; i++)
-				for(int j = 0; j < enemyShipTypeB2[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeB2[i][j] = true;
-					else
-						enemyShipTypeB2[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeC1 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeC1.length; i++)
-				for(int j = 0; j < enemyShipTypeC1[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeC1[i][j] = true;
-					else
-						enemyShipTypeC1[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
-			enemyShipTypeC2 = new boolean[12][8];
-			for(int i = 0; i < enemyShipTypeC2.length; i++)
-				for(int j = 0; j < enemyShipTypeC2[i].length; j++)
-					if(((c = inputStream.read()) != -1) && (char) c == '1')
-						enemyShipTypeC2[i][j] = true;
-					else
-						enemyShipTypeC2[i][j] = false;
-			inputStream.read(); // line break.
-			inputStream.read();
-			
+
+			for (Map.Entry<SpriteType, boolean[][]> sprite : spriteMap
+					.entrySet()) {
+				for (int i = 0; i < sprite.getValue().length; i++)
+					for (int j = 0; j < sprite.getValue()[i].length; j++)
+						if (((c = inputStream.read()) != -1) && (char) c == '1')
+							sprite.getValue()[i][j] = true;
+						else
+							sprite.getValue()[i][j] = false;
+				inputStream.read(); // line break.
+				inputStream.read();
+			}
 		} finally {
-			if(inputStream != null)
+			if (inputStream != null)
 				inputStream.close();
 		}
 	}

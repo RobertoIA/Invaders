@@ -7,6 +7,7 @@ import engine.DrawManager.SpriteType;
 public class EnemyShipFormation {
 
 	private static EnemyShipFormation instance = new EnemyShipFormation();
+	private static DrawManager drawManager = DrawManager.getInstance();
 	private static Screen screen;
 	private static EnemyShip[][] enemyShips = new EnemyShip[7][5];
 
@@ -46,7 +47,7 @@ public class EnemyShipFormation {
 		move();
 		for (int i = 0; i < enemyShips.length; i++)
 			for (int j = 0; j < enemyShips[i].length; j++)
-				DrawManager.drawEntity(enemyShips[i][j],
+				drawManager.drawEntity(enemyShips[i][j],
 						enemyShips[i][j].getPositionX(),
 						enemyShips[i][j].getPositionY());
 	}
