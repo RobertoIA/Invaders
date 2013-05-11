@@ -20,6 +20,7 @@ public class GameScreen extends Screen {
 
 	private int fps;
 	private DrawManager drawManager;
+	private EnemyShipFormation enemyShipFormation;
 
 	private Ship ship;
 
@@ -53,8 +54,8 @@ public class GameScreen extends Screen {
 		addKeyListener(InputManager.getInstance());
 
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
-		EnemyShipFormation.attach(this);
-		EnemyShipFormation.reset();
+		enemyShipFormation = EnemyShipFormation.getInstance();
+		enemyShipFormation.attach(this);
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class GameScreen extends Screen {
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
 
-		EnemyShipFormation.draw();
+		enemyShipFormation.draw();
 
 		for (Bullet bullet : this.ship.getBullets())
 			drawManager.drawEntity(bullet, bullet.getPositionX(),

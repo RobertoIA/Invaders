@@ -87,4 +87,22 @@ public class Entity {
 	public SpriteType getSpriteType() {
 		return this.spriteType;
 	}
+
+	/**
+	 * Getter for the width of the image associated to the entity.
+	 * 
+	 * @return Width of the entity.
+	 */
+	public int getWidht() {
+		return this.width;
+	}
+
+	/**
+	 * Getter for the height of the image associated to the entity.
+	 * 
+	 * @return Height of the entity.
+	 */
+	public int getHeight() {
+		return this.height;
+	}
 }
