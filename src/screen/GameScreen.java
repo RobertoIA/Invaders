@@ -54,7 +54,7 @@ public class GameScreen extends Screen {
 		addKeyListener(InputManager.getInstance());
 
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
-		enemyShipFormation = EnemyShipFormation.getInstance();
+		enemyShipFormation = new EnemyShipFormation(7, 5);
 		enemyShipFormation.attach(this);
 	}
 

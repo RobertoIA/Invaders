@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import screen.Screen;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
@@ -12,36 +15,48 @@ import engine.DrawManager.SpriteType;
  */
 public class EnemyShipFormation {
 
-	private static EnemyShipFormation instance;
-	private static DrawManager drawManager = DrawManager.getInstance();
-	private static Screen screen;
-	private static EnemyShip[][] enemyShips = new EnemyShip[7][5];
-	private static int positionX;
-	private static int positionY;
+	private DrawManager drawManager = DrawManager.getInstance();
+	private Screen screen;
+	private Set<EnemyShip> enemyShips;
+	private int sizeX;
+	private int sizeY;
+	private int positionX;
+	private int positionY;
 
-	private static enum Direction {
+	private enum Direction {
 		RIGHT, LEFT, DOWN
 	};
 
-	private static Direction currentDirection;
-	private static int movementInterval;
+	private Direction currentDirection;
+	private int movementInterval;
 
 	/**
-	 * Private constructor. Sets the initial conditions.
+	 * Constructor, sets the initial conditions.
 	 */
-	private EnemyShipFormation() {
-		reset();
-	}
+	public EnemyShipFormation(int sizeX, int sizeY) {
+		this.enemyShips = new HashSet<EnemyShip>();
+		this.currentDirection = Direction.RIGHT;
+		this.movementInterval = 0;
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		this.positionX = 40;
+		this.positionY = 40;
+		SpriteType spriteType;
 
-	/**
-	 * Returns a shared instance of the formation.
-	 * 
-	 * @return instance of formation.
-	 */
-	public static EnemyShipFormation getInstance() {
-		if (instance == null)
-			instance = new EnemyShipFormation();
-		return instance;
+		for (int i = 0; i < this.sizeX; i++) {
+			spriteType = SpriteType.EnemyShipC1;
+
+			for (int j = 0; j < this.sizeY; j++) {
+
+				if (j == (this.sizeY / 2) - 1)
+					spriteType = SpriteType.EnemyShipB1;
+				else if (j == this.sizeY - 2)
+					spriteType = SpriteType.EnemyShipA1;
+
+				enemyShips.add(new EnemyShip(screen, positionX * (i + 1),
+						positionY * (j + 1), spriteType));
+			}
+		}
 	}
 
 	/**
@@ -55,68 +70,41 @@ public class EnemyShipFormation {
 	}
 
 	/**
-	 * Resets the formation to its starting point.
-	 */
-	public static void reset() {
-		currentDirection = Direction.RIGHT;
-		movementInterval = 0;
-		positionX = 40;
-		positionY = 40;
-		SpriteType spriteType;
-
-		for (int i = 0; i < enemyShips.length; i++) {
-			spriteType = SpriteType.EnemyShipC1;
-
-			for (int j = 0; j < enemyShips[i].length; j++) {
-
-				if (j == (enemyShips[i].length / 2) - 1)
-					spriteType = SpriteType.EnemyShipB1;
-				else if (j == enemyShips[i].length - 2)
-					spriteType = SpriteType.EnemyShipA1;
-
-				enemyShips[i][j] = new EnemyShip(screen, positionX * (i + 1),
-						positionY * (j + 1), spriteType);
-			}
-		}
-	}
-
-	/**
 	 * Draws every individual component of the formation.
 	 */
 	public void draw() {
 		move();
-
-		for (int i = 0; i < enemyShips.length; i++)
-			for (int j = 0; j < enemyShips[i].length; j++)
-				drawManager.drawEntity(enemyShips[i][j],
-						enemyShips[i][j].getPositionX(),
-						enemyShips[i][j].getPositionY());
+		
+		for(EnemyShip enemyShip : this.enemyShips)
+			drawManager.drawEntity(enemyShip, enemyShip.getPositionX(), enemyShip.getPositionY());
 	}
 
 	/**
 	 * Updates the position of the ships.
 	 */
-	private static void move() {
+	private void move() {
 		int movementX = 0;
 		int movementY = 0;
 		movementInterval++;
 		if (movementInterval >= 60) {
 			movementInterval = 0;
-			// TODO what happens if enemyShips[0][0] is destroyed?
-			if (currentDirection == Direction.RIGHT
-					&& positionX + 40 * (enemyShips.length - 1)
-							+ enemyShips[0][0].getWidht() >= screen.getWidth() - 40)
+			//TODO cleanup
+			boolean isAtBottom = positionY + 40 * (this.sizeY - 1)
+					+ enemyShips.iterator().next().getHeight() > screen.getHeight() - 80;
+			
+			if (currentDirection == Direction.RIGHT && !isAtBottom
+					&& positionX + 40 * (this.sizeX - 1)
+							+ enemyShips.iterator().next().getWidht() >= screen.getWidth() - 40)
 				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.LEFT && positionX <= 40)
+			else if (currentDirection == Direction.LEFT && !isAtBottom && positionX <= 40)
 				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.DOWN
-					&& positionY % 20 == 0
-					&& positionX + 40 * (enemyShips.length - 1)
-							+ enemyShips[0][0].getWidht() >= screen.getWidth() - 40)
-				currentDirection = Direction.LEFT;
-			else if (currentDirection == Direction.DOWN && positionY % 40 == 0
+			else if (positionY % 40 == 0
 					&& positionX <= 40)
 				currentDirection = Direction.RIGHT;
+			else if (positionY % 20 == 0
+					&& positionX + 40 * (this.sizeX - 1)
+							+ enemyShips.iterator().next().getWidht() >= screen.getWidth() - 40)
+				currentDirection = Direction.LEFT;
 
 			if (currentDirection == Direction.RIGHT)
 				movementX = 8;
@@ -127,16 +115,11 @@ public class EnemyShipFormation {
 
 			positionX += movementX;
 			positionY += movementY;
-
-			for (int i = 0; i < enemyShips.length; i++)
-				for (int j = 0; j < enemyShips[i].length; j++) {
-					enemyShips[i][j].move(movementX, movementY);
-					enemyShips[i][j].update();
-				}
-
-			if (positionY + 40 * (enemyShips[0].length - 1)
-					+ enemyShips[0][0].getHeight() > screen.getHeight() - 80)
-				reset();
+			
+			for(EnemyShip enemyShip : this.enemyShips) {
+				enemyShip.move(movementX, movementY);
+				enemyShip.update();
+			}
 		}
 	}
 }
