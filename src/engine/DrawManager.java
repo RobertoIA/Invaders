@@ -41,7 +41,9 @@ public class DrawManager {
 			spriteMap.put(SpriteType.EnemyShipB2, new boolean[12][8]);
 			spriteMap.put(SpriteType.EnemyShipC1, new boolean[12][8]);
 			spriteMap.put(SpriteType.EnemyShipC2, new boolean[12][8]);
-
+			spriteMap.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
+			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
+			
 			load();
 		} catch (IOException e) {
 			// TODO handle exception
@@ -150,10 +152,6 @@ public class DrawManager {
 			inputStream = DrawManager.class.getClassLoader()
 					.getResourceAsStream("graphics");
 			int c;
-
-			// TODO graphics for:
-			// enemyShipSpecial
-			// explosion
 
 			for (Map.Entry<SpriteType, boolean[][]> sprite : spriteMap
 					.entrySet()) {
