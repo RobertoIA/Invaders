@@ -43,7 +43,7 @@ public class DrawManager {
 			spriteMap.put(SpriteType.EnemyShipC2, new boolean[12][8]);
 			spriteMap.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
-			
+
 			load();
 		} catch (IOException e) {
 			// TODO handle exception
@@ -151,18 +151,21 @@ public class DrawManager {
 		try {
 			inputStream = DrawManager.class.getClassLoader()
 					.getResourceAsStream("graphics");
-			int c;
+			char c;
 
 			for (Map.Entry<SpriteType, boolean[][]> sprite : spriteMap
 					.entrySet()) {
 				for (int i = 0; i < sprite.getValue().length; i++)
-					for (int j = 0; j < sprite.getValue()[i].length; j++)
-						if (((c = inputStream.read()) != -1) && (char) c == '1')
+					for (int j = 0; j < sprite.getValue()[i].length; j++) {
+						do
+							c = (char) inputStream.read();
+						while (c != '0' && c != '1');
+
+						if (c == '1')
 							sprite.getValue()[i][j] = true;
 						else
 							sprite.getValue()[i][j] = false;
-				inputStream.read(); // line break.
-				inputStream.read();
+					}
 			}
 		} finally {
 			if (inputStream != null)
