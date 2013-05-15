@@ -1,6 +1,5 @@
 package entity;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import screen.Screen;
@@ -17,7 +16,6 @@ public class Ship extends Entity {
 
 	private int speed;
 	private Cooldown shootingCooldown;
-	private Set<Bullet> bullets;
 
 	/**
 	 * Constructor, establishes the ship's properties.
@@ -36,9 +34,8 @@ public class Ship extends Entity {
 
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;
-		this.bullets = new HashSet<Bullet>();
 		this.shootingCooldown = new Cooldown(350);
-		this.bullets = new HashSet<Bullet>();
+		
 	}
 
 	/**
@@ -64,26 +61,11 @@ public class Ship extends Entity {
 	/**
 	 * Shoots a bullet upwards.
 	 */
-	public void shoot() {
+	public void shoot(Set<Bullet> bullets) {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
-			this.bullets.add(BulletPool.getBullet(this.screen, positionX
+			bullets.add(BulletPool.getBullet(this.screen, positionX
 					+ this.width / 2, positionY, -4));
 		}
-	}
-
-	/**
-	 * Returns the set of bullets shot by the ship.
-	 */
-	public Set<Bullet> getBullets() {
-		Set<Bullet> recyclable = new HashSet<Bullet>();
-		for (Bullet bullet : this.bullets) {
-			bullet.update();
-			if (bullet.positionY < 0
-					|| bullet.positionY > this.screen.getHeight())
-				recyclable.add(bullet);
-		}
-		BulletPool.recycle(recyclable);
-		return this.bullets;
 	}
 }

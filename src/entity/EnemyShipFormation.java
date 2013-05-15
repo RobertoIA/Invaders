@@ -1,9 +1,11 @@
 package entity;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import screen.Screen;
+import engine.Cooldown;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
 
@@ -17,7 +19,8 @@ public class EnemyShipFormation {
 
 	private DrawManager drawManager = DrawManager.getInstance();
 	private Screen screen;
-	private Set<EnemyShip> enemyShips;
+	private List<List<EnemyShip>> enemyShips;
+	private Cooldown shootingCooldown;
 	private int sizeX;
 	private int sizeY;
 	private int positionX;
@@ -34,9 +37,10 @@ public class EnemyShipFormation {
 	 * Constructor, sets the initial conditions.
 	 */
 	public EnemyShipFormation(int sizeX, int sizeY) {
-		this.enemyShips = new HashSet<EnemyShip>();
+		this.enemyShips = new ArrayList<List<EnemyShip>>();
 		this.currentDirection = Direction.RIGHT;
 		this.movementInterval = 0;
+		this.shootingCooldown = new Cooldown(2500);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.positionX = 40;
@@ -45,7 +49,7 @@ public class EnemyShipFormation {
 
 		for (int i = 0; i < this.sizeX; i++) {
 			spriteType = SpriteType.EnemyShipC1;
-
+			List<EnemyShip> row = new ArrayList<EnemyShip>();
 			for (int j = 0; j < this.sizeY; j++) {
 
 				if (j == (this.sizeY / 2) - 1)
@@ -53,10 +57,13 @@ public class EnemyShipFormation {
 				else if (j == this.sizeY - 2)
 					spriteType = SpriteType.EnemyShipA1;
 
-				enemyShips.add(new EnemyShip(screen, positionX * (i + 1),
-						positionY * (j + 1), spriteType));
+				row.add(new EnemyShip(screen, positionX * (i + 1), positionY
+						* (j + 1), spriteType));
 			}
+			this.enemyShips.add(row);
 		}
+		
+		shootingCooldown.reset();
 	}
 
 	/**
@@ -74,9 +81,11 @@ public class EnemyShipFormation {
 	 */
 	public void draw() {
 		move();
-		
-		for(EnemyShip enemyShip : this.enemyShips)
-			drawManager.drawEntity(enemyShip, enemyShip.getPositionX(), enemyShip.getPositionY());
+
+		for (List<EnemyShip> row : this.enemyShips)
+			for (EnemyShip enemyShip : row)
+				drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
+						enemyShip.getPositionY());
 	}
 
 	/**
@@ -88,22 +97,25 @@ public class EnemyShipFormation {
 		movementInterval++;
 		if (movementInterval >= 60) {
 			movementInterval = 0;
-			//TODO cleanup
-			boolean isAtBottom = positionY + 40 * (this.sizeY - 1)
-					+ enemyShips.iterator().next().getHeight() > screen.getHeight() - 80;
-			
-			if (currentDirection == Direction.RIGHT && !isAtBottom
-					&& positionX + 40 * (this.sizeX - 1)
-							+ enemyShips.iterator().next().getWidht() >= screen.getWidth() - 40)
+			// TODO cleanup
+			int shipHeight = this.enemyShips.get(0).get(0).getHeight();
+			int shipWidth = this.enemyShips.get(0).get(0).getHeight();
+			boolean isAtBottom = positionY + 40 * (this.sizeY - 1) + shipHeight > screen
+					.getHeight() - 80;
+
+			if (currentDirection == Direction.RIGHT
+					&& !isAtBottom
+					&& positionX + 40 * (this.sizeX - 1) + shipWidth >= screen
+							.getWidth() - 40)
 				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.LEFT && !isAtBottom && positionX <= 40)
-				currentDirection = Direction.DOWN;
-			else if (positionY % 40 == 0
+			else if (currentDirection == Direction.LEFT && !isAtBottom
 					&& positionX <= 40)
+				currentDirection = Direction.DOWN;
+			else if (positionY % 40 == 0 && positionX <= 40)
 				currentDirection = Direction.RIGHT;
 			else if (positionY % 20 == 0
-					&& positionX + 40 * (this.sizeX - 1)
-							+ enemyShips.iterator().next().getWidht() >= screen.getWidth() - 40)
+					&& positionX + 40 * (this.sizeX - 1) + shipWidth >= screen
+							.getWidth() - 40)
 				currentDirection = Direction.LEFT;
 
 			if (currentDirection == Direction.RIGHT)
@@ -115,11 +127,29 @@ public class EnemyShipFormation {
 
 			positionX += movementX;
 			positionY += movementY;
-			
-			for(EnemyShip enemyShip : this.enemyShips) {
-				enemyShip.move(movementX, movementY);
-				enemyShip.update();
-			}
+
+			for (List<EnemyShip> row : this.enemyShips)
+				for (EnemyShip enemyShip : row) {
+					enemyShip.move(movementX, movementY);
+					enemyShip.update();
+				}
+		}
+	}
+
+	/**
+	 * Shoots a bullet downwards.
+	 */
+	public void shoot(Set<Bullet> bullets) {
+		// For now, only ships in the bottom row are able to shoot.
+		int index = (int) (Math.random() * this.enemyShips.size());
+		int lastRow = this.enemyShips.get(0).size() - 1;
+		EnemyShip shooter = this.enemyShips.get(index).get(lastRow);
+
+		if (this.shootingCooldown.checkFinished()) {
+			this.shootingCooldown.reset();
+			bullets.add(BulletPool.getBullet(this.screen,
+					shooter.getPositionX() + shooter.width / 2,
+					shooter.getPositionY(), 3));
 		}
 	}
 }

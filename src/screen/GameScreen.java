@@ -1,11 +1,14 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import engine.DrawManager;
 import engine.InputManager;
 import entity.Bullet;
+import entity.BulletPool;
 import entity.EnemyShipFormation;
 import entity.Ship;
 
@@ -23,6 +26,7 @@ public class GameScreen extends Screen {
 	private EnemyShipFormation enemyShipFormation;
 
 	private Ship ship;
+	private Set<Bullet> bullets;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -53,9 +57,10 @@ public class GameScreen extends Screen {
 
 		addKeyListener(InputManager.getInstance());
 
-		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 		enemyShipFormation = new EnemyShipFormation(7, 5);
 		enemyShipFormation.attach(this);
+		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
+		this.bullets = new HashSet<Bullet>();
 	}
 
 	/**
@@ -91,8 +96,11 @@ public class GameScreen extends Screen {
 				|| InputManager.isKeyDown(KeyEvent.VK_A))
 			this.ship.moveLeft();
 		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
-			this.ship.shoot();
+			this.ship.shoot(this.bullets);
 
+		this.enemyShipFormation.shoot(this.bullets);
+		
+		cleanBullets();
 		draw();
 	}
 
@@ -107,10 +115,22 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation.draw();
 
-		for (Bullet bullet : this.ship.getBullets())
+		for (Bullet bullet : this.bullets)
 			drawManager.drawEntity(bullet, bullet.getPositionX(),
 					bullet.getPositionY());
 
 		drawManager.completeDrawing(this);
+	}
+	
+	private void cleanBullets() {
+		Set<Bullet> recyclable = new HashSet<Bullet>();
+		for (Bullet bullet : this.bullets) {
+			bullet.update();
+			if (bullet.getPositionY() < 0
+					|| bullet.getPositionY() > this.height)
+				recyclable.add(bullet);
+		}
+		this.bullets.removeAll(recyclable);
+		BulletPool.recycle(recyclable);
 	}
 }
