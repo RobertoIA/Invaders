@@ -1,6 +1,8 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ import engine.DrawManager.SpriteType;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class EnemyShipFormation {
+public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	private DrawManager drawManager = DrawManager.getInstance();
 	private Screen screen;
@@ -62,7 +64,7 @@ public class EnemyShipFormation {
 			}
 			this.enemyShips.add(row);
 		}
-		
+
 		shootingCooldown.reset();
 	}
 
@@ -151,5 +153,21 @@ public class EnemyShipFormation {
 					shooter.getPositionX() + shooter.width / 2,
 					shooter.getPositionY(), 3));
 		}
+	}
+
+	/**
+	 * Returns an iterator over the ships in the formation.
+	 * 
+	 * @return Iterator over the enemy ships.
+	 */
+	@Override
+	public Iterator<EnemyShip> iterator() {
+		Set<EnemyShip> enemyShips = new HashSet<EnemyShip>();
+		
+		for(List<EnemyShip> row : this.enemyShips)
+			for(EnemyShip enemyShip : row)
+				enemyShips.add(enemyShip);
+
+		return enemyShips.iterator();
 	}
 }

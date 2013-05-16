@@ -1,7 +1,7 @@
 package entity;
 
-import engine.DrawManager.SpriteType;
 import screen.Screen;
+import engine.DrawManager.SpriteType;
 
 /**
  * Implements a bullet that moves vertically up or down.
@@ -29,12 +29,18 @@ public class Bullet extends Entity {
 	public Bullet(Screen screen, int positionX, int positionY, int speed) {
 		super(screen, positionX, positionY, 3 * 2, 5 * 2);
 
-		if(speed < 0)
+		setSprite();
+		this.speed = speed;
+	}
+	
+	/**
+	 * Sets correct sprite for the bullet, based on speed.
+	 */
+	public void setSprite() {
+		if (speed < 0)
 			this.spriteType = SpriteType.Bullet;
 		else
 			this.spriteType = SpriteType.EnemyBullet;
-		
-		this.speed = speed;
 	}
 
 	/**
@@ -60,11 +66,20 @@ public class Bullet extends Entity {
 	public int getPositionY() {
 		return this.positionY;
 	}
-	
+
 	/**
 	 * Getter for the image width of the bullet.
 	 */
 	public int getWidth() {
 		return this.width;
+	}
+
+	/**
+	 * Getter for the speed of the bullet.
+	 * 
+	 * @return Speed of the bullet.
+	 */
+	public int getSpeed() {
+		return this.speed;
 	}
 }

@@ -9,7 +9,9 @@ import engine.DrawManager;
 import engine.InputManager;
 import entity.Bullet;
 import entity.BulletPool;
+import entity.EnemyShip;
 import entity.EnemyShipFormation;
+import entity.Entity;
 import entity.Ship;
 
 /**
@@ -99,7 +101,8 @@ public class GameScreen extends Screen {
 			this.ship.shoot(this.bullets);
 
 		this.enemyShipFormation.shoot(this.bullets);
-		
+
+		manageCollisions();
 		cleanBullets();
 		draw();
 	}
@@ -121,7 +124,10 @@ public class GameScreen extends Screen {
 
 		drawManager.completeDrawing(this);
 	}
-	
+
+	/**
+	 * Cleans bullets that go off screen.
+	 */
 	private void cleanBullets() {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets) {
@@ -132,5 +138,52 @@ public class GameScreen extends Screen {
 		}
 		this.bullets.removeAll(recyclable);
 		BulletPool.recycle(recyclable);
+	}
+
+	/**
+	 * Manages collisions between bullets and ships.
+	 */
+	private void manageCollisions() {
+		Set<Bullet> recyclable = new HashSet<Bullet>();
+		for (Bullet bullet : this.bullets)
+			if (bullet.getSpeed() > 0) {
+				if (checkCollision(bullet, this.ship)) {
+					System.out.println("IMPACT ON PLAYER!");
+					recyclable.add(bullet);
+				}
+			} else {
+				for (EnemyShip enemyShip : this.enemyShipFormation)
+					if (checkCollision(bullet, enemyShip)) {
+						System.out.println("IMPACT ON ENEMY!");
+						recyclable.add(bullet);
+					}
+			}
+		this.bullets.removeAll(recyclable);
+		BulletPool.recycle(recyclable);
+	}
+
+	/**
+	 * Checks if two entities are colliding.
+	 * 
+	 * @param a
+	 *            First entity, the bullet.
+	 * @param b
+	 *            Second entity, the ship.
+	 * @return Result of the collision test.
+	 */
+	private boolean checkCollision(Entity a, Entity b) {
+		// Calculate center point of the entities in both axis.
+		int centerAX = a.getPositionX() + a.getWidht() / 2;
+		int centerAY = a.getPositionY() + a.getHeight() / 2;
+		int centerBX = b.getPositionX() + b.getWidht() / 2;
+		int centerBY = b.getPositionY() + b.getHeight() / 2;
+		// Calculate maximum distance without collision.
+		int maxDistanceX = a.getWidht() / 2 + b.getWidht() / 2;
+		int maxDistanceY = a.getHeight() / 2 + b.getHeight() / 2;
+		// Calculates distance.
+		int distanceX = Math.abs(centerAX - centerBX);
+		int distanceY = Math.abs(centerAY - centerBY);
+
+		return distanceX < maxDistanceX && distanceY < maxDistanceY;
 	}
 }
