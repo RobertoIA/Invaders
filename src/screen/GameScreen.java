@@ -148,13 +148,15 @@ public class GameScreen extends Screen {
 		for (Bullet bullet : this.bullets)
 			if (bullet.getSpeed() > 0) {
 				if (checkCollision(bullet, this.ship)) {
-					System.out.println("IMPACT ON PLAYER!");
+					// System.out.println("IMPACT ON PLAYER!");
 					recyclable.add(bullet);
 				}
 			} else {
 				for (EnemyShip enemyShip : this.enemyShipFormation)
-					if (checkCollision(bullet, enemyShip)) {
-						System.out.println("IMPACT ON ENEMY!");
+					// TODO temporary solution
+					if (enemyShip != null && checkCollision(bullet, enemyShip)) {
+						// System.out.println("IMPACT ON ENEMY!");
+						this.enemyShipFormation.destroy(enemyShip);
 						recyclable.add(bullet);
 					}
 			}

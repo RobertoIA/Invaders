@@ -29,8 +29,8 @@ public class Bullet extends Entity {
 	public Bullet(Screen screen, int positionX, int positionY, int speed) {
 		super(screen, positionX, positionY, 3 * 2, 5 * 2);
 
-		setSprite();
 		this.speed = speed;
+		setSprite();
 	}
 	
 	/**

@@ -21,12 +21,13 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	private DrawManager drawManager = DrawManager.getInstance();
 	private Screen screen;
-	private List<List<EnemyShip>> enemyShips;
+	private List<EnemyShip[]> enemyShips;
 	private Cooldown shootingCooldown;
 	private int sizeX;
 	private int sizeY;
 	private int positionX;
 	private int positionY;
+	private EnemyShip[] shooters;
 
 	private enum Direction {
 		RIGHT, LEFT, DOWN
@@ -39,7 +40,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Constructor, sets the initial conditions.
 	 */
 	public EnemyShipFormation(int sizeX, int sizeY) {
-		this.enemyShips = new ArrayList<List<EnemyShip>>();
+		this.enemyShips = new ArrayList<EnemyShip[]>();
 		this.currentDirection = Direction.RIGHT;
 		this.movementInterval = 0;
 		this.shootingCooldown = new Cooldown(2500);
@@ -47,23 +48,29 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.sizeY = sizeY;
 		this.positionX = 40;
 		this.positionY = 40;
+		this.shooters = new EnemyShip[this.sizeX];
 		SpriteType spriteType;
 
-		for (int i = 0; i < this.sizeX; i++) {
-			spriteType = SpriteType.EnemyShipC1;
-			List<EnemyShip> row = new ArrayList<EnemyShip>();
-			for (int j = 0; j < this.sizeY; j++) {
+		for (int i = 0; i < this.sizeY; i++) {
 
-				if (j == (this.sizeY / 2) - 1)
-					spriteType = SpriteType.EnemyShipB1;
-				else if (j == this.sizeY - 2)
-					spriteType = SpriteType.EnemyShipA1;
+			if (i / (float) this.sizeY < 0.2)
+				spriteType = SpriteType.EnemyShipC1;
+			else if (i / (float) this.sizeY < 0.6)
+				spriteType = SpriteType.EnemyShipB1;
+			else
+				spriteType = SpriteType.EnemyShipA1;
 
-				row.add(new EnemyShip(screen, positionX * (i + 1), positionY
-						* (j + 1), spriteType));
+			EnemyShip[] row = new EnemyShip[this.sizeX];
+
+			for (int j = 0; j < this.sizeX; j++) {
+				row[j] = new EnemyShip(screen, positionX * (j + 1), positionY
+						* (i + 1), spriteType);
 			}
 			this.enemyShips.add(row);
 		}
+
+		// TODO does this contain the same ships, or copies?
+		this.shooters = this.enemyShips.get(this.enemyShips.size() - 1).clone();
 
 		shootingCooldown.reset();
 	}
@@ -84,10 +91,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	public void draw() {
 		move();
 
-		for (List<EnemyShip> row : this.enemyShips)
+		for (EnemyShip[] row : this.enemyShips)
 			for (EnemyShip enemyShip : row)
-				drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
-						enemyShip.getPositionY());
+				// TODO temporary solution
+				if (enemyShip != null)
+					drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
+							enemyShip.getPositionY());
 	}
 
 	/**
@@ -100,8 +109,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		if (movementInterval >= 60) {
 			movementInterval = 0;
 			// TODO cleanup
-			int shipHeight = this.enemyShips.get(0).get(0).getHeight();
-			int shipWidth = this.enemyShips.get(0).get(0).getHeight();
+			// TODO BUG : nullPointerException if ship 0,0 is destroyed.
+			int shipHeight = this.enemyShips.get(0)[0].getHeight();
+			int shipWidth = this.enemyShips.get(0)[0].getHeight();
 			boolean isAtBottom = positionY + 40 * (this.sizeY - 1) + shipHeight > screen
 					.getHeight() - 80;
 
@@ -130,10 +140,13 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			positionX += movementX;
 			positionY += movementY;
 
-			for (List<EnemyShip> row : this.enemyShips)
+			for (EnemyShip[] row : this.enemyShips)
 				for (EnemyShip enemyShip : row) {
-					enemyShip.move(movementX, movementY);
-					enemyShip.update();
+					// TODO temporary solution
+					if (enemyShip != null) {
+						enemyShip.move(movementX, movementY);
+						enemyShip.update();
+					}
 				}
 		}
 	}
@@ -143,9 +156,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 */
 	public void shoot(Set<Bullet> bullets) {
 		// For now, only ships in the bottom row are able to shoot.
-		int index = (int) (Math.random() * this.enemyShips.size());
-		int lastRow = this.enemyShips.get(0).size() - 1;
-		EnemyShip shooter = this.enemyShips.get(index).get(lastRow);
+		int index = (int) (Math.random() * this.shooters.length);
+		EnemyShip shooter = this.shooters[index];
 
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
@@ -156,6 +168,89 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	}
 
 	/**
+	 * Destroys a ship.
+	 * 
+	 * @param enemyShip
+	 *            Ship to be destroyed.
+	 */
+	public void destroy(EnemyShip destroyedShip) {
+		EnemyShip shipAbove;
+		for (int i = 0; i < this.shooters.length; i++)
+			if (this.shooters[i].equals(destroyedShip)) {
+				shipAbove = getShipAbove(destroyedShip);
+				if (shipAbove != null)
+					this.shooters[i] = shipAbove;
+				else {
+					// No more ships in this column, we trim the shooters array.
+					EnemyShip[] newShooters = new EnemyShip[this.shooters.length - 1];
+					int index = 0;
+					for (int j = 0; j < this.shooters.length; j++)
+						if (!this.shooters[j].equals(destroyedShip)) {
+							newShooters[index] = this.shooters[j];
+							index++;
+						}
+					this.shooters = newShooters;
+				}
+			}
+
+		for (EnemyShip[] row : this.enemyShips)
+			for (int i = 0; i < row.length; i++)
+				// TODO temporary solution
+				if (row[i] != null && row[i].equals(destroyedShip))
+					row[i] = null;
+		cleanRows();
+	}
+
+	/**
+	 * Finds the next ship up.
+	 * 
+	 * @param ship
+	 *            The ship from where we start the search.
+	 * @return A ship directly above the one provided, or null if there is none.
+	 */
+	private EnemyShip getShipAbove(EnemyShip ship) {
+		int row = -1;
+		int index = -1;
+
+		for (int i = 0; i < this.enemyShips.size(); i++)
+			for (int j = 0; j < this.enemyShips.get(i).length; j++)
+				if (this.enemyShips.get(i)[j] != null
+						&& this.enemyShips.get(i)[j].equals(ship)) {
+					row = i;
+					index = j;
+				}
+
+		// TODO debug
+		if (row == -1 || index == -1)
+			System.out.println("ERROR: SHIP NOT FOUND!");
+
+		for (int i = row - 1; i >= 0; i--)
+			if (this.enemyShips.get(i)[index] != null)
+				return this.enemyShips.get(i)[index];
+
+		return null;
+	}
+
+	/**
+	 * Deletes empty rows.
+	 */
+	private void cleanRows() {
+		boolean isEmpty;
+		List<EnemyShip[]> emptyRows = new ArrayList<EnemyShip[]>();
+
+		for (EnemyShip[] row : this.enemyShips) {
+			isEmpty = true;
+			for (int i = 0; i < row.length; i++)
+				if (row[i] != null)
+					isEmpty = false;
+			if (isEmpty)
+				emptyRows.add(row);
+		}
+
+		this.enemyShips.removeAll(emptyRows);
+	}
+
+	/**
 	 * Returns an iterator over the ships in the formation.
 	 * 
 	 * @return Iterator over the enemy ships.
@@ -163,9 +258,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	@Override
 	public Iterator<EnemyShip> iterator() {
 		Set<EnemyShip> enemyShips = new HashSet<EnemyShip>();
-		
-		for(List<EnemyShip> row : this.enemyShips)
-			for(EnemyShip enemyShip : row)
+
+		for (EnemyShip[] row : this.enemyShips)
+			for (EnemyShip enemyShip : row)
 				enemyShips.add(enemyShip);
 
 		return enemyShips.iterator();
