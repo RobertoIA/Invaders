@@ -154,7 +154,8 @@ public class GameScreen extends Screen {
 			} else {
 				for (EnemyShip enemyShip : this.enemyShipFormation)
 					// TODO temporary solution
-					if (enemyShip != null && checkCollision(bullet, enemyShip)) {
+					if (enemyShip != null && !enemyShip.isDestroyed()
+							&& checkCollision(bullet, enemyShip)) {
 						// System.out.println("IMPACT ON ENEMY!");
 						this.enemyShipFormation.destroy(enemyShip);
 						recyclable.add(bullet);

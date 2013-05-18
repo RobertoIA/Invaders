@@ -7,6 +7,7 @@ import engine.DrawManager.SpriteType;
 public class EnemyShip extends Entity {
 
 	private Cooldown animationCooldown;
+	private boolean isDestroyed;
 
 	/**
 	 * Constructor, establishes the ship's properties.
@@ -24,6 +25,7 @@ public class EnemyShip extends Entity {
 
 		this.spriteType = spriteType;
 		this.animationCooldown = new Cooldown(500);
+		this.isDestroyed = false;
 	}
 
 	/**
@@ -69,5 +71,21 @@ public class EnemyShip extends Entity {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * Destroys the ship, causing an explosion.
+	 */
+	public void destroy() {
+		this.isDestroyed = true;
+		this.spriteType = SpriteType.Explosion;
+	}
+	
+	/**
+	 * Checks if the ship has been destroyed.
+	 * @return True if the ship has been destroyed.
+	 */
+	public boolean isDestroyed() {
+		return this.isDestroyed;
 	}
 }

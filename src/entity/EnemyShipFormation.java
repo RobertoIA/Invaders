@@ -140,6 +140,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			positionX += movementX;
 			positionY += movementY;
 
+			// Cleans explosions.
+			for (EnemyShip[] row : this.enemyShips)
+				for (int i = 0; i < row.length; i++)
+					if (row[i] != null && row[i].isDestroyed())
+						row[i] = null;
+
 			for (EnemyShip[] row : this.enemyShips)
 				for (EnemyShip enemyShip : row) {
 					// TODO temporary solution
@@ -174,6 +180,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 *            Ship to be destroyed.
 	 */
 	public void destroy(EnemyShip destroyedShip) {
+		// Updates the list of ships that can shoot the player.
 		EnemyShip shipAbove;
 		for (int i = 0; i < this.shooters.length; i++)
 			if (this.shooters[i].equals(destroyedShip)) {
@@ -197,8 +204,10 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			for (int i = 0; i < row.length; i++)
 				// TODO temporary solution
 				if (row[i] != null && row[i].equals(destroyedShip))
-					row[i] = null;
+					// row[i] = null;
+					row[i].destroy();
 		cleanRows();
+		// TODO cleanColumns();
 	}
 
 	/**
