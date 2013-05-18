@@ -68,13 +68,6 @@ public class Bullet extends Entity {
 	}
 
 	/**
-	 * Getter for the image width of the bullet.
-	 */
-	public int getWidth() {
-		return this.width;
-	}
-
-	/**
 	 * Getter for the speed of the bullet.
 	 * 
 	 * @return Speed of the bullet.

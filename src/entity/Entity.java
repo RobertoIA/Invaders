@@ -93,7 +93,7 @@ public class Entity {
 	 * 
 	 * @return Width of the entity.
 	 */
-	public int getWidht() {
+	public int getWidth() {
 		return this.width;
 	}
 

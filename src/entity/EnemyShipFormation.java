@@ -27,6 +27,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private int sizeY;
 	private int positionX;
 	private int positionY;
+	private int shipWidth;
+	private int shipHeight;
 	private EnemyShip[] shooters;
 
 	private enum Direction {
@@ -69,7 +71,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			this.enemyShips.add(row);
 		}
 
-		// TODO does this contain the same ships, or copies?
+		this.shipHeight = this.enemyShips.get(0)[0].getHeight();
+		this.shipWidth = this.enemyShips.get(0)[0].getWidth();
+		
 		this.shooters = this.enemyShips.get(this.enemyShips.size() - 1).clone();
 
 		shootingCooldown.reset();
@@ -109,15 +113,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		if (movementInterval >= 60) {
 			movementInterval = 0;
 			// TODO cleanup
-			// TODO BUG : nullPointerException if ship 0,0 is destroyed.
-			int shipHeight = this.enemyShips.get(0)[0].getHeight();
-			int shipWidth = this.enemyShips.get(0)[0].getHeight();
-			boolean isAtBottom = positionY + 40 * (this.sizeY - 1) + shipHeight > screen
+			boolean isAtBottom = positionY + 40 * (this.sizeY - 1) + this.shipHeight > screen
 					.getHeight() - 80;
 
 			if (currentDirection == Direction.RIGHT
 					&& !isAtBottom
-					&& positionX + 40 * (this.sizeX - 1) + shipWidth >= screen
+					&& positionX + 40 * (this.sizeX - 1) + this.shipWidth >= screen
 							.getWidth() - 40)
 				currentDirection = Direction.DOWN;
 			else if (currentDirection == Direction.LEFT && !isAtBottom
@@ -126,7 +127,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			else if (positionY % 40 == 0 && positionX <= 40)
 				currentDirection = Direction.RIGHT;
 			else if (positionY % 20 == 0
-					&& positionX + 40 * (this.sizeX - 1) + shipWidth >= screen
+					&& positionX + 40 * (this.sizeX - 1) + this.shipWidth >= screen
 							.getWidth() - 40)
 				currentDirection = Direction.LEFT;
 
