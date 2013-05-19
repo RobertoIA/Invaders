@@ -30,6 +30,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private int shipWidth;
 	private int shipHeight;
 	private EnemyShip[] shooters;
+	private int shipCount;
 
 	private enum Direction {
 		RIGHT, LEFT, DOWN
@@ -67,13 +68,14 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			for (int j = 0; j < this.sizeX; j++) {
 				row[j] = new EnemyShip(screen, positionX * (j + 1), positionY
 						* (i + 1), spriteType);
+				this.shipCount++;
 			}
 			this.enemyShips.add(row);
 		}
 
 		this.shipHeight = this.enemyShips.get(0)[0].getHeight();
 		this.shipWidth = this.enemyShips.get(0)[0].getWidth();
-		
+
 		this.shooters = this.enemyShips.get(this.enemyShips.size() - 1).clone();
 
 		shootingCooldown.reset();
@@ -107,14 +109,17 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Updates the position of the ships.
 	 */
 	private void move() {
+		cleanRows();
+		// cleanColumns();
+
 		int movementX = 0;
 		int movementY = 0;
 		movementInterval++;
-		if (movementInterval >= 60) {
+		if (movementInterval >= this.shipCount * 2) {
 			movementInterval = 0;
 			// TODO cleanup
-			boolean isAtBottom = positionY + 40 * (this.sizeY - 1) + this.shipHeight > screen
-					.getHeight() - 80;
+			boolean isAtBottom = positionY + 40 * (this.sizeY - 1)
+					+ this.shipHeight > screen.getHeight() - 80;
 
 			if (currentDirection == Direction.RIGHT
 					&& !isAtBottom
@@ -207,8 +212,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				if (row[i] != null && row[i].equals(destroyedShip))
 					// row[i] = null;
 					row[i].destroy();
-		cleanRows();
-		// TODO cleanColumns();
+
+		this.shipCount--;
 	}
 
 	/**
@@ -229,10 +234,6 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 					row = i;
 					index = j;
 				}
-
-		// TODO debug
-		if (row == -1 || index == -1)
-			System.out.println("ERROR: SHIP NOT FOUND!");
 
 		for (int i = row - 1; i >= 0; i--)
 			if (this.enemyShips.get(i)[index] != null)
