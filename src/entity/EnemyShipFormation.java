@@ -117,23 +117,21 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		movementInterval++;
 		if (movementInterval >= this.shipCount * 2) {
 			movementInterval = 0;
-			// TODO cleanup
+
 			boolean isAtBottom = positionY + 40 * (this.sizeY - 1)
 					+ this.shipHeight > screen.getHeight() - 80;
+			boolean isAtRightSide = positionX + 40 * (this.sizeX - 1)
+					+ this.shipWidth >= screen.getWidth() - 40;
+			boolean isAtLeftSide = positionX <= 40;
+			boolean isAtLeftToRightAltitude = positionY % 40 == 0;
+			boolean isAtRightToLeftAltitude = positionY % 20 == 0;
 
-			if (currentDirection == Direction.RIGHT
-					&& !isAtBottom
-					&& positionX + 40 * (this.sizeX - 1) + this.shipWidth >= screen
-							.getWidth() - 40)
+			if ((currentDirection == Direction.RIGHT && !isAtBottom && isAtRightSide)
+					|| (currentDirection == Direction.LEFT && !isAtBottom && isAtLeftSide))
 				currentDirection = Direction.DOWN;
-			else if (currentDirection == Direction.LEFT && !isAtBottom
-					&& positionX <= 40)
-				currentDirection = Direction.DOWN;
-			else if (positionY % 40 == 0 && positionX <= 40)
+			else if (isAtLeftToRightAltitude && positionX <= 40)
 				currentDirection = Direction.RIGHT;
-			else if (positionY % 20 == 0
-					&& positionX + 40 * (this.sizeX - 1) + this.shipWidth >= screen
-							.getWidth() - 40)
+			else if (isAtRightToLeftAltitude && isAtRightSide)
 				currentDirection = Direction.LEFT;
 
 			if (currentDirection == Direction.RIGHT)
