@@ -172,4 +172,15 @@ public class DrawManager {
 				inputStream.close();
 		}
 	}
+
+	/**
+	 * 
+	 * @param score
+	 */
+	public void drawScore(Screen screen, int score) {
+		// TODO temporary solution.
+//		backBufferGraphics.setFont(font);
+		backBufferGraphics.drawString(Integer.toString(score),
+				screen.getWidth() - 40, screen.getHeight() - 20);
+	}
 }

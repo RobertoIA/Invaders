@@ -29,6 +29,7 @@ public class GameScreen extends Screen {
 
 	private Ship ship;
 	private Set<Bullet> bullets;
+	private int score;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -63,6 +64,7 @@ public class GameScreen extends Screen {
 		enemyShipFormation.attach(this);
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 		this.bullets = new HashSet<Bullet>();
+		this.score = 0;
 	}
 
 	/**
@@ -105,6 +107,9 @@ public class GameScreen extends Screen {
 		manageCollisions();
 		cleanBullets();
 		draw();
+		
+		if(this.enemyShipFormation.isEmpty())
+			this.isRunning = false;
 	}
 
 	/**
@@ -122,6 +127,8 @@ public class GameScreen extends Screen {
 			drawManager.drawEntity(bullet, bullet.getPositionX(),
 					bullet.getPositionY());
 
+		drawManager.drawScore(this, this.score);
+		
 		drawManager.completeDrawing(this);
 	}
 
@@ -156,7 +163,7 @@ public class GameScreen extends Screen {
 					// TODO temporary solution
 					if (enemyShip != null && !enemyShip.isDestroyed()
 							&& checkCollision(bullet, enemyShip)) {
-						// System.out.println("IMPACT ON ENEMY!");
+						this.score += enemyShip.getPointValue();
 						this.enemyShipFormation.destroy(enemyShip);
 						recyclable.add(bullet);
 					}

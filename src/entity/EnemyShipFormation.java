@@ -274,4 +274,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		return enemyShips.iterator();
 	}
+	
+	/**
+	 * Checks if there are any ships remaining.
+	 * @return True when all ships have been destroyed.
+	 */
+	public boolean isEmpty() {
+		return this.shipCount <= 0;
+	}
 }
