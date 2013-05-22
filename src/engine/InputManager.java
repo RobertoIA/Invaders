@@ -2,7 +2,6 @@ package engine;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.logging.Logger;
 
 /**
  * Manages keyboard input for the provided screen.
@@ -14,13 +13,11 @@ public class InputManager implements KeyListener {
 
 	private static boolean[] keys;
 	private static InputManager instance;
-	private static Logger logger;
 
 	/**
 	 * Private constructor.
 	 */
 	private InputManager() {
-		logger = Core.getLogger();
 		keys = new boolean[256];
 	}
 
@@ -51,9 +48,6 @@ public class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
-		if (keys[key.getKeyCode()] == false)
-			logger.fine("Key " + KeyEvent.getKeyText(key.getKeyCode())
-					+ " pressed.");
 		keys[key.getKeyCode()] = true;
 	}
 
@@ -62,9 +56,6 @@ public class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyReleased(KeyEvent key) {
-		if (keys[key.getKeyCode()] == true)
-			logger.fine("Key " + KeyEvent.getKeyText(key.getKeyCode())
-					+ " released.");
 		keys[key.getKeyCode()] = false;
 	}
 

@@ -1,6 +1,8 @@
 package engine;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class DrawManager {
 	private static Graphics graphics;
 	private static Graphics backBufferGraphics;
 	private static BufferedImage backBuffer;
+	private static Font font;
 
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
@@ -31,7 +34,8 @@ public class DrawManager {
 	 */
 	private DrawManager() {
 		logger = Core.getLogger();
-		logger.info("Started loading the sprites.");
+		logger.info("Started loading resources.");
+		
 		try {
 			spriteMap = new LinkedHashMap<SpriteType, boolean[][]>();
 
@@ -50,7 +54,9 @@ public class DrawManager {
 
 			load();
 		} catch (IOException e) {
-			logger.warning("Sprite loading failed.");
+			logger.warning("Loading failed.");
+		} catch (FontFormatException e) {
+			logger.warning("Font formating failed.");
 		}
 	}
 
@@ -82,6 +88,8 @@ public class DrawManager {
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics
 				.fillRect(0, 0, screen.getWidth(), screen.getHeight());
+		
+		backBufferGraphics.setFont(font);
 
 		// drawBorders(screen);
 		// drawGrid(screen);
@@ -148,7 +156,7 @@ public class DrawManager {
 	/**
 	 * Loads the images from disk.
 	 */
-	private void load() throws IOException {
+	private void load() throws IOException, FontFormatException {
 		InputStream inputStream = null;
 
 		try {
@@ -156,6 +164,7 @@ public class DrawManager {
 					.getResourceAsStream("graphics");
 			char c;
 
+			// Sprite loading.
 			for (Map.Entry<SpriteType, boolean[][]> sprite : spriteMap
 					.entrySet()) {
 				for (int i = 0; i < sprite.getValue().length; i++)
@@ -171,10 +180,21 @@ public class DrawManager {
 					}
 				logger.fine("Sprite " + sprite.getKey() + " loaded.");
 			}
+			if (inputStream != null)
+				inputStream.close();
+
+			logger.info("Finished loading the sprites.");
+
+			// Font loading.
+			inputStream = DrawManager.class.getClassLoader()
+					.getResourceAsStream("font.ttf");
+			font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(14f);
+
+			logger.info("Finished loading the font.");
+
 		} finally {
 			if (inputStream != null)
 				inputStream.close();
-			logger.info("Finished loading the sprites.");
 		}
 	}
 
@@ -183,9 +203,7 @@ public class DrawManager {
 	 * @param score
 	 */
 	public void drawScore(Screen screen, int score) {
-		// TODO temporary solution.
-		// backBufferGraphics.setFont(font);
 		backBufferGraphics.drawString(Integer.toString(score),
-				screen.getWidth() - 40, screen.getHeight() - 20);
+				screen.getWidth() - 40, 20);
 	}
 }
