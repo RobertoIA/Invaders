@@ -35,7 +35,7 @@ public class DrawManager {
 	private DrawManager() {
 		logger = Core.getLogger();
 		logger.info("Started loading resources.");
-		
+
 		try {
 			spriteMap = new LinkedHashMap<SpriteType, boolean[][]>();
 
@@ -88,7 +88,7 @@ public class DrawManager {
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics
 				.fillRect(0, 0, screen.getWidth(), screen.getHeight());
-		
+
 		backBufferGraphics.setFont(font);
 
 		// drawBorders(screen);
@@ -188,7 +188,8 @@ public class DrawManager {
 			// Font loading.
 			inputStream = DrawManager.class.getClassLoader()
 					.getResourceAsStream("font.ttf");
-			font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(14f);
+			font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(
+					14f);
 
 			logger.info("Finished loading the font.");
 
@@ -199,11 +200,13 @@ public class DrawManager {
 	}
 
 	/**
+	 * Draws current score on screen.
 	 * 
 	 * @param score
+	 *            Current score.
 	 */
 	public void drawScore(Screen screen, int score) {
-		backBufferGraphics.drawString(Integer.toString(score),
-				screen.getWidth() - 40, 20);
+		String scoreString = String.format("%04d", score);
+		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 20);
 	}
 }
