@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import screen.Screen;
 import entity.Entity;
@@ -14,6 +15,7 @@ import entity.Entity;
 public class DrawManager {
 
 	private static DrawManager instance;
+	private static Logger logger;
 	private static Graphics graphics;
 	private static Graphics backBufferGraphics;
 	private static BufferedImage backBuffer;
@@ -25,9 +27,11 @@ public class DrawManager {
 	};
 
 	/**
-	 * Private constructor;
+	 * Private constructor.
 	 */
 	private DrawManager() {
+		logger = Core.getLogger();
+		logger.info("Started loading the sprites.");
 		try {
 			spriteMap = new LinkedHashMap<SpriteType, boolean[][]>();
 
@@ -46,8 +50,7 @@ public class DrawManager {
 
 			load();
 		} catch (IOException e) {
-			// TODO handle exception
-			e.printStackTrace();
+			logger.warning("Sprite loading failed.");
 		}
 	}
 
@@ -166,10 +169,12 @@ public class DrawManager {
 						else
 							sprite.getValue()[i][j] = false;
 					}
+				logger.fine("Sprite " + sprite.getKey() + " loaded.");
 			}
 		} finally {
 			if (inputStream != null)
 				inputStream.close();
+			logger.info("Finished loading the sprites.");
 		}
 	}
 
@@ -179,7 +184,7 @@ public class DrawManager {
 	 */
 	public void drawScore(Screen screen, int score) {
 		// TODO temporary solution.
-//		backBufferGraphics.setFont(font);
+		// backBufferGraphics.setFont(font);
 		backBufferGraphics.drawString(Integer.toString(score),
 				screen.getWidth() - 40, screen.getHeight() - 20);
 	}
