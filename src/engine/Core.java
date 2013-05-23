@@ -59,7 +59,54 @@ public class Core {
 		System.exit(0);
 	}
 
+	/**
+	 * Controls access to the logger.
+	 * 
+	 * @return Application logger.
+	 */
 	public static Logger getLogger() {
 		return logger;
+	}
+
+	/**
+	 * Controls access to the drawing manager.
+	 * 
+	 * @return Application draw manager.
+	 */
+	public static DrawManager getDrawManager() {
+		return DrawManager.getInstance();
+	}
+
+	/**
+	 * Controls access to the input manager.
+	 * 
+	 * @return Application input manager.
+	 */
+	public static InputManager getInputManager() {
+		return InputManager.getInstance();
+	}
+
+	/**
+	 * Controls creation of new cooldowns.
+	 * 
+	 * @param milliseconds
+	 *            Duration of the cooldown.
+	 * @return A new cooldown.
+	 */
+	public static Cooldown getCooldown(int milliseconds) {
+		return new Cooldown(milliseconds);
+	}
+
+	/**
+	 * Controls creation of new cooldowns with variance.
+	 * 
+	 * @param milliseconds
+	 *            Duration of the cooldown.
+	 * @param variance
+	 *            Variation in the cooldown duration.
+	 * @return A new cooldown with variance.
+	 */
+	public static Cooldown getVariableCooldown(int milliseconds, int variance) {
+		return new Cooldown(milliseconds, variance);
 	}
 }

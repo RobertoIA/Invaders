@@ -2,6 +2,7 @@ package entity;
 
 import screen.Screen;
 import engine.Cooldown;
+import engine.Core;
 import engine.DrawManager.SpriteType;
 
 public class EnemyShip extends Entity {
@@ -25,7 +26,7 @@ public class EnemyShip extends Entity {
 		super(screen, positionX, positionY, 12 * 2, 8 * 2);
 
 		this.spriteType = spriteType;
-		this.animationCooldown = new Cooldown(500);
+		this.animationCooldown = Core.getCooldown(500);
 		this.isDestroyed = false;
 
 		switch (this.spriteType) {

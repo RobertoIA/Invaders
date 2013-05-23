@@ -4,6 +4,7 @@ import java.util.Set;
 
 import screen.Screen;
 import engine.Cooldown;
+import engine.Core;
 import engine.DrawManager.SpriteType;
 
 /**
@@ -34,7 +35,7 @@ public class Ship extends Entity {
 
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;
-		this.shootingCooldown = new Cooldown(350);
+		this.shootingCooldown = Core.getCooldown(350);
 		
 	}
 

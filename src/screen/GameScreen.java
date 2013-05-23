@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
 import entity.Bullet;
@@ -44,7 +45,7 @@ public class GameScreen extends Screen {
 	public GameScreen(int width, int height, int fps) {
 		super(width, height);
 		this.fps = fps;
-		this.drawManager = DrawManager.getInstance();
+		this.drawManager = Core.getDrawManager();
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class GameScreen extends Screen {
 		this.height -= this.insets.top + this.insets.bottom;
 		setTitle("Invaders");
 
-		addKeyListener(InputManager.getInstance());
+		addKeyListener(Core.getInputManager());
 
 		enemyShipFormation = new EnemyShipFormation(7, 5);
 		enemyShipFormation.attach(this);

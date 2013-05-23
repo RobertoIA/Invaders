@@ -8,6 +8,7 @@ import java.util.Set;
 
 import screen.Screen;
 import engine.Cooldown;
+import engine.Core;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
 
@@ -19,7 +20,7 @@ import engine.DrawManager.SpriteType;
  */
 public class EnemyShipFormation implements Iterable<EnemyShip> {
 
-	private DrawManager drawManager = DrawManager.getInstance();
+	private DrawManager drawManager;
 	private Screen screen;
 	private List<EnemyShip[]> enemyShips;
 	private Cooldown shootingCooldown;
@@ -43,10 +44,11 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Constructor, sets the initial conditions.
 	 */
 	public EnemyShipFormation(int sizeX, int sizeY) {
+		this.drawManager = Core.getDrawManager();
 		this.enemyShips = new ArrayList<EnemyShip[]>();
 		this.currentDirection = Direction.RIGHT;
 		this.movementInterval = 0;
-		this.shootingCooldown = new Cooldown(2500);
+		this.shootingCooldown = Core.getVariableCooldown(2500, 1500);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		this.positionX = 40;

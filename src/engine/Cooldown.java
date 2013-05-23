@@ -9,6 +9,8 @@ package engine;
 public class Cooldown {
 
 	private int milliseconds;
+	private int variance;
+	private int duration;
 	private long time;
 
 	/**
@@ -18,8 +20,25 @@ public class Cooldown {
 	 * @param milliseconds
 	 *            Time until cooldown period is finished.
 	 */
-	public Cooldown(int milliseconds) {
+	protected Cooldown(int milliseconds) {
 		this.milliseconds = milliseconds;
+		this.variance = 0;
+		this.duration = milliseconds;
+		this.time = 0;
+	}
+
+	/**
+	 * Constructor, established the time until the action can be performed
+	 * again, with a variation of +/- variance.
+	 * 
+	 * @param milliseconds
+	 *            Time until cooldown period is finished.
+	 * @param variance
+	 *            Variance in the cooldown period.
+	 */
+	protected Cooldown(int milliseconds, int variance) {
+		this.milliseconds = milliseconds;
+		this.variance = variance;
 		this.time = 0;
 	}
 
@@ -30,7 +49,7 @@ public class Cooldown {
 	 */
 	public boolean checkFinished() {
 		if (this.time == 0
-				|| this.time + this.milliseconds < System.currentTimeMillis())
+				|| this.time + this.duration < System.currentTimeMillis())
 			return true;
 		return false;
 	}
@@ -40,5 +59,8 @@ public class Cooldown {
 	 */
 	public void reset() {
 		this.time = System.currentTimeMillis();
+		if (this.variance != 0)
+			this.duration = (this.milliseconds - this.variance)
+					+ (int) (Math.random() * (this.milliseconds + this.variance));
 	}
 }
