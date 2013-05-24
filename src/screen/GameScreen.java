@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import engine.Core;
 import engine.DrawManager;
@@ -27,6 +28,7 @@ public class GameScreen extends Screen {
 	private int fps;
 	private DrawManager drawManager;
 	private EnemyShipFormation enemyShipFormation;
+	private Logger logger;
 
 	private Ship ship;
 	private Set<Bullet> bullets;
@@ -46,6 +48,7 @@ public class GameScreen extends Screen {
 		super(width, height);
 		this.fps = fps;
 		this.drawManager = Core.getDrawManager();
+		this.logger = Core.getLogger();
 	}
 
 	/**
@@ -108,8 +111,8 @@ public class GameScreen extends Screen {
 		manageCollisions();
 		cleanBullets();
 		draw();
-		
-		if(this.enemyShipFormation.isEmpty())
+
+		if (this.enemyShipFormation.isEmpty())
 			this.isRunning = false;
 	}
 
@@ -129,7 +132,7 @@ public class GameScreen extends Screen {
 					bullet.getPositionY());
 
 		drawManager.drawScore(this, this.score);
-		
+
 		drawManager.completeDrawing(this);
 	}
 
@@ -156,7 +159,7 @@ public class GameScreen extends Screen {
 		for (Bullet bullet : this.bullets)
 			if (bullet.getSpeed() > 0) {
 				if (checkCollision(bullet, this.ship)) {
-					// System.out.println("IMPACT ON PLAYER!");
+					this.logger.info("Hit on player ship.");
 					recyclable.add(bullet);
 				}
 			} else {

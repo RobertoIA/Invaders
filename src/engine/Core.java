@@ -40,7 +40,7 @@ public class Core {
 			// logger.setUseParentHandlers(false);
 
 			logger.addHandler(fileHandler);
-			logger.setLevel(Level.INFO);
+			logger.setLevel(Level.ALL);
 
 		} catch (Exception e) {
 			// TODO handle exception
