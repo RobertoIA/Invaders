@@ -164,8 +164,7 @@ public class GameScreen extends Screen {
 				}
 			} else {
 				for (EnemyShip enemyShip : this.enemyShipFormation)
-					// TODO temporary solution
-					if (enemyShip != null && !enemyShip.isDestroyed()
+					if (!enemyShip.isDestroyed()
 							&& checkCollision(bullet, enemyShip)) {
 						this.score += enemyShip.getPointValue();
 						this.enemyShipFormation.destroy(enemyShip);

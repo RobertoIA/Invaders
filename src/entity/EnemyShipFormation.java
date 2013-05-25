@@ -109,17 +109,14 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		for (List<EnemyShip> column : this.enemyShips)
 			for (EnemyShip enemyShip : column)
-				// TODO temporary solution
-				if (enemyShip != null)
-					drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
-							enemyShip.getPositionY());
+				drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
+						enemyShip.getPositionY());
 	}
 
 	/**
 	 * Updates the position of the ships.
 	 */
 	private void move() {
-		// cleanRows();
 		// cleanColumns();
 
 		int movementX = 0;
@@ -157,16 +154,16 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			// Cleans explosions.
 			for (List<EnemyShip> column : this.enemyShips)
 				for (int i = 0; i < column.size(); i++)
-					if (column.get(i) != null && column.get(i).isDestroyed())
-						column.set(i, null);
+					if (column.get(i) != null && column.get(i).isDestroyed()) {
+						column.remove(i);
+						this.logger.info("Removed enemy " + i + " from column "
+								+ this.enemyShips.indexOf(column));
+					}
 
 			for (List<EnemyShip> column : this.enemyShips)
 				for (EnemyShip enemyShip : column) {
-					// TODO temporary solution
-					if (enemyShip != null) {
 						enemyShip.move(movementX, movementY);
 						enemyShip.update();
-					}
 				}
 		}
 	}
@@ -196,10 +193,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	public void destroy(EnemyShip destroyedShip) {
 		for (List<EnemyShip> column : this.enemyShips)
 			for (int i = 0; i < column.size(); i++)
-				// TODO temporary solution
-				if (column.get(i) != null
-						&& column.get(i).equals(destroyedShip)) {
-					// row[i] = null;
+				if (column.get(i).equals(destroyedShip)) {
 					column.get(i).destroy();
 					this.logger.info("Destroyed ship in ("
 							+ this.enemyShips.indexOf(column) + "," + i + ")");
