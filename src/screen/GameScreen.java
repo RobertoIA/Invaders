@@ -93,6 +93,9 @@ public class GameScreen extends Screen {
 				}
 			}
 		}
+		
+		this.score += 100 * (this.lives - 1);
+		this.logger.info("Screen cleared with a score of " + this.score);
 	}
 
 	/**

@@ -26,8 +26,10 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private Screen screen;
 	private List<List<EnemyShip>> enemyShips;
 	private Cooldown shootingCooldown;
-	private int sizeX;
-	private int sizeY;
+	private int nShipsWide;
+	private int nShipsHigh;
+	private int width;
+	private int height;
 	private int positionX;
 	private int positionY;
 	private int shipWidth;
@@ -45,45 +47,48 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/**
 	 * Constructor, sets the initial conditions.
 	 */
-	public EnemyShipFormation(int sizeX, int sizeY) {
+	public EnemyShipFormation(int nShipsWide, int nShipsHigh) {
 		this.drawManager = Core.getDrawManager();
 		this.logger = Core.getLogger();
 		this.enemyShips = new ArrayList<List<EnemyShip>>();
 		this.currentDirection = Direction.RIGHT;
 		this.movementInterval = 0;
 		this.shootingCooldown = Core.getVariableCooldown(2500, 1500);
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
+		this.nShipsWide = nShipsWide;
+		this.nShipsHigh = nShipsHigh;
 		this.positionX = 40;
-		this.positionY = 40;
+		this.positionY = 80;
 		this.shooters = new ArrayList<EnemyShip>();
 		SpriteType spriteType;
 
-		this.logger.info("Initializing " + sizeX + "x" + sizeY
+		this.logger.info("Initializing " + nShipsWide + "x" + nShipsHigh
 				+ " ship formation in (" + positionX + "," + positionY + ")");
 
 		// Each sub-list is a column on the formation.
-		for (int i = 0; i < this.sizeX; i++)
+		for (int i = 0; i < this.nShipsWide; i++)
 			this.enemyShips.add(new ArrayList<EnemyShip>());
 
 		for (List<EnemyShip> column : this.enemyShips) {
-			for (int i = 0; i < this.sizeY; i++) {
-				if (i / (float) this.sizeY < 0.2)
+			for (int i = 0; i < this.nShipsHigh; i++) {
+				if (i / (float) this.nShipsHigh < 0.2)
 					spriteType = SpriteType.EnemyShipC1;
-				else if (i / (float) this.sizeY < 0.6)
+				else if (i / (float) this.nShipsHigh < 0.6)
 					spriteType = SpriteType.EnemyShipB1;
 				else
 					spriteType = SpriteType.EnemyShipA1;
 
-				column.add(new EnemyShip(screen, positionX
-						* (this.enemyShips.indexOf(column) + 1), positionY
-						* (i + 1), spriteType));
+				column.add(new EnemyShip(screen, (40 * this.enemyShips
+						.indexOf(column)) + positionX, (40 * i) + positionY,
+						spriteType));
 				this.shipCount++;
 			}
 		}
 
-		this.shipHeight = this.enemyShips.get(0).get(0).getHeight();
 		this.shipWidth = this.enemyShips.get(0).get(0).getWidth();
+		this.shipHeight = this.enemyShips.get(0).get(0).getHeight();
+
+		this.width = (this.nShipsWide - 1) * 40 + this.shipWidth;
+		this.height = (this.nShipsHigh - 1) * 40 + this.shipHeight;
 
 		for (List<EnemyShip> column : this.enemyShips)
 			this.shooters.add(column.get(column.size() - 1));
@@ -117,7 +122,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Updates the position of the ships.
 	 */
 	private void move() {
-		// cleanColumns();
+		cleanUp();
 
 		int movementX = 0;
 		int movementY = 0;
@@ -125,10 +130,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		if (movementInterval >= this.shipCount * 2) {
 			movementInterval = 0;
 
-			boolean isAtBottom = positionY + 40 * (this.sizeY - 1)
-					+ this.shipHeight > screen.getHeight() - 80;
-			boolean isAtRightSide = positionX + 40 * (this.sizeX - 1)
-					+ this.shipWidth >= screen.getWidth() - 40;
+			boolean isAtBottom = positionY + this.height > screen.getHeight() - 80;
+			boolean isAtRightSide = positionX + this.width >= screen.getWidth() - 40;
 			boolean isAtLeftSide = positionX <= 40;
 			boolean isAtLeftToRightAltitude = positionY % 40 == 0;
 			boolean isAtRightToLeftAltitude = positionY % 20 == 0;
@@ -162,10 +165,43 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 			for (List<EnemyShip> column : this.enemyShips)
 				for (EnemyShip enemyShip : column) {
-						enemyShip.move(movementX, movementY);
-						enemyShip.update();
+					enemyShip.move(movementX, movementY);
+					enemyShip.update();
 				}
 		}
+	}
+
+	/**
+	 * Cleans empty columns, adjusts the width and height of the formation.
+	 */
+	private void cleanUp() {
+		Set<Integer> emptyColumns = new HashSet<Integer>();
+		int maxColumn = 0;
+		int minPositionY = Integer.MAX_VALUE;
+		for (List<EnemyShip> column : this.enemyShips) {
+			if (!column.isEmpty()) {
+				// Height of this column
+				int columnSize = column.get(column.size() - 1).positionY
+						- this.positionY + this.shipHeight;
+				maxColumn = Math.max(maxColumn, columnSize);
+				minPositionY = Math.min(minPositionY, column.get(0)
+						.getPositionY());
+			} else {
+				// Empty column, we remove it.
+				emptyColumns.add(this.enemyShips.indexOf(column));
+			}
+		}
+		for (int index : emptyColumns) {
+			this.enemyShips.remove(index);
+			logger.info("Removed column " + index);
+		}
+
+		this.width = this.enemyShips.get(this.enemyShips.size() - 1).get(0).positionX
+				- this.enemyShips.get(0).get(0).positionX + this.shipWidth;
+		this.height = maxColumn;
+
+		this.positionX = this.enemyShips.get(0).get(0).positionX;
+		this.positionY = minPositionY;
 	}
 
 	/**
