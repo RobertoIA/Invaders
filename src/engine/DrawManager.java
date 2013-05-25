@@ -202,11 +202,25 @@ public class DrawManager {
 	/**
 	 * Draws current score on screen.
 	 * 
+	 * @param screen
+	 *            Screen to draw on.
 	 * @param score
 	 *            Current score.
 	 */
 	public void drawScore(Screen screen, int score) {
 		String scoreString = String.format("%04d", score);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 20);
+	}
+
+	/**
+	 * Draws number of remaining lives on screen.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param lives
+	 *            Current lives.
+	 */
+	public void drawLives(Screen screen, int lives) {
+		backBufferGraphics.drawString(Integer.toString(lives), 20, 20);
 	}
 }

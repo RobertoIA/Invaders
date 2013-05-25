@@ -33,6 +33,7 @@ public class GameScreen extends Screen {
 	private Ship ship;
 	private Set<Bullet> bullets;
 	private int score;
+	private int lives;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -69,6 +70,7 @@ public class GameScreen extends Screen {
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 		this.bullets = new HashSet<Bullet>();
 		this.score = 0;
+		this.lives = 3;
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class GameScreen extends Screen {
 		cleanBullets();
 		draw();
 
-		if (this.enemyShipFormation.isEmpty())
+		if (this.enemyShipFormation.isEmpty() || this.lives == 0)
 			this.isRunning = false;
 	}
 
@@ -132,6 +134,7 @@ public class GameScreen extends Screen {
 					bullet.getPositionY());
 
 		drawManager.drawScore(this, this.score);
+		drawManager.drawLives(this, this.lives);
 
 		drawManager.completeDrawing(this);
 	}
@@ -159,8 +162,10 @@ public class GameScreen extends Screen {
 		for (Bullet bullet : this.bullets)
 			if (bullet.getSpeed() > 0) {
 				if (checkCollision(bullet, this.ship)) {
-					this.logger.info("Hit on player ship.");
 					recyclable.add(bullet);
+					this.lives--;
+					this.logger.info("Hit on player ship, " + this.lives
+							+ " lives remaining.");
 				}
 			} else {
 				for (EnemyShip enemyShip : this.enemyShipFormation)
