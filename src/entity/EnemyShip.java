@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.Color;
+
 import screen.Screen;
 import engine.Cooldown;
 import engine.Core;
@@ -23,7 +25,7 @@ public class EnemyShip extends Entity {
 	 */
 	public EnemyShip(Screen screen, int positionX, int positionY,
 			SpriteType spriteType) {
-		super(screen, positionX, positionY, 12 * 2, 8 * 2);
+		super(screen, positionX, positionY, 12 * 2, 8 * 2, Color.WHITE);
 
 		this.spriteType = spriteType;
 		this.animationCooldown = Core.getCooldown(500);

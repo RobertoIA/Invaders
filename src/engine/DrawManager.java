@@ -114,7 +114,7 @@ public class DrawManager {
 	public void drawEntity(Entity entity, int positionX, int positionY) {
 		boolean[][] image = spriteMap.get(entity.getSpriteType());
 
-		backBufferGraphics.setColor(Color.GREEN);
+		backBufferGraphics.setColor(entity.getColor());
 		for (int i = 0; i < image.length; i++)
 			for (int j = 0; j < image[i].length; j++)
 				if (image[i][j])
@@ -209,8 +209,9 @@ public class DrawManager {
 	 *            Current score.
 	 */
 	public void drawScore(Screen screen, int score) {
+		backBufferGraphics.setColor(Color.WHITE);
 		String scoreString = String.format("%04d", score);
-		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 20);
+		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
 	}
 
 	/**
@@ -222,9 +223,22 @@ public class DrawManager {
 	 *            Current lives.
 	 */
 	public void drawLives(Screen screen, int lives) {
+		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
 		Ship dummyShip = new Ship(screen, 0, 0, 0);
 		for (int i = 0; i < lives; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
+	}
+
+	/**
+	 * Draws a line separating the interface from the game area.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 */
+	public void drawSeparatingLine(Screen screen) {
+		backBufferGraphics.setColor(Color.GREEN);
+		backBufferGraphics.drawLine(0, 39, screen.getWidth(), 39);
+		backBufferGraphics.drawLine(0, 40, screen.getWidth(), 40);
 	}
 }

@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.Color;
+
 import screen.Screen;
 import engine.DrawManager.SpriteType;
 
@@ -16,6 +18,8 @@ public class Entity {
 	protected int positionY;
 	protected int width;
 	protected int height;
+	private Color color;
+
 	protected SpriteType spriteType;
 
 	/**
@@ -33,12 +37,22 @@ public class Entity {
 	 *            Height of the entity.
 	 */
 	public Entity(Screen screen, int positionX, int positionY, int width,
-			int height) {
+			int height, Color color) {
 		this.screen = screen;
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;
 		this.height = height;
+		this.color = color;
+	}
+
+	/**
+	 * Getter for the color of the entity.
+	 * 
+	 * @return Color of the entity, used when drawing it.
+	 */
+	public Color getColor() {
+		return color;
 	}
 
 	/**

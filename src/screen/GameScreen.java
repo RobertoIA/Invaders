@@ -93,7 +93,7 @@ public class GameScreen extends Screen {
 				}
 			}
 		}
-		
+
 		this.score += 100 * (this.lives - 1);
 		this.logger.info("Screen cleared with a score of " + this.score);
 	}
@@ -136,8 +136,10 @@ public class GameScreen extends Screen {
 			drawManager.drawEntity(bullet, bullet.getPositionX(),
 					bullet.getPositionY());
 
+		// Interface.
 		drawManager.drawScore(this, this.score);
 		drawManager.drawLives(this, this.lives);
+		drawManager.drawSeparatingLine(this);
 
 		drawManager.completeDrawing(this);
 	}
@@ -149,7 +151,7 @@ public class GameScreen extends Screen {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets) {
 			bullet.update();
-			if (bullet.getPositionY() < 0
+			if (bullet.getPositionY() < 40
 					|| bullet.getPositionY() > this.height)
 				recyclable.add(bullet);
 		}

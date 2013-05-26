@@ -1,5 +1,6 @@
 package entity;
 
+import java.awt.Color;
 import java.util.Set;
 
 import screen.Screen;
@@ -31,7 +32,7 @@ public class Ship extends Entity {
 	 *            Absolute speed of the ship, when ordered to move.
 	 */
 	public Ship(Screen screen, int positionX, int positionY, int speed) {
-		super(screen, positionX, positionY, 13 * 2, 8 * 2);
+		super(screen, positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
 
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;

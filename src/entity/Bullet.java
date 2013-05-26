@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.Color;
+
 import screen.Screen;
 import engine.DrawManager.SpriteType;
 
@@ -27,7 +29,7 @@ public class Bullet extends Entity {
 	 *            direction - positive is down.
 	 */
 	public Bullet(Screen screen, int positionX, int positionY, int speed) {
-		super(screen, positionX, positionY, 3 * 2, 5 * 2);
+		super(screen, positionX, positionY, 3 * 2, 5 * 2, Color.WHITE);
 
 		this.speed = speed;
 		setSprite();
