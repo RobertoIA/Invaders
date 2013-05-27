@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import screen.GameScreen;
+import screen.ScoreScreen;
 import screen.Screen;
 
 /**
@@ -49,10 +50,20 @@ public class Core {
 
 		logger.info("Starting " + width + "x" + height + " game screen at "
 				+ fps + " fps.");
+
+		int score;
 		currentScreen = new GameScreen(width, height, fps);
 		currentScreen.initialize();
 		currentScreen.run();
 		logger.info("Closing game screen.");
+		score = ((GameScreen) currentScreen).getScore();
+		currentScreen.dispose();
+
+		logger.info("Starting " + width + "x" + height + " score screen at "
+				+ fps + " fps, with a score of " + score);
+		currentScreen = new ScoreScreen(width, height, fps, score);
+		currentScreen.initialize();
+		currentScreen.run();
 
 		fileHandler.flush();
 		fileHandler.close();

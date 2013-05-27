@@ -209,4 +209,13 @@ public class GameScreen extends Screen {
 
 		return distanceX < maxDistanceX && distanceY < maxDistanceY;
 	}
+
+	/**
+	 * Returns the score of a finished game.
+	 * 
+	 * @return
+	 */
+	public int getScore() {
+		return this.score;
+	}
 }
