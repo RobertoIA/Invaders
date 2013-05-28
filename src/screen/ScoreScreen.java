@@ -1,9 +1,11 @@
 package screen;
 
+import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 
 import engine.Core;
 import engine.DrawManager;
+import engine.InputManager;
 
 /**
  * Implements the score screen.
@@ -18,6 +20,7 @@ public class ScoreScreen extends Screen {
 	private int fps;
 
 	private int score;
+	private boolean playAgain;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -79,6 +82,15 @@ public class ScoreScreen extends Screen {
 	 */
 	private void update() {
 		draw();
+		
+		if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			this.playAgain = false;
+			this.isRunning = false;
+		} else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+			this.playAgain = true;
+			this.isRunning = false;
+		}
+
 	}
 
 	/**
@@ -87,8 +99,12 @@ public class ScoreScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawScore(this, this.score);
+		drawManager.drawScoreScreen(this, this.score);
 
 		drawManager.completeDrawing(this);
+	}
+	
+	public boolean playAgain() {
+		return this.playAgain;
 	}
 }

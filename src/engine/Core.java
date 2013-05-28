@@ -52,18 +52,24 @@ public class Core {
 				+ fps + " fps.");
 
 		int score;
-		currentScreen = new GameScreen(width, height, fps);
-		currentScreen.initialize();
-		currentScreen.run();
-		logger.info("Closing game screen.");
-		score = ((GameScreen) currentScreen).getScore();
-		currentScreen.dispose();
+		do {
+			if (currentScreen != null)
+				currentScreen.dispose();
 
-		logger.info("Starting " + width + "x" + height + " score screen at "
-				+ fps + " fps, with a score of " + score);
-		currentScreen = new ScoreScreen(width, height, fps, score);
-		currentScreen.initialize();
-		currentScreen.run();
+			currentScreen = new GameScreen(width, height, fps);
+			currentScreen.initialize();
+			currentScreen.run();
+			logger.info("Closing game screen.");
+			score = ((GameScreen) currentScreen).getScore();
+			currentScreen.dispose();
+
+			logger.info("Starting " + width + "x" + height
+					+ " score screen at " + fps + " fps, with a score of "
+					+ score);
+			currentScreen = new ScoreScreen(width, height, fps, score);
+			currentScreen.initialize();
+			currentScreen.run();
+		} while (((ScoreScreen) currentScreen).playAgain());
 
 		fileHandler.flush();
 		fileHandler.close();

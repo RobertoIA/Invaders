@@ -241,4 +241,13 @@ public class DrawManager {
 		backBufferGraphics.drawLine(0, 39, screen.getWidth(), 39);
 		backBufferGraphics.drawLine(0, 40, screen.getWidth(), 40);
 	}
+
+	public void drawScoreScreen(Screen screen, int score) {
+		backBufferGraphics.setColor(Color.WHITE);
+		String scoreString = String.format("Game Over - score %04d", score);
+		backBufferGraphics.drawString(scoreString, 20, screen.getHeight() / 2);
+		backBufferGraphics.drawString(
+				"Press Space to play again, Escape to exit", 20,
+				screen.getHeight() / 2 + 40);
+	}
 }
