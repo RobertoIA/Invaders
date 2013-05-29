@@ -3,6 +3,7 @@ package engine;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -22,7 +23,10 @@ public class DrawManager {
 	private static Graphics graphics;
 	private static Graphics backBufferGraphics;
 	private static BufferedImage backBuffer;
-	private static Font font;
+	private static Font fontRegular;
+	private static FontMetrics fontRegularMetrics;
+	private static Font fontBig;
+	private static FontMetrics fontBigMetrics;
 
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
@@ -90,7 +94,8 @@ public class DrawManager {
 		backBufferGraphics
 				.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 
-		backBufferGraphics.setFont(font);
+		fontRegularMetrics = backBufferGraphics.getFontMetrics(fontRegular);
+		fontBigMetrics = backBufferGraphics.getFontMetrics(fontBig);
 
 		// drawBorders(screen);
 		// drawGrid(screen);
@@ -189,8 +194,14 @@ public class DrawManager {
 			// Font loading.
 			inputStream = DrawManager.class.getClassLoader()
 					.getResourceAsStream("font.ttf");
-			font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(
-					14f);
+			fontRegular = Font.createFont(Font.TRUETYPE_FONT, inputStream)
+					.deriveFont(14f);
+
+			// TODO possible resource leak?
+			inputStream = DrawManager.class.getClassLoader()
+					.getResourceAsStream("font.ttf");
+			fontBig = Font.createFont(Font.TRUETYPE_FONT, inputStream)
+					.deriveFont(24f);
 
 			logger.info("Finished loading the font.");
 
@@ -209,6 +220,7 @@ public class DrawManager {
 	 *            Current score.
 	 */
 	public void drawScore(Screen screen, int score) {
+		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		String scoreString = String.format("%04d", score);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
@@ -223,6 +235,7 @@ public class DrawManager {
 	 *            Current lives.
 	 */
 	public void drawLives(Screen screen, int lives) {
+		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
 		Ship dummyShip = new Ship(screen, 0, 0, 0);
@@ -243,11 +256,21 @@ public class DrawManager {
 	}
 
 	public void drawScoreScreen(Screen screen, int score) {
+		String gameOverString = "Game Over";
+		String scoreString = String.format("score %04d", score);
+		String continueOrExitString = "Press Space to play again, Escape to exit";
+
 		backBufferGraphics.setColor(Color.WHITE);
-		String scoreString = String.format("Game Over - score %04d", score);
-		backBufferGraphics.drawString(scoreString, 20, screen.getHeight() / 2);
-		backBufferGraphics.drawString(
-				"Press Space to play again, Escape to exit", 20,
-				screen.getHeight() / 2 + 40);
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.drawString(gameOverString, screen.getWidth() / 2
+				- fontBigMetrics.stringWidth(gameOverString) / 2,
+				screen.getHeight() / 2 - fontBigMetrics.getHeight() * 2);
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.drawString(scoreString, screen.getWidth() / 2
+				- fontRegularMetrics.stringWidth(scoreString) / 2,
+				screen.getHeight() / 2);
+		backBufferGraphics.drawString(continueOrExitString, screen.getWidth()
+				/ 2 - fontRegularMetrics.stringWidth(continueOrExitString) / 2,
+				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
 	}
 }
