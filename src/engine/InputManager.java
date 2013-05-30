@@ -48,7 +48,8 @@ public class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyPressed(KeyEvent key) {
-		keys[key.getKeyCode()] = true;
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < 256)
+			keys[key.getKeyCode()] = true;
 	}
 
 	/**
@@ -56,7 +57,8 @@ public class InputManager implements KeyListener {
 	 */
 	@Override
 	public void keyReleased(KeyEvent key) {
-		keys[key.getKeyCode()] = false;
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < 256)
+			keys[key.getKeyCode()] = false;
 	}
 
 	/**

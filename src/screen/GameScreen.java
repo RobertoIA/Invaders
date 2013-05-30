@@ -32,8 +32,11 @@ public class GameScreen extends Screen {
 
 	private Ship ship;
 	private Set<Bullet> bullets;
+	private int formationSizeX;
+	private int formationSizeY;
 	private int score;
 	private int lives;
+	private int bulletsShot;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -65,12 +68,16 @@ public class GameScreen extends Screen {
 
 		addKeyListener(Core.getInputManager());
 
-		enemyShipFormation = new EnemyShipFormation(7, 5);
+		this.formationSizeX = 7;
+		this.formationSizeY = 5;
+		enemyShipFormation = new EnemyShipFormation(formationSizeX,
+				formationSizeY);
 		enemyShipFormation.attach(this);
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 		this.bullets = new HashSet<Bullet>();
 		this.score = 0;
 		this.lives = 3;
+		this.bulletsShot = 0;
 	}
 
 	/**
@@ -109,7 +116,8 @@ public class GameScreen extends Screen {
 				|| InputManager.isKeyDown(KeyEvent.VK_A))
 			this.ship.moveLeft();
 		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
-			this.ship.shoot(this.bullets);
+			if (this.ship.shoot(this.bullets))
+				this.bulletsShot++;
 
 		this.enemyShipFormation.shoot(this.bullets);
 
@@ -211,11 +219,31 @@ public class GameScreen extends Screen {
 	}
 
 	/**
-	 * Returns the score of a finished game.
+	 * Returns current score.
 	 * 
-	 * @return
+	 * @return Score in points.
 	 */
 	public int getScore() {
 		return this.score;
+	}
+
+	/**
+	 * Returns current number of lives.
+	 * 
+	 * @return Lives remaining.
+	 */
+	public int getLives() {
+		return this.lives;
+	}
+
+	/**
+	 * Returns percentage of bullets that hit the target.
+	 * 
+	 * @return Accuracy percentage.
+	 */
+	public float getAccuracy() {
+		int shipsDestroyed = this.formationSizeX * this.formationSizeY
+				- this.enemyShipFormation.getShipCount();
+		return (float) shipsDestroyed / this.bulletsShot;
 	}
 }

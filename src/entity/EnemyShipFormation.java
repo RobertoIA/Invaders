@@ -304,4 +304,13 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	public boolean isEmpty() {
 		return this.shipCount <= 0;
 	}
+
+	/**
+	 * Returns the number of ships in the formation;
+	 * 
+	 * @return Ships remaining.
+	 */
+	public int getShipCount() {
+		return this.shipCount;
+	}
 }

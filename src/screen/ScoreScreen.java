@@ -20,6 +20,8 @@ public class ScoreScreen extends Screen {
 	private int fps;
 
 	private int score;
+	private int livesRemaining;
+	private float accuracy;
 	private boolean playAgain;
 
 	/**
@@ -34,10 +36,13 @@ public class ScoreScreen extends Screen {
 	 * @param score
 	 *            Player score at the end of the game.
 	 */
-	public ScoreScreen(int width, int height, int fps, int score) {
+	public ScoreScreen(int width, int height, int fps, int score,
+			int livesRemaining, float accuracy) {
 		super(width, height);
 		this.fps = fps;
 		this.score = score;
+		this.livesRemaining = livesRemaining;
+		this.accuracy = accuracy;
 		this.drawManager = Core.getDrawManager();
 	}
 
@@ -82,7 +87,7 @@ public class ScoreScreen extends Screen {
 	 */
 	private void update() {
 		draw();
-		
+
 		if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			this.playAgain = false;
 			this.isRunning = false;
@@ -99,11 +104,17 @@ public class ScoreScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawScoreScreen(this, this.score);
+		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
+				this.accuracy);
 
 		drawManager.completeDrawing(this);
 	}
-	
+
+	/**
+	 * Checks if the play again option has been selected.
+	 * 
+	 * @return Start a new game or not.
+	 */
 	public boolean playAgain() {
 		return this.playAgain;
 	}

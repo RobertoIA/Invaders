@@ -37,7 +37,7 @@ public class Ship extends Entity {
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;
 		this.shootingCooldown = Core.getCooldown(350);
-		
+
 	}
 
 	/**
@@ -62,12 +62,18 @@ public class Ship extends Entity {
 
 	/**
 	 * Shoots a bullet upwards.
+	 * 
+	 * @param bullets
+	 *            List of bullets on screen, to add the new bullet.
+	 * @return Checks if the bullet was shot correctly.
 	 */
-	public void shoot(Set<Bullet> bullets) {
+	public boolean shoot(Set<Bullet> bullets) {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(this.screen, positionX
 					+ this.width / 2, positionY, -4));
+			return true;
 		}
+		return false;
 	}
 }

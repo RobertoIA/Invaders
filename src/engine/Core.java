@@ -52,6 +52,8 @@ public class Core {
 				+ fps + " fps.");
 
 		int score;
+		int livesRemaining;
+		float accuracy;
 		do {
 			if (currentScreen != null)
 				currentScreen.dispose();
@@ -61,12 +63,16 @@ public class Core {
 			currentScreen.run();
 			logger.info("Closing game screen.");
 			score = ((GameScreen) currentScreen).getScore();
+			livesRemaining = ((GameScreen) currentScreen).getLives();
+			accuracy = ((GameScreen) currentScreen).getAccuracy();
 			currentScreen.dispose();
 
 			logger.info("Starting " + width + "x" + height
 					+ " score screen at " + fps + " fps, with a score of "
-					+ score);
-			currentScreen = new ScoreScreen(width, height, fps, score);
+					+ score + ", " + livesRemaining + " lives remaining and "
+					+ String.format("%.2f%% accuracy", accuracy * 100));
+			currentScreen = new ScoreScreen(width, height, fps, score,
+					livesRemaining, accuracy);
 			currentScreen.initialize();
 			currentScreen.run();
 		} while (((ScoreScreen) currentScreen).playAgain());

@@ -263,9 +263,12 @@ public class DrawManager {
 	 * @param score
 	 *            Score of the finished game.
 	 */
-	public void drawScoreScreen(Screen screen, int score) {
+	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
+			float accuracy) {
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
+		String livesRemainingString = "lives remaining " + livesRemaining;
+		String accuracyString = String.format("accuracy %.2f%%", accuracy * 100);
 		String continueOrExitString = "Press Space to play again, Escape to exit";
 
 		backBufferGraphics.setColor(Color.WHITE);
@@ -273,8 +276,12 @@ public class DrawManager {
 		drawCenteredBigString(screen, gameOverString, screen.getHeight() / 2
 				- fontBigMetrics.getHeight() * 2);
 		drawCenteredRegularString(screen, scoreString, screen.getHeight() / 2);
-		drawCenteredRegularString(screen, continueOrExitString,
+		drawCenteredRegularString(screen, livesRemainingString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
+		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
+				/ 2 + fontRegularMetrics.getHeight() * 4);
+		drawCenteredRegularString(screen, continueOrExitString,
+				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 6);
 	}
 
 	/**
