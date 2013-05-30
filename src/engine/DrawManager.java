@@ -255,22 +255,58 @@ public class DrawManager {
 		backBufferGraphics.drawLine(0, 40, screen.getWidth(), 40);
 	}
 
+	/**
+	 * Draws text on the score screen.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param score
+	 *            Score of the finished game.
+	 */
 	public void drawScoreScreen(Screen screen, int score) {
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
 		String continueOrExitString = "Press Space to play again, Escape to exit";
 
 		backBufferGraphics.setColor(Color.WHITE);
-		backBufferGraphics.setFont(fontBig);
-		backBufferGraphics.drawString(gameOverString, screen.getWidth() / 2
-				- fontBigMetrics.stringWidth(gameOverString) / 2,
-				screen.getHeight() / 2 - fontBigMetrics.getHeight() * 2);
-		backBufferGraphics.setFont(fontRegular);
-		backBufferGraphics.drawString(scoreString, screen.getWidth() / 2
-				- fontRegularMetrics.stringWidth(scoreString) / 2,
-				screen.getHeight() / 2);
-		backBufferGraphics.drawString(continueOrExitString, screen.getWidth()
-				/ 2 - fontRegularMetrics.stringWidth(continueOrExitString) / 2,
+
+		drawCenteredBigString(screen, gameOverString, screen.getHeight() / 2
+				- fontBigMetrics.getHeight() * 2);
+		drawCenteredRegularString(screen, scoreString, screen.getHeight() / 2);
+		drawCenteredRegularString(screen, continueOrExitString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
+	}
+
+	/**
+	 * Draws a centered string on regular font.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param string
+	 *            String to draw.
+	 * @param height
+	 *            Height of the drawing.
+	 */
+	private void drawCenteredRegularString(Screen screen, String string,
+			int height) {
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.drawString(string, screen.getWidth() / 2
+				- fontRegularMetrics.stringWidth(string) / 2, height);
+	}
+
+	/**
+	 * Draws a centered string on big font.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param string
+	 *            String to draw.
+	 * @param height
+	 *            Height of the drawing.
+	 */
+	private void drawCenteredBigString(Screen screen, String string, int height) {
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.drawString(string, screen.getWidth() / 2
+				- fontBigMetrics.stringWidth(string) / 2, height);
 	}
 }
