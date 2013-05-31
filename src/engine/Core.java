@@ -53,7 +53,9 @@ public class Core {
 
 		int score;
 		int livesRemaining;
-		float accuracy;
+		int bulletsShot;
+		int shipsDestroyed;
+//		float accuracy;
 		do {
 			if (currentScreen != null)
 				currentScreen.dispose();
@@ -64,15 +66,17 @@ public class Core {
 			logger.info("Closing game screen.");
 			score = ((GameScreen) currentScreen).getScore();
 			livesRemaining = ((GameScreen) currentScreen).getLives();
-			accuracy = ((GameScreen) currentScreen).getAccuracy();
+			bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
+			shipsDestroyed = ((GameScreen) currentScreen).getShipsDestroyed();
+//			accuracy = ((GameScreen) currentScreen).getAccuracy();
 			currentScreen.dispose();
 
 			logger.info("Starting " + width + "x" + height
 					+ " score screen at " + fps + " fps, with a score of "
-					+ score + ", " + livesRemaining + " lives remaining and "
-					+ String.format("%.2f%% accuracy", accuracy * 100));
+					+ score + ", " + livesRemaining + " lives remaining, "
+					+ bulletsShot + " bullets shot and " + shipsDestroyed + " ships destroyed.");
 			currentScreen = new ScoreScreen(width, height, fps, score,
-					livesRemaining, accuracy);
+					livesRemaining, bulletsShot, shipsDestroyed);
 			currentScreen.initialize();
 			currentScreen.run();
 		} while (((ScoreScreen) currentScreen).playAgain());

@@ -264,24 +264,31 @@ public class DrawManager {
 	 *            Score of the finished game.
 	 */
 	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
-			float accuracy) {
+			int shipsDestroyed, float accuracy) {
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
-		String accuracyString = String.format("accuracy %.2f%%", accuracy * 100);
+		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
+		String accuracyString = String
+				.format("accuracy %.2f%%", accuracy * 100);
 		String continueOrExitString = "Press Space to play again, Escape to exit";
 
-		backBufferGraphics.setColor(Color.WHITE);
-
+		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, gameOverString, screen.getHeight() / 2
 				- fontBigMetrics.getHeight() * 2);
+		
+		backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, scoreString, screen.getHeight() / 2);
 		drawCenteredRegularString(screen, livesRemainingString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
+		drawCenteredRegularString(screen, shipsDestroyedString,
+				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 4);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
-				/ 2 + fontRegularMetrics.getHeight() * 4);
+				/ 2 + fontRegularMetrics.getHeight() * 6);
+		
+		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredRegularString(screen, continueOrExitString,
-				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 6);
+				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 10);
 	}
 
 	/**

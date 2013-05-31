@@ -237,13 +237,21 @@ public class GameScreen extends Screen {
 	}
 
 	/**
-	 * Returns percentage of bullets that hit the target.
+	 * Returns bullets shot in the course of the game.
 	 * 
-	 * @return Accuracy percentage.
+	 * @return Number of bullets shot by the player.
 	 */
-	public float getAccuracy() {
-		int shipsDestroyed = this.formationSizeX * this.formationSizeY
+	public int getBulletsShot() {
+		return this.bulletsShot;
+	}
+
+	/**
+	 * Returns ships destroyed in the course of the game.
+	 * 
+	 * @return Number of enemies shot down by the player.
+	 */
+	public int getShipsDestroyed() {
+		return this.formationSizeX * this.formationSizeY
 				- this.enemyShipFormation.getShipCount();
-		return (float) shipsDestroyed / this.bulletsShot;
 	}
 }

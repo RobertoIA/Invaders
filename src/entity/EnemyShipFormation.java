@@ -137,12 +137,16 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			boolean isAtRightToLeftAltitude = positionY % 20 == 0;
 
 			if ((currentDirection == Direction.RIGHT && !isAtBottom && isAtRightSide)
-					|| (currentDirection == Direction.LEFT && !isAtBottom && isAtLeftSide))
+					|| (currentDirection == Direction.LEFT && !isAtBottom && isAtLeftSide)) {
 				currentDirection = Direction.DOWN;
-			else if (isAtLeftToRightAltitude && positionX <= 40)
+				this.logger.info("Formation now moving down");
+			} else if (isAtLeftToRightAltitude && positionX <= 40) {
 				currentDirection = Direction.RIGHT;
-			else if (isAtRightToLeftAltitude && isAtRightSide)
+				this.logger.info("Formation now moving right");
+			} else if (isAtRightToLeftAltitude && isAtRightSide) {
 				currentDirection = Direction.LEFT;
+				this.logger.info("Formation now moving left");
+			}
 
 			if (currentDirection == Direction.RIGHT)
 				movementX = 8;

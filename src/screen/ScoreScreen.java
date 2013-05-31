@@ -21,7 +21,8 @@ public class ScoreScreen extends Screen {
 
 	private int score;
 	private int livesRemaining;
-	private float accuracy;
+	private int bulletsShot;
+	private int shipsDestroyed;
 	private boolean playAgain;
 
 	/**
@@ -37,12 +38,13 @@ public class ScoreScreen extends Screen {
 	 *            Player score at the end of the game.
 	 */
 	public ScoreScreen(int width, int height, int fps, int score,
-			int livesRemaining, float accuracy) {
+			int livesRemaining, int bulletsShot, int shipsDestroyed) {
 		super(width, height);
 		this.fps = fps;
 		this.score = score;
 		this.livesRemaining = livesRemaining;
-		this.accuracy = accuracy;
+		this.bulletsShot = bulletsShot;
+		this.shipsDestroyed = shipsDestroyed;
 		this.drawManager = Core.getDrawManager();
 	}
 
@@ -105,7 +107,8 @@ public class ScoreScreen extends Screen {
 		drawManager.initDrawing(this);
 
 		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
-				this.accuracy);
+				this.shipsDestroyed, (float) this.shipsDestroyed
+						/ this.bulletsShot);
 
 		drawManager.completeDrawing(this);
 	}
