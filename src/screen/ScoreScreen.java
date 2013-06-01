@@ -3,6 +3,7 @@ package screen;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.TimeUnit;
 
+import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
@@ -24,6 +25,7 @@ public class ScoreScreen extends Screen {
 	private int bulletsShot;
 	private int shipsDestroyed;
 	private boolean playAgain;
+	private Cooldown inputCooldown;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -46,6 +48,9 @@ public class ScoreScreen extends Screen {
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
 		this.drawManager = Core.getDrawManager();
+		// Waits for a second before accepting input.
+		this.inputCooldown = Core.getCooldown(1000);
+		this.inputCooldown.reset();
 	}
 
 	/**
@@ -89,14 +94,14 @@ public class ScoreScreen extends Screen {
 	 */
 	private void update() {
 		draw();
-
-		if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			this.playAgain = false;
-			this.isRunning = false;
-		} else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-			this.playAgain = true;
-			this.isRunning = false;
-		}
+		if (this.inputCooldown.checkFinished())
+			if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+				this.playAgain = false;
+				this.isRunning = false;
+			} else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+				this.playAgain = true;
+				this.isRunning = false;
+			}
 
 	}
 
@@ -108,7 +113,7 @@ public class ScoreScreen extends Screen {
 
 		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
 				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot);
+						/ this.bulletsShot, this.inputCooldown.checkFinished());
 
 		drawManager.completeDrawing(this);
 	}

@@ -264,7 +264,7 @@ public class DrawManager {
 	 *            Score of the finished game.
 	 */
 	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
-			int shipsDestroyed, float accuracy) {
+			int shipsDestroyed, float accuracy, boolean acceptsInput) {
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
@@ -276,7 +276,7 @@ public class DrawManager {
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, gameOverString, screen.getHeight() / 2
 				- fontBigMetrics.getHeight() * 2);
-		
+
 		backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, scoreString, screen.getHeight() / 2);
 		drawCenteredRegularString(screen, livesRemainingString,
@@ -285,8 +285,11 @@ public class DrawManager {
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 4);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
 				/ 2 + fontRegularMetrics.getHeight() * 6);
-		
-		backBufferGraphics.setColor(Color.GREEN);
+
+		if (acceptsInput)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, continueOrExitString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 10);
 	}
