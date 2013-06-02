@@ -57,7 +57,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.nShipsWide = nShipsWide;
 		this.nShipsHigh = nShipsHigh;
 		this.positionX = 40;
-		this.positionY = 80;
+		this.positionY = 100;
 		this.shooters = new ArrayList<EnemyShip>();
 		SpriteType spriteType;
 
@@ -307,14 +307,5 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 */
 	public boolean isEmpty() {
 		return this.shipCount <= 0;
-	}
-
-	/**
-	 * Returns the number of ships in the formation;
-	 * 
-	 * @return Ships remaining.
-	 */
-	public int getShipCount() {
-		return this.shipCount;
 	}
 }

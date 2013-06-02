@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
@@ -31,12 +32,15 @@ public class GameScreen extends Screen {
 	private Logger logger;
 
 	private Ship ship;
+	private EnemyShip enemyShipSpecial;
+	private Cooldown enemyShipSpecialCooldown;
 	private Set<Bullet> bullets;
 	private int formationSizeX;
 	private int formationSizeY;
 	private int score;
 	private int lives;
 	private int bulletsShot;
+	private int shipsDestroyed;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -74,10 +78,14 @@ public class GameScreen extends Screen {
 				formationSizeY);
 		enemyShipFormation.attach(this);
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
+		// Appears each 10-30 seconds.
+		this.enemyShipSpecialCooldown = Core.getVariableCooldown(20000, 10000);
+		this.enemyShipSpecialCooldown.reset();
 		this.bullets = new HashSet<Bullet>();
 		this.score = 0;
 		this.lives = 3;
 		this.bulletsShot = 0;
+		this.shipsDestroyed = 0;
 	}
 
 	/**
@@ -121,6 +129,20 @@ public class GameScreen extends Screen {
 
 		this.enemyShipFormation.shoot(this.bullets);
 
+		if (this.enemyShipSpecial != null)
+			this.enemyShipSpecial.move(2, 0);
+		if (this.enemyShipSpecial == null
+				&& this.enemyShipSpecialCooldown.checkFinished()) {
+			this.enemyShipSpecial = new EnemyShip(this);
+			this.enemyShipSpecialCooldown.reset();
+			this.logger.info("A special ship appears");
+		}
+		if (this.enemyShipSpecial != null
+				&& this.enemyShipSpecial.getPositionX() > this.width) {
+			this.enemyShipSpecial = null;
+			this.logger.info("The special ship has escaped");
+		}
+
 		manageCollisions();
 		cleanBullets();
 		draw();
@@ -137,6 +159,10 @@ public class GameScreen extends Screen {
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
+		if (this.enemyShipSpecial != null)
+			drawManager.drawEntity(this.enemyShipSpecial,
+					this.enemyShipSpecial.getPositionX(),
+					this.enemyShipSpecial.getPositionY());
 
 		enemyShipFormation.draw();
 
@@ -185,6 +211,7 @@ public class GameScreen extends Screen {
 					if (!enemyShip.isDestroyed()
 							&& checkCollision(bullet, enemyShip)) {
 						this.score += enemyShip.getPointValue();
+						this.shipsDestroyed++;
 						this.enemyShipFormation.destroy(enemyShip);
 						recyclable.add(bullet);
 					}
@@ -251,7 +278,6 @@ public class GameScreen extends Screen {
 	 * @return Number of enemies shot down by the player.
 	 */
 	public int getShipsDestroyed() {
-		return this.formationSizeX * this.formationSizeY
-				- this.enemyShipFormation.getShipCount();
+		return this.shipsDestroyed;
 	}
 }

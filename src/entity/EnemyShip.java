@@ -51,6 +51,19 @@ public class EnemyShip extends Entity {
 	}
 
 	/**
+	 * Constructor, establishes the ship's properties for a special ship, with
+	 * known starting properties.
+	 * 
+	 * @param screen
+	 *            Screen where the special ship will be drawn.
+	 */
+	public EnemyShip(Screen screen) {
+		super(screen, -32, 60, 16 * 2, 7 * 2, Color.RED);
+
+		this.spriteType = SpriteType.EnemyShipSpecial;
+	}
+
+	/**
 	 * Getter for the score bonus if this ship is destroyed.
 	 * 
 	 * @return Value of the ship.
