@@ -1,8 +1,11 @@
 package screen;
 
 import java.awt.Insets;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
+
+import engine.Core;
 
 /**
  * Implements a generic screen.
@@ -15,6 +18,7 @@ public class Screen extends JFrame {
 
 	protected int width;
 	protected int height;
+	protected int fps;
 	protected Insets insets;
 
 	protected boolean isRunning;
@@ -27,9 +31,10 @@ public class Screen extends JFrame {
 	 * @param height
 	 *            Screen height.
 	 */
-	public Screen(int width, int height) {
+	public Screen(int width, int height, int fps) {
 		this.width = width;
 		this.height = height;
+		this.fps = fps;
 	}
 
 	/**
@@ -42,6 +47,13 @@ public class Screen extends JFrame {
 
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		this.insets = getInsets();
+		this.width -= this.insets.left + this.insets.right;
+		this.height -= this.insets.top + this.insets.bottom;
+		setTitle("Invaders");
+
+		addKeyListener(Core.getInputManager());
 	}
 
 	/**
@@ -49,6 +61,28 @@ public class Screen extends JFrame {
 	 */
 	public void run() {
 		this.isRunning = true;
+		
+		while (this.isRunning) {
+			long time = System.currentTimeMillis();
+
+			update();
+
+			time = (1000 / this.fps) - (System.currentTimeMillis() - time);
+			if (time > 0) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(time);
+				} catch (InterruptedException e) {
+					return;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Updates the elements on screen and checks for events.
+	 */
+	protected void update() {
+		
 	}
 
 	/**

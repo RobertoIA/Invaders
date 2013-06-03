@@ -3,7 +3,6 @@ package screen;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import engine.Cooldown;
@@ -26,7 +25,6 @@ import entity.Ship;
 @SuppressWarnings("serial")
 public class GameScreen extends Screen {
 
-	private int fps;
 	private DrawManager drawManager;
 	private EnemyShipFormation enemyShipFormation;
 	private Logger logger;
@@ -53,8 +51,8 @@ public class GameScreen extends Screen {
 	 *            Frames per second, frame rate at which the game is run.
 	 */
 	public GameScreen(int width, int height, int fps) {
-		super(width, height);
-		this.fps = fps;
+		super(width, height, fps);
+		
 		this.drawManager = Core.getDrawManager();
 		this.logger = Core.getLogger();
 	}
@@ -64,13 +62,6 @@ public class GameScreen extends Screen {
 	 */
 	public void initialize() {
 		super.initialize();
-
-		this.insets = getInsets();
-		this.width -= this.insets.left + this.insets.right;
-		this.height -= this.insets.top + this.insets.bottom;
-		setTitle("Invaders");
-
-		addKeyListener(Core.getInputManager());
 
 		this.formationSizeX = 7;
 		this.formationSizeY = 5;
@@ -94,21 +85,6 @@ public class GameScreen extends Screen {
 	public void run() {
 		super.run();
 
-		while (this.isRunning) {
-			long time = System.currentTimeMillis();
-
-			update();
-
-			time = (1000 / this.fps) - (System.currentTimeMillis() - time);
-			if (time > 0) {
-				try {
-					TimeUnit.MILLISECONDS.sleep(time);
-				} catch (InterruptedException e) {
-					return;
-				}
-			}
-		}
-
 		this.score += 100 * (this.lives - 1);
 		this.logger.info("Screen cleared with a score of " + this.score);
 	}
@@ -116,7 +92,9 @@ public class GameScreen extends Screen {
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
-	private void update() {
+	protected void update() {
+		super.update();
+		
 		if (InputManager.isKeyDown(KeyEvent.VK_RIGHT)
 				|| InputManager.isKeyDown(KeyEvent.VK_D))
 			this.ship.moveRight();

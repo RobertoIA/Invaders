@@ -1,7 +1,6 @@
 package screen;
 
 import java.awt.event.KeyEvent;
-import java.util.concurrent.TimeUnit;
 
 import engine.Cooldown;
 import engine.Core;
@@ -18,7 +17,6 @@ import engine.InputManager;
 public class ScoreScreen extends Screen {
 
 	private DrawManager drawManager;
-	private int fps;
 
 	private int score;
 	private int livesRemaining;
@@ -41,8 +39,8 @@ public class ScoreScreen extends Screen {
 	 */
 	public ScoreScreen(int width, int height, int fps, int score,
 			int livesRemaining, int bulletsShot, int shipsDestroyed) {
-		super(width, height);
-		this.fps = fps;
+		super(width, height, fps);
+		
 		this.score = score;
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
@@ -54,45 +52,18 @@ public class ScoreScreen extends Screen {
 	}
 
 	/**
-	 * Initializes basic screen properties, and adds necessary elements.
-	 */
-	public void initialize() {
-		super.initialize();
-
-		this.insets = getInsets();
-		this.width -= this.insets.left + this.insets.right;
-		this.height -= this.insets.top + this.insets.bottom;
-		setTitle("Invaders");
-
-		addKeyListener(Core.getInputManager());
-	}
-
-	/**
 	 * Starts the action.
 	 */
 	public void run() {
 		super.run();
-
-		while (this.isRunning) {
-			long time = System.currentTimeMillis();
-
-			update();
-
-			time = (1000 / this.fps) - (System.currentTimeMillis() - time);
-			if (time > 0) {
-				try {
-					TimeUnit.MILLISECONDS.sleep(time);
-				} catch (InterruptedException e) {
-					return;
-				}
-			}
-		}
 	}
 
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
-	private void update() {
+	protected void update() {
+		super.update();
+		
 		draw();
 		if (this.inputCooldown.checkFinished())
 			if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
