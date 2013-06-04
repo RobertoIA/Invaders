@@ -263,6 +263,38 @@ public class DrawManager {
 	 * @param score
 	 *            Score of the finished game.
 	 */
+	public void drawTitleScreen(Screen screen) {
+		String titleString = "Invaders";
+		String instructionsString = "select with w+s / arrows, confirm with space";
+		String playString = "Play";
+		String highScoresString = "High scores";
+		String exitString = "exit";
+
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 2);
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+		// TODO implement selection, selected option will be the green one.
+		drawCenteredRegularString(screen, playString,
+				screen.getHeight() / 3 * 2);
+
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
+				* 2 + fontRegularMetrics.getHeight() * 4);
+	}
+
+	/**
+	 * Draws text on the score screen.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param score
+	 *            Score of the finished game.
+	 */
 	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
 			int shipsDestroyed, float accuracy, boolean acceptsInput) {
 		String gameOverString = "Game Over";

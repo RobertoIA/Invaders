@@ -9,6 +9,7 @@ import java.util.logging.SimpleFormatter;
 import screen.GameScreen;
 import screen.ScoreScreen;
 import screen.Screen;
+import screen.TitleScreen;
 
 /**
  * Implements core game logic.
@@ -48,27 +49,33 @@ public class Core {
 			e.printStackTrace();
 		}
 
-		logger.info("Starting " + width + "x" + height + " game screen at "
-				+ fps + " fps.");
-
 		int score;
 		int livesRemaining;
 		int bulletsShot;
 		int shipsDestroyed;
-//		float accuracy;
+		
+		currentScreen = new TitleScreen(width, height, fps);
+		logger.info("Starting " + width + "x" + height + " title screen at "
+				+ fps + " fps.");
+		currentScreen.initialize();
+		currentScreen.run();
+		logger.info("Closing title screen.");
+		
 		do {
 			if (currentScreen != null)
 				currentScreen.dispose();
 
 			currentScreen = new GameScreen(width, height, fps);
+			logger.info("Starting " + width + "x" + height + " game screen at "
+					+ fps + " fps.");
 			currentScreen.initialize();
 			currentScreen.run();
 			logger.info("Closing game screen.");
+			
 			score = ((GameScreen) currentScreen).getScore();
 			livesRemaining = ((GameScreen) currentScreen).getLives();
 			bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
 			shipsDestroyed = ((GameScreen) currentScreen).getShipsDestroyed();
-//			accuracy = ((GameScreen) currentScreen).getAccuracy();
 			currentScreen.dispose();
 
 			logger.info("Starting " + width + "x" + height
@@ -79,6 +86,8 @@ public class Core {
 					livesRemaining, bulletsShot, shipsDestroyed);
 			currentScreen.initialize();
 			currentScreen.run();
+			logger.info("Closing score screen.");
+			
 		} while (((ScoreScreen) currentScreen).playAgain());
 
 		fileHandler.flush();

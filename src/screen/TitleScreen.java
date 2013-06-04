@@ -1,6 +1,10 @@
 package screen;
 
+import java.awt.event.KeyEvent;
+
+import engine.Core;
 import engine.DrawManager;
+import engine.InputManager;
 
 /**
  * Implements the title screen.
@@ -15,8 +19,8 @@ public class TitleScreen extends Screen {
 
 	public TitleScreen(int width, int height, int fps) {
 		super(width, height, fps);
-
-		this.fps = fps;
+		
+		this.drawManager = Core.getDrawManager();
 	}
 
 	/**
@@ -33,6 +37,9 @@ public class TitleScreen extends Screen {
 		super.update();
 		
 		draw();
+		if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+			this.isRunning = false;
+		}
 	}
 
 	/**
@@ -40,6 +47,8 @@ public class TitleScreen extends Screen {
 	 */
 	private void draw() {
 		drawManager.initDrawing(this);
+		
+		drawManager.drawTitleScreen(this);
 
 		drawManager.completeDrawing(this);
 	}
