@@ -22,6 +22,7 @@ public class Screen extends JFrame {
 	protected Insets insets;
 
 	protected boolean isRunning;
+	protected int returnCode;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -35,6 +36,8 @@ public class Screen extends JFrame {
 		this.width = width;
 		this.height = height;
 		this.fps = fps;
+		
+		this.returnCode = 0;
 	}
 
 	/**
@@ -59,7 +62,7 @@ public class Screen extends JFrame {
 	/**
 	 * Activates the screen.
 	 */
-	public void run() {
+	public int run() {
 		this.isRunning = true;
 		
 		while (this.isRunning) {
@@ -72,10 +75,12 @@ public class Screen extends JFrame {
 				try {
 					TimeUnit.MILLISECONDS.sleep(time);
 				} catch (InterruptedException e) {
-					return;
+					return 0;
 				}
 			}
 		}
+		
+		return 0;
 	}
 	
 	/**

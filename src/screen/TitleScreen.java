@@ -26,8 +26,10 @@ public class TitleScreen extends Screen {
 	/**
 	 * Starts the action.
 	 */
-	public void run() {
+	public int run() {
 		super.run();
+		
+		return this.returnCode;
 	}
 
 	/**
@@ -38,6 +40,7 @@ public class TitleScreen extends Screen {
 		
 		draw();
 		if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+			this.returnCode = 2;
 			this.isRunning = false;
 		}
 	}

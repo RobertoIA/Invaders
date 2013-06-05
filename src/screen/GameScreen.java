@@ -82,11 +82,13 @@ public class GameScreen extends Screen {
 	/**
 	 * Starts the action.
 	 */
-	public void run() {
+	public int run() {
 		super.run();
 
 		this.score += 100 * (this.lives - 1);
 		this.logger.info("Screen cleared with a score of " + this.score);
+		
+		return this.returnCode;
 	}
 
 	/**

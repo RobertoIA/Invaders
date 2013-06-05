@@ -53,42 +53,57 @@ public class Core {
 		int livesRemaining;
 		int bulletsShot;
 		int shipsDestroyed;
-		
-		currentScreen = new TitleScreen(width, height, fps);
-		logger.info("Starting " + width + "x" + height + " title screen at "
-				+ fps + " fps.");
-		currentScreen.initialize();
-		currentScreen.run();
-		logger.info("Closing title screen.");
-		
+
+		int returnCode = 1;
 		do {
 			if (currentScreen != null)
 				currentScreen.dispose();
-
-			currentScreen = new GameScreen(width, height, fps);
-			logger.info("Starting " + width + "x" + height + " game screen at "
-					+ fps + " fps.");
-			currentScreen.initialize();
-			currentScreen.run();
-			logger.info("Closing game screen.");
 			
-			score = ((GameScreen) currentScreen).getScore();
-			livesRemaining = ((GameScreen) currentScreen).getLives();
-			bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
-			shipsDestroyed = ((GameScreen) currentScreen).getShipsDestroyed();
-			currentScreen.dispose();
+			switch (returnCode) {
+			case 1:
+				// Main menu.
+				currentScreen = new TitleScreen(width, height, fps);
+				logger.info("Starting " + width + "x" + height + " title screen at "
+						+ fps + " fps.");
+				currentScreen.initialize();
+				returnCode = currentScreen.run();
+				logger.info("Closing title screen.");
+				break;
+			case 2:
+				// Game & score.
+				currentScreen = new GameScreen(width, height, fps);
+				logger.info("Starting " + width + "x" + height + " game screen at "
+						+ fps + " fps.");
+				currentScreen.initialize();
+				returnCode = currentScreen.run();
+				logger.info("Closing game screen.");
+				
+				score = ((GameScreen) currentScreen).getScore();
+				livesRemaining = ((GameScreen) currentScreen).getLives();
+				bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
+				shipsDestroyed = ((GameScreen) currentScreen).getShipsDestroyed();
+				currentScreen.dispose();
 
-			logger.info("Starting " + width + "x" + height
-					+ " score screen at " + fps + " fps, with a score of "
-					+ score + ", " + livesRemaining + " lives remaining, "
-					+ bulletsShot + " bullets shot and " + shipsDestroyed + " ships destroyed.");
-			currentScreen = new ScoreScreen(width, height, fps, score,
-					livesRemaining, bulletsShot, shipsDestroyed);
-			currentScreen.initialize();
-			currentScreen.run();
-			logger.info("Closing score screen.");
-			
-		} while (((ScoreScreen) currentScreen).playAgain());
+				logger.info("Starting " + width + "x" + height
+						+ " score screen at " + fps + " fps, with a score of "
+						+ score + ", " + livesRemaining + " lives remaining, "
+						+ bulletsShot + " bullets shot and " + shipsDestroyed
+						+ " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, fps, score,
+						livesRemaining, bulletsShot, shipsDestroyed);
+				currentScreen.initialize();
+				returnCode = currentScreen.run();
+				logger.info("Closing score screen.");
+				break;
+			case 3:
+				// High scores.
+				//TODO high scores screen.
+				break;
+			default:
+				break;
+			}
+
+		} while (returnCode != 0);
 
 		fileHandler.flush();
 		fileHandler.close();

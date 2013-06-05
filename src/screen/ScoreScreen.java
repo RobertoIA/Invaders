@@ -40,7 +40,7 @@ public class ScoreScreen extends Screen {
 	public ScoreScreen(int width, int height, int fps, int score,
 			int livesRemaining, int bulletsShot, int shipsDestroyed) {
 		super(width, height, fps);
-		
+
 		this.score = score;
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
@@ -54,8 +54,10 @@ public class ScoreScreen extends Screen {
 	/**
 	 * Starts the action.
 	 */
-	public void run() {
+	public int run() {
 		super.run();
+
+		return this.returnCode;
 	}
 
 	/**
@@ -63,14 +65,17 @@ public class ScoreScreen extends Screen {
 	 */
 	protected void update() {
 		super.update();
-		
+
 		draw();
 		if (this.inputCooldown.checkFinished())
+			// Return to main menu.
 			if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-				this.playAgain = false;
+				this.returnCode = 1;
 				this.isRunning = false;
-			} else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
-				this.playAgain = true;
+			}
+			// Play again.
+			else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+				this.returnCode = 2;
 				this.isRunning = false;
 			}
 
