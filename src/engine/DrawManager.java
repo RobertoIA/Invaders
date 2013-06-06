@@ -263,7 +263,7 @@ public class DrawManager {
 	 * @param score
 	 *            Score of the finished game.
 	 */
-	public void drawTitleScreen(Screen screen) {
+	public void drawTitleScreen(Screen screen, int option) {
 		String titleString = "Invaders";
 		String instructionsString = "select with w+s / arrows, confirm with space";
 		String playString = "Play";
@@ -276,13 +276,23 @@ public class DrawManager {
 
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
-		// TODO implement selection, selected option will be the green one.
+
+		if (option == 2)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, playString,
 				screen.getHeight() / 3 * 2);
-
-		backBufferGraphics.setColor(Color.WHITE);
+		if (option == 3)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		if (option == 0)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
 				* 2 + fontRegularMetrics.getHeight() * 4);
 	}
