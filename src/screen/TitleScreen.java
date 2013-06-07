@@ -61,6 +61,9 @@ public class TitleScreen extends Screen {
 				this.isRunning = false;
 	}
 
+	/**
+	 * Shifts the focus to the next menu item.
+	 */
 	private void nextMenuItem() {
 		if (this.returnCode == 3)
 			this.returnCode = 0;
@@ -70,6 +73,9 @@ public class TitleScreen extends Screen {
 			this.returnCode++;
 	}
 
+	/**
+	 * Shifts the focus to the previous menu item.
+	 */
 	private void previousMenuItem() {
 		if (this.returnCode == 0)
 			this.returnCode = 3;

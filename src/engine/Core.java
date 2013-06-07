@@ -75,7 +75,7 @@ public class Core {
 				logger.info("Starting " + width + "x" + height + " game screen at "
 						+ fps + " fps.");
 				currentScreen.initialize();
-				returnCode = currentScreen.run();
+				currentScreen.run();
 				logger.info("Closing game screen.");
 				
 				score = ((GameScreen) currentScreen).getScore();
