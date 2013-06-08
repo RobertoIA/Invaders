@@ -22,6 +22,8 @@ public class TitleScreen extends Screen {
 	public TitleScreen(int width, int height, int fps) {
 		super(width, height, fps);
 
+		// Defaults to play.
+		this.returnCode = 2;
 		this.drawManager = Core.getDrawManager();
 		this.selectionCooldown = Core.getCooldown(200);
 		this.selectionCooldown.reset();
