@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.DrawManager;
 import engine.InputManager;
 
 /**
@@ -16,15 +15,23 @@ import engine.InputManager;
 @SuppressWarnings("serial")
 public class TitleScreen extends Screen {
 
-	private DrawManager drawManager;
 	private Cooldown selectionCooldown;
-
+	
+	/**
+	 * Constructor, establishes the properties of the screen.
+	 * 
+	 * @param width
+	 *            Screen width.
+	 * @param height
+	 *            Screen height.
+	 * @param fps
+	 *            Frames per second, frame rate at which the game is run.
+	 */
 	public TitleScreen(int width, int height, int fps) {
 		super(width, height, fps);
 
 		// Defaults to play.
 		this.returnCode = 2;
-		this.drawManager = Core.getDrawManager();
 		this.selectionCooldown = Core.getCooldown(200);
 		this.selectionCooldown.reset();
 	}
@@ -56,11 +63,9 @@ public class TitleScreen extends Screen {
 				nextMenuItem();
 				this.selectionCooldown.reset();
 			}
-		}
-		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
-			// TODO remporary until high score screen is built.
-			if (this.returnCode != 3)
+			if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
 				this.isRunning = false;
+		}
 	}
 
 	/**

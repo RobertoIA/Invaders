@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import screen.GameScreen;
+import screen.HighScoreScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
@@ -97,7 +98,12 @@ public class Core {
 				break;
 			case 3:
 				// High scores.
-				//TODO high scores screen.
+				currentScreen = new HighScoreScreen(width, height, fps);
+				logger.info("Starting " + width + "x" + height + " high score screen at "
+						+ fps + " fps.");
+				currentScreen.initialize();
+				returnCode = currentScreen.run();
+				logger.info("Closing high score screen.");
 				break;
 			default:
 				break;

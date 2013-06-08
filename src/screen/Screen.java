@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 
 import engine.Core;
+import engine.DrawManager;
 
 /**
  * Implements a generic screen.
@@ -15,6 +16,8 @@ import engine.Core;
  */
 @SuppressWarnings("serial")
 public class Screen extends JFrame {
+
+	protected DrawManager drawManager;
 
 	protected int width;
 	protected int height;
@@ -31,12 +34,15 @@ public class Screen extends JFrame {
 	 *            Screen width.
 	 * @param height
 	 *            Screen height.
+	 * @param fps
+	 *            Frames per second, frame rate at which the game is run.
 	 */
 	public Screen(int width, int height, int fps) {
 		this.width = width;
 		this.height = height;
 		this.fps = fps;
-		
+
+		this.drawManager = Core.getDrawManager();
 		this.returnCode = 0;
 	}
 
@@ -50,7 +56,7 @@ public class Screen extends JFrame {
 
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
+
 		this.insets = getInsets();
 		this.width -= this.insets.left + this.insets.right;
 		this.height -= this.insets.top + this.insets.bottom;
@@ -64,7 +70,7 @@ public class Screen extends JFrame {
 	 */
 	public int run() {
 		this.isRunning = true;
-		
+
 		while (this.isRunning) {
 			long time = System.currentTimeMillis();
 
@@ -79,15 +85,15 @@ public class Screen extends JFrame {
 				}
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
 	protected void update() {
-		
+
 	}
 
 	/**

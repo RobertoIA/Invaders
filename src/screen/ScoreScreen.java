@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.DrawManager;
 import engine.InputManager;
 
 /**
@@ -15,8 +14,6 @@ import engine.InputManager;
  */
 @SuppressWarnings("serial")
 public class ScoreScreen extends Screen {
-
-	private DrawManager drawManager;
 
 	private int score;
 	private int livesRemaining;
@@ -45,7 +42,6 @@ public class ScoreScreen extends Screen {
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
-		this.drawManager = Core.getDrawManager();
 		// Waits for a second before accepting input.
 		this.inputCooldown = Core.getCooldown(1000);
 		this.inputCooldown.reset();

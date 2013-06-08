@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.DrawManager;
 import engine.InputManager;
 import entity.Bullet;
 import entity.BulletPool;
@@ -25,7 +24,6 @@ import entity.Ship;
 @SuppressWarnings("serial")
 public class GameScreen extends Screen {
 
-	private DrawManager drawManager;
 	private EnemyShipFormation enemyShipFormation;
 	private Logger logger;
 
@@ -54,7 +52,6 @@ public class GameScreen extends Screen {
 	public GameScreen(int width, int height, int fps) {
 		super(width, height, fps);
 
-		this.drawManager = Core.getDrawManager();
 		this.logger = Core.getLogger();
 	}
 
