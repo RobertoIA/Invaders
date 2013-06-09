@@ -335,6 +335,18 @@ public class DrawManager {
 		drawCenteredRegularString(screen, continueOrExitString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 10);
 	}
+	
+	public void drawHighScoreScreen(Screen screen) {
+		String highScoreString = "High Scores";
+		String instructionsString = "Press Space to return";
+		
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
+		
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString, screen.getHeight() / 5);
+		
+	}
 
 	/**
 	 * Draws a centered string on regular font.

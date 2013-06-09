@@ -56,7 +56,7 @@ public class HighScoreScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 		
-		drawManager.drawSeparatingLine(this);
+		drawManager.drawHighScoreScreen(this);
 
 		drawManager.completeDrawing(this);
 	}
