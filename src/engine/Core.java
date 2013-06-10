@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -59,13 +61,13 @@ public class Core {
 		do {
 			if (currentScreen != null)
 				currentScreen.dispose();
-			
+
 			switch (returnCode) {
 			case 1:
 				// Main menu.
 				currentScreen = new TitleScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height + " title screen at "
-						+ fps + " fps.");
+				logger.info("Starting " + width + "x" + height
+						+ " title screen at " + fps + " fps.");
 				currentScreen.initialize();
 				returnCode = currentScreen.run();
 				logger.info("Closing title screen.");
@@ -73,16 +75,17 @@ public class Core {
 			case 2:
 				// Game & score.
 				currentScreen = new GameScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height + " game screen at "
-						+ fps + " fps.");
+				logger.info("Starting " + width + "x" + height
+						+ " game screen at " + fps + " fps.");
 				currentScreen.initialize();
 				currentScreen.run();
 				logger.info("Closing game screen.");
-				
+
 				score = ((GameScreen) currentScreen).getScore();
 				livesRemaining = ((GameScreen) currentScreen).getLives();
 				bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
-				shipsDestroyed = ((GameScreen) currentScreen).getShipsDestroyed();
+				shipsDestroyed = ((GameScreen) currentScreen)
+						.getShipsDestroyed();
 				currentScreen.dispose();
 
 				logger.info("Starting " + width + "x" + height
@@ -99,8 +102,8 @@ public class Core {
 			case 3:
 				// High scores.
 				currentScreen = new HighScoreScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height + " high score screen at "
-						+ fps + " fps.");
+				logger.info("Starting " + width + "x" + height
+						+ " high score screen at " + fps + " fps.");
 				currentScreen.initialize();
 				returnCode = currentScreen.run();
 				logger.info("Closing high score screen.");
@@ -165,5 +168,23 @@ public class Core {
 	 */
 	public static Cooldown getVariableCooldown(int milliseconds, int variance) {
 		return new Cooldown(milliseconds, variance);
+	}
+
+	/**
+	 * Loads high scores from file, and returns a sorted map with the scores as
+	 * keys and the players as values.
+	 * 
+	 * @return Sorted map of scores - players.
+	 */
+	public static List<Score> getHighScores() {
+		List<Score> highScores = new ArrayList<Score>();
+
+		// TODO load high scores from file.
+		highScores.add(new Score("ROB", 1000));
+		highScores.add(new Score("PAT", 900));
+		highScores.add(new Score("KOF", 800));
+		highScores.add(new Score("BYR", 700));
+
+		return highScores;
 	}
 }

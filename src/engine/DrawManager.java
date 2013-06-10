@@ -8,7 +8,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -335,17 +337,30 @@ public class DrawManager {
 		drawCenteredRegularString(screen, continueOrExitString,
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 10);
 	}
-	
-	public void drawHighScoreScreen(Screen screen) {
+
+	public void drawHighScoreScreen(Screen screen, List<Score> highScores) {
 		String highScoreString = "High Scores";
 		String instructionsString = "Press Space to return";
-		
+
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
-		
+
 		backBufferGraphics.setColor(Color.GRAY);
-		drawCenteredRegularString(screen, instructionsString, screen.getHeight() / 5);
-		
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+
+		backBufferGraphics.setColor(Color.WHITE);
+		int i = 0;
+		String scoreString = "";
+		Collections.sort(highScores);
+		for (Score score : highScores) {
+			scoreString = String.format("%s        %04d", score.getName(),
+					score.getScore());
+			drawCenteredRegularString(screen, scoreString, screen.getHeight()
+					/ 4 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+			i++;
+		}
+
 	}
 
 	/**
