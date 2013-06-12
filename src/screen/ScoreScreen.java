@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.InputManager;
 
 /**
  * Implements the score screen.
@@ -65,12 +64,12 @@ public class ScoreScreen extends Screen {
 		draw();
 		if (this.inputCooldown.checkFinished())
 			// Return to main menu.
-			if (InputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 				this.returnCode = 1;
 				this.isRunning = false;
 			}
 			// Play again.
-			else if (InputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+			else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
 				this.returnCode = 2;
 				this.isRunning = false;
 			}

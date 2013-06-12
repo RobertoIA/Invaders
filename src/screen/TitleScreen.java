@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.InputManager;
 
 /**
  * Implements the title screen.
@@ -53,17 +52,17 @@ public class TitleScreen extends Screen {
 
 		draw();
 		if (this.selectionCooldown.checkFinished()) {
-			if (InputManager.isKeyDown(KeyEvent.VK_UP)
-					|| InputManager.isKeyDown(KeyEvent.VK_W)) {
+			if (inputManager.isKeyDown(KeyEvent.VK_UP)
+					|| inputManager.isKeyDown(KeyEvent.VK_W)) {
 				previousMenuItem();
 				this.selectionCooldown.reset();
 			}
-			if (InputManager.isKeyDown(KeyEvent.VK_DOWN)
-					|| InputManager.isKeyDown(KeyEvent.VK_S)) {
+			if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
+					|| inputManager.isKeyDown(KeyEvent.VK_S)) {
 				nextMenuItem();
 				this.selectionCooldown.reset();
 			}
-			if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
+			if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 				this.isRunning = false;
 		}
 	}

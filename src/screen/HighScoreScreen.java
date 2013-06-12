@@ -4,7 +4,6 @@ import java.awt.event.KeyEvent;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.InputManager;
 
 @SuppressWarnings("serial")
 public class HighScoreScreen extends Screen {
@@ -46,7 +45,7 @@ public class HighScoreScreen extends Screen {
 
 		draw();
 		if (this.selectionCooldown.checkFinished()
-				&& InputManager.isKeyDown(KeyEvent.VK_SPACE))
+				&& inputManager.isKeyDown(KeyEvent.VK_SPACE))
 			this.isRunning = false;
 	}
 

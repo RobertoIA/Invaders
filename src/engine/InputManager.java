@@ -39,7 +39,7 @@ public class InputManager implements KeyListener {
 	 *            Key number to check.
 	 * @return Key state.
 	 */
-	public static boolean isKeyDown(int keyCode) {
+	public boolean isKeyDown(int keyCode) {
 		return keys[keyCode];
 	}
 

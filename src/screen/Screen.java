@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import engine.Core;
 import engine.DrawManager;
+import engine.InputManager;
 
 /**
  * Implements a generic screen.
@@ -18,6 +19,7 @@ import engine.DrawManager;
 public class Screen extends JFrame {
 
 	protected DrawManager drawManager;
+	protected InputManager inputManager;
 
 	protected int width;
 	protected int height;
@@ -43,6 +45,7 @@ public class Screen extends JFrame {
 		this.fps = fps;
 
 		this.drawManager = Core.getDrawManager();
+		this.inputManager = Core.getInputManager();
 		this.returnCode = 0;
 	}
 

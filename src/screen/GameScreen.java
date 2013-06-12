@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import engine.Cooldown;
 import engine.Core;
-import engine.InputManager;
 import entity.Bullet;
 import entity.BulletPool;
 import entity.EnemyShip;
@@ -96,13 +95,13 @@ public class GameScreen extends Screen {
 	protected void update() {
 		super.update();
 
-		if (InputManager.isKeyDown(KeyEvent.VK_RIGHT)
-				|| InputManager.isKeyDown(KeyEvent.VK_D))
+		if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+				|| inputManager.isKeyDown(KeyEvent.VK_D))
 			this.ship.moveRight();
-		if (InputManager.isKeyDown(KeyEvent.VK_LEFT)
-				|| InputManager.isKeyDown(KeyEvent.VK_A))
+		if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
+				|| inputManager.isKeyDown(KeyEvent.VK_A))
 			this.ship.moveLeft();
-		if (InputManager.isKeyDown(KeyEvent.VK_SPACE))
+		if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 			if (this.ship.shoot(this.bullets))
 				this.bulletsShot++;
 
