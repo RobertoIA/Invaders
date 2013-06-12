@@ -149,6 +149,15 @@ public class Core {
 	public static InputManager getInputManager() {
 		return InputManager.getInstance();
 	}
+	
+	/**
+	 * Controls access to the file manager.
+	 * 
+	 * @return Application file manager.
+	 */
+	public static FileManager getFileManager() {
+		return FileManager.getInstance();
+	}
 
 	/**
 	 * Controls creation of new cooldowns.

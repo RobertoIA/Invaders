@@ -7,7 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,6 +20,7 @@ import entity.Ship;
 public class DrawManager {
 
 	private static DrawManager instance;
+	private static FileManager fileManager;
 	private static Logger logger;
 	private static Graphics graphics;
 	private static Graphics backBufferGraphics;
@@ -40,6 +40,7 @@ public class DrawManager {
 	 * Private constructor.
 	 */
 	private DrawManager() {
+		fileManager = Core.getFileManager();
 		logger = Core.getLogger();
 		logger.info("Started loading resources.");
 
@@ -59,7 +60,14 @@ public class DrawManager {
 			spriteMap.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
 
-			load();
+			fileManager.loadSprite(spriteMap);
+			logger.info("Finished loading the sprites.");
+
+			// Font loading.
+			fontRegular = fileManager.loadFont(14f);
+			fontBig = fileManager.loadFont(24f);
+			logger.info("Finished loading the fonts.");
+
 		} catch (IOException e) {
 			logger.warning("Loading failed.");
 		} catch (FontFormatException e) {
@@ -159,58 +167,6 @@ public class DrawManager {
 			backBufferGraphics.drawLine(0, i, screen.getWidth() - 1, i);
 		for (int j = 0; j < screen.getWidth() - 1; j += 2)
 			backBufferGraphics.drawLine(j, 0, j, screen.getHeight() - 1);
-	}
-
-	/**
-	 * Loads the images from disk.
-	 */
-	private void load() throws IOException, FontFormatException {
-		InputStream inputStream = null;
-
-		try {
-			inputStream = DrawManager.class.getClassLoader()
-					.getResourceAsStream("graphics");
-			char c;
-
-			// Sprite loading.
-			for (Map.Entry<SpriteType, boolean[][]> sprite : spriteMap
-					.entrySet()) {
-				for (int i = 0; i < sprite.getValue().length; i++)
-					for (int j = 0; j < sprite.getValue()[i].length; j++) {
-						do
-							c = (char) inputStream.read();
-						while (c != '0' && c != '1');
-
-						if (c == '1')
-							sprite.getValue()[i][j] = true;
-						else
-							sprite.getValue()[i][j] = false;
-					}
-				logger.fine("Sprite " + sprite.getKey() + " loaded.");
-			}
-			if (inputStream != null)
-				inputStream.close();
-
-			logger.info("Finished loading the sprites.");
-
-			// Font loading.
-			inputStream = DrawManager.class.getClassLoader()
-					.getResourceAsStream("font.ttf");
-			fontRegular = Font.createFont(Font.TRUETYPE_FONT, inputStream)
-					.deriveFont(14f);
-
-			// TODO possible resource leak?
-			inputStream = DrawManager.class.getClassLoader()
-					.getResourceAsStream("font.ttf");
-			fontBig = Font.createFont(Font.TRUETYPE_FONT, inputStream)
-					.deriveFont(24f);
-
-			logger.info("Finished loading the font.");
-
-		} finally {
-			if (inputStream != null)
-				inputStream.close();
-		}
 	}
 
 	/**
