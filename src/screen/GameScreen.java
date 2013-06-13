@@ -95,15 +95,17 @@ public class GameScreen extends Screen {
 	protected void update() {
 		super.update();
 
-		if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-				|| inputManager.isKeyDown(KeyEvent.VK_D))
-			this.ship.moveRight();
-		if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
-				|| inputManager.isKeyDown(KeyEvent.VK_A))
-			this.ship.moveLeft();
-		if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
-			if (this.ship.shoot(this.bullets))
-				this.bulletsShot++;
+		if (!this.ship.isDestroyed()) {
+			if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+					|| inputManager.isKeyDown(KeyEvent.VK_D))
+				this.ship.moveRight();
+			if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
+					|| inputManager.isKeyDown(KeyEvent.VK_A))
+				this.ship.moveLeft();
+			if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+				if (this.ship.shoot(this.bullets))
+					this.bulletsShot++;
+		}
 
 		this.enemyShipFormation.shoot(this.bullets);
 
@@ -125,6 +127,8 @@ public class GameScreen extends Screen {
 			this.enemyShipSpecial = null;
 			this.logger.info("The special ship has escaped");
 		}
+
+		this.ship.update();
 
 		manageCollisions();
 		cleanBullets();
@@ -185,6 +189,7 @@ public class GameScreen extends Screen {
 			if (bullet.getSpeed() > 0) {
 				if (checkCollision(bullet, this.ship)) {
 					recyclable.add(bullet);
+					this.ship.destroy();
 					this.lives--;
 					this.logger.info("Hit on player ship, " + this.lives
 							+ " lives remaining.");

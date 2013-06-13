@@ -18,6 +18,7 @@ public class Ship extends Entity {
 
 	private int speed;
 	private Cooldown shootingCooldown;
+	private Cooldown destructionCooldown;
 
 	/**
 	 * Constructor, establishes the ship's properties.
@@ -37,7 +38,7 @@ public class Ship extends Entity {
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;
 		this.shootingCooldown = Core.getCooldown(350);
-
+		this.destructionCooldown = Core.getCooldown(1000);
 	}
 
 	/**
@@ -75,5 +76,31 @@ public class Ship extends Entity {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Updates status of the ship.
+	 */
+	public void update() {
+		if (!this.destructionCooldown.checkFinished())
+			this.spriteType = SpriteType.ShipDestroyed;
+		else
+			this.spriteType = SpriteType.Ship;
+	}
+
+	/**
+	 * Switches the ship to its destroyed state.
+	 */
+	public void destroy() {
+		this.destructionCooldown.reset();
+	}
+
+	/**
+	 * Checks if the ship is destroyed.
+	 * 
+	 * @return True if the ship is currently destroyed.
+	 */
+	public boolean isDestroyed() {
+		return !this.destructionCooldown.checkFinished();
 	}
 }
