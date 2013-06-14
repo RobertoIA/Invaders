@@ -1,9 +1,5 @@
 package engine;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.FileHandler;
@@ -191,28 +187,8 @@ public class Core {
 	 */
 	public static List<Score> getHighScores() {
 		List<Score> highScores = new ArrayList<Score>();
-		InputStream inputStream = null;
-		BufferedReader reader = null;
-
-		try {
-			inputStream = Core.class.getClassLoader().getResourceAsStream(
-					"scores");
-			reader = new BufferedReader(new InputStreamReader(inputStream));
-
-			Score highScore = null;
-			String name = null;
-			String score;
-
-			while ((name = reader.readLine()) != null && (score = reader.readLine()) != null) {
-				highScore = new Score(name, Integer.parseInt(score));
-				highScores.add(highScore);
-			}
-			
-			if (inputStream != null)
-				inputStream.close();
-		} catch (IOException e) {
-			// TODO handle exception
-		}
+		
+		getFileManager().loadHighScores(highScores);
 
 		return highScores;
 	}
