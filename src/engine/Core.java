@@ -1,7 +1,5 @@
 package engine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -177,19 +175,5 @@ public class Core {
 	 */
 	public static Cooldown getVariableCooldown(int milliseconds, int variance) {
 		return new Cooldown(milliseconds, variance);
-	}
-
-	/**
-	 * Loads high scores from file, and returns a sorted map with the scores as
-	 * keys and the players as values.
-	 * 
-	 * @return Sorted map of scores - players.
-	 */
-	public static List<Score> getHighScores() {
-		List<Score> highScores = new ArrayList<Score>();
-		
-		getFileManager().loadHighScores(highScores);
-
-		return highScores;
 	}
 }

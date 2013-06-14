@@ -55,7 +55,7 @@ public class HighScoreScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 		
-		drawManager.drawHighScoreScreen(this, Core.getHighScores());
+		drawManager.drawHighScoreScreen(this, Core.getFileManager().loadHighScores());
 
 		drawManager.completeDrawing(this);
 	}
