@@ -3,11 +3,14 @@ package engine;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,12 +94,12 @@ public class FileManager {
 	}
 
 	/**
-	 * Loads high scores from file, and returns a sorted list of pairs score -
-	 * value.
+	 * Returns the application default scores if there is no user high scores
+	 * file.
 	 * 
-	 * @return Sorted list of scores - players.
+	 * @return Default high scores.
 	 */
-	public List<Score> loadHighScores() {
+	private List<Score> loadDefaultHighScores() {
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader reader = null;
@@ -120,6 +123,64 @@ public class FileManager {
 				inputStream.close();
 		} catch (IOException e) {
 			// TODO handle exception
+		}
+
+		return highScores;
+	}
+
+	/**
+	 * Loads high scores from file, and returns a sorted list of pairs score -
+	 * value.
+	 * 
+	 * @return Sorted list of scores - players.
+	 */
+	public List<Score> loadHighScores() {
+
+		List<Score> highScores = new ArrayList<Score>();
+		InputStream inputStream = null;
+		BufferedReader bufferedReader = null;
+
+		try {
+			String jarPath = FileManager.class.getProtectionDomain()
+					.getCodeSource().getLocation().getPath();
+			jarPath = URLDecoder.decode(jarPath, "UTF-8");
+
+			String scoresPath = new File(jarPath).getParent();
+			scoresPath += File.separator;
+			scoresPath += "scores";
+
+			File scoresFile = new File(scoresPath);
+			inputStream = new FileInputStream(scoresFile);
+			bufferedReader = new BufferedReader(new InputStreamReader(
+					inputStream, Charset.forName("UTF-8")));
+
+			logger.info("Loading user high scores.");
+
+			Score highScore = null;
+			String name = null;
+			String score;
+
+			while ((name = bufferedReader.readLine()) != null
+					&& (score = bufferedReader.readLine()) != null) {
+				highScore = new Score(name, Integer.parseInt(score));
+				highScores.add(highScore);
+			}
+
+		} catch (FileNotFoundException e) {
+			// loads default if there's no user scores.
+			logger.info("Loading default high scores.");
+			highScores = loadDefaultHighScores();
+		} catch (NumberFormatException | IOException e) {
+			// TODO handle exceptions
+			e.printStackTrace();
+		} finally {
+			if (bufferedReader != null)
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					// TODO handle exception
+					e.printStackTrace();
+				}
 		}
 
 		return highScores;
