@@ -1,14 +1,17 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import engine.Cooldown;
 import engine.Core;
+import engine.Score;
 
 @SuppressWarnings("serial")
 public class HighScoreScreen extends Screen {
 
 	private Cooldown selectionCooldown;
+	private List<Score> highScores;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -26,6 +29,7 @@ public class HighScoreScreen extends Screen {
 		this.returnCode = 1;
 		this.selectionCooldown = Core.getCooldown(200);
 		this.selectionCooldown.reset();
+		this.highScores = Core.getFileManager().loadHighScores();
 	}
 
 	/**
@@ -54,8 +58,8 @@ public class HighScoreScreen extends Screen {
 	 */
 	private void draw() {
 		drawManager.initDrawing(this);
-		
-		drawManager.drawHighScoreScreen(this, Core.getFileManager().loadHighScores());
+
+		drawManager.drawHighScoreScreen(this, this.highScores);
 
 		drawManager.completeDrawing(this);
 	}
