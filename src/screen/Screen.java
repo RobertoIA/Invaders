@@ -2,6 +2,7 @@ package screen;
 
 import java.awt.Insets;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -20,6 +21,7 @@ public class Screen extends JFrame {
 
 	protected DrawManager drawManager;
 	protected InputManager inputManager;
+	protected Logger logger;
 
 	protected int width;
 	protected int height;
@@ -46,6 +48,7 @@ public class Screen extends JFrame {
 
 		this.drawManager = Core.getDrawManager();
 		this.inputManager = Core.getInputManager();
+		this.logger = Core.getLogger();
 		this.returnCode = 0;
 	}
 

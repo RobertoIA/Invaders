@@ -3,7 +3,6 @@ package screen;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import engine.Cooldown;
 import engine.Core;
@@ -24,7 +23,6 @@ import entity.Ship;
 public class GameScreen extends Screen {
 
 	private EnemyShipFormation enemyShipFormation;
-	private Logger logger;
 
 	private Ship ship;
 	private EnemyShip enemyShipSpecial;
@@ -50,8 +48,6 @@ public class GameScreen extends Screen {
 	 */
 	public GameScreen(int width, int height, int fps) {
 		super(width, height, fps);
-
-		this.logger = Core.getLogger();
 	}
 
 	/**

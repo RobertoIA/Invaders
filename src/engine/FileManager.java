@@ -36,12 +36,25 @@ public class FileManager {
 		logger = Core.getLogger();
 	}
 
+	/**
+	 * Returns shared instance of FileManager.
+	 * 
+	 * @return Shared instance of FileManager.
+	 */
 	protected static FileManager getInstance() {
 		if (instance == null)
 			instance = new FileManager();
 		return instance;
 	}
 
+	/**
+	 * Loads sprites from disk.
+	 * 
+	 * @param spriteMap
+	 *            Mapping of sprite type and empty boolean matrix that will
+	 *            contain the image.
+	 * @throws IOException
+	 */
 	public void loadSprite(Map<SpriteType, boolean[][]> spriteMap)
 			throws IOException {
 		InputStream inputStream = null;
@@ -75,6 +88,15 @@ public class FileManager {
 		}
 	}
 
+	/**
+	 * Loads a font of a given size.
+	 * 
+	 * @param size
+	 *            Point size of the font.
+	 * @return New font.
+	 * @throws IOException
+	 * @throws FontFormatException
+	 */
 	public Font loadFont(float size) throws IOException, FontFormatException {
 		InputStream inputStream = null;
 		Font font;
@@ -98,8 +120,11 @@ public class FileManager {
 	 * file.
 	 * 
 	 * @return Default high scores.
+	 * @throws IOException
+	 * @throws NumberFormatException
 	 */
-	private List<Score> loadDefaultHighScores() {
+	private List<Score> loadDefaultHighScores() throws NumberFormatException,
+			IOException {
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader reader = null;
@@ -118,11 +143,9 @@ public class FileManager {
 				highScore = new Score(name, Integer.parseInt(score));
 				highScores.add(highScore);
 			}
-
+		} finally {
 			if (inputStream != null)
 				inputStream.close();
-		} catch (IOException e) {
-			// TODO handle exception
 		}
 
 		return highScores;
@@ -133,8 +156,11 @@ public class FileManager {
 	 * value.
 	 * 
 	 * @return Sorted list of scores - players.
+	 * @throws IOException
+	 * @throws NumberFormatException
 	 */
-	public List<Score> loadHighScores() {
+	public List<Score> loadHighScores() throws NumberFormatException,
+			IOException {
 
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
@@ -170,17 +196,9 @@ public class FileManager {
 			// loads default if there's no user scores.
 			logger.info("Loading default high scores.");
 			highScores = loadDefaultHighScores();
-		} catch (NumberFormatException | IOException e) {
-			// TODO handle exceptions
-			e.printStackTrace();
 		} finally {
 			if (bufferedReader != null)
-				try {
-					bufferedReader.close();
-				} catch (IOException e) {
-					// TODO handle exception
-					e.printStackTrace();
-				}
+				bufferedReader.close();
 		}
 
 		return highScores;

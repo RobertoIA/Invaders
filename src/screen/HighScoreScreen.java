@@ -1,6 +1,7 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.List;
 
 import engine.Cooldown;
@@ -29,7 +30,12 @@ public class HighScoreScreen extends Screen {
 		this.returnCode = 1;
 		this.selectionCooldown = Core.getCooldown(200);
 		this.selectionCooldown.reset();
-		this.highScores = Core.getFileManager().loadHighScores();
+		
+		try {
+			this.highScores = Core.getFileManager().loadHighScores();
+		} catch (NumberFormatException | IOException e) {
+			logger.warning("Couldn't load high scores!");
+		}
 	}
 
 	/**
