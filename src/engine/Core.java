@@ -1,10 +1,10 @@
 package engine;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import screen.GameScreen;
 import screen.HighScoreScreen;
@@ -28,6 +28,7 @@ public class Core {
 	private static final Logger logger = Logger.getLogger(Core.class
 			.getSimpleName());
 	private static Handler fileHandler;
+	private static ConsoleHandler consoleHandler;
 
 	/**
 	 * Test implementation.
@@ -36,13 +37,16 @@ public class Core {
 	 */
 	public static void main(String[] args) {
 		try {
+			logger.setUseParentHandlers(false);
+			
 			fileHandler = new FileHandler("log");
-			fileHandler.setFormatter(new SimpleFormatter());
+			fileHandler.setFormatter(new MinimalFormatter());
 
-			// Removes console handler.
-			// logger.setUseParentHandlers(false);
+			consoleHandler = new ConsoleHandler();
+			consoleHandler.setFormatter(new MinimalFormatter());
 
 			logger.addHandler(fileHandler);
+			logger.addHandler(consoleHandler);
 			logger.setLevel(Level.ALL);
 
 		} catch (Exception e) {
