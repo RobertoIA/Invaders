@@ -6,6 +6,12 @@ import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * Implements a simple logging format.
+ * 
+ * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
+ * 
+ */
 public class MinimalFormatter extends Formatter {
 
 	private static final DateFormat format = new SimpleDateFormat("h:mm:ss");
@@ -14,13 +20,13 @@ public class MinimalFormatter extends Formatter {
 
 	@Override
 	public String format(LogRecord logRecord) {
-		
-		StringBuilder output = new StringBuilder()
-				.append("[").append(logRecord.getLevel()).append('|')
+
+		StringBuilder output = new StringBuilder().append("[")
+				.append(logRecord.getLevel()).append('|')
 				.append(format.format(new Date(logRecord.getMillis())))
 				.append("]: ").append(logRecord.getMessage()).append(' ')
 				.append(lineSeparator);
-		
+
 		return output.toString();
 	}
 

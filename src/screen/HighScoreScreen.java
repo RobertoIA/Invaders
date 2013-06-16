@@ -1,6 +1,7 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -8,6 +9,12 @@ import engine.Cooldown;
 import engine.Core;
 import engine.Score;
 
+/**
+ * Implements the high scores screen, it shows player records.
+ * 
+ * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
+ * 
+ */
 @SuppressWarnings("serial")
 public class HighScoreScreen extends Screen {
 
@@ -30,7 +37,7 @@ public class HighScoreScreen extends Screen {
 		this.returnCode = 1;
 		this.selectionCooldown = Core.getCooldown(200);
 		this.selectionCooldown.reset();
-		
+
 		try {
 			this.highScores = Core.getFileManager().loadHighScores();
 		} catch (NumberFormatException | IOException e) {
