@@ -3,12 +3,16 @@ package engine;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -202,5 +206,54 @@ public class FileManager {
 		}
 
 		return highScores;
+	}
+
+	/**
+	 * Saves user high scores to disk.
+	 * 
+	 * @param highScores
+	 *            High scores to save.
+	 * @throws IOException
+	 */
+	public void saveHighScores(List<Score> highScores) throws IOException {
+		OutputStream outputStream = null;
+		BufferedWriter bufferedWriter = null;
+
+		try {
+			String jarPath = FileManager.class.getProtectionDomain()
+					.getCodeSource().getLocation().getPath();
+			jarPath = URLDecoder.decode(jarPath, "UTF-8");
+
+			String scoresPath = new File(jarPath).getParent();
+			scoresPath += File.separator;
+			scoresPath += "scores";
+
+			File scoresFile = new File(scoresPath);
+
+			if (!scoresFile.exists())
+				scoresFile.createNewFile();
+
+			outputStream = new FileOutputStream(scoresFile);
+			bufferedWriter = new BufferedWriter(new OutputStreamWriter(
+					outputStream, Charset.forName("UTF-8")));
+
+			logger.info("Saving user high scores.");
+
+			// Saves 7 or less scores.
+			int savedCount = 0;
+			for (Score score : highScores) {
+				if (savedCount >= 7)
+					break;
+				bufferedWriter.write(score.getName());
+				bufferedWriter.newLine();
+				bufferedWriter.write(Integer.toString(score.getScore()));
+				bufferedWriter.newLine();
+				savedCount++;
+			}
+
+		} finally {
+			if (bufferedWriter != null)
+				bufferedWriter.close();
+		}
 	}
 }
