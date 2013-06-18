@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -205,6 +206,7 @@ public class FileManager {
 				bufferedReader.close();
 		}
 
+		Collections.sort(highScores);
 		return highScores;
 	}
 

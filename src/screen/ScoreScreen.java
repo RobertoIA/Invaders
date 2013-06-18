@@ -1,9 +1,13 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 import engine.Cooldown;
 import engine.Core;
+import engine.Score;
 
 /**
  * Implements the score screen.
@@ -44,6 +48,26 @@ public class ScoreScreen extends Screen {
 		// Waits for a second before accepting input.
 		this.inputCooldown = Core.getCooldown(1000);
 		this.inputCooldown.reset();
+
+		try {
+			List<Score> highScores = Core.getFileManager().loadHighScores();
+			if (highScores.size() < 7) {
+				// TODO placeholder player name.
+				highScores.add(new Score("AAA", score));
+				Collections.sort(highScores);
+				
+				Core.getFileManager().saveHighScores(highScores);
+			} else if (highScores.get(highScores.size() - 1).getScore() < this.score) {
+				// TODO placeholder player name.
+				highScores.add(new Score("AAA", score));
+				Collections.sort(highScores);
+				highScores.remove(highScores.size() - 1);
+
+				Core.getFileManager().saveHighScores(highScores);
+			}
+		} catch (NumberFormatException | IOException e) {
+			logger.warning("Couldn't load high scores!");
+		}
 	}
 
 	/**
