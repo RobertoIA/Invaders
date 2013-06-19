@@ -15,7 +15,7 @@ import engine.Core;
 public class TitleScreen extends Screen {
 
 	private Cooldown selectionCooldown;
-	
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -51,7 +51,8 @@ public class TitleScreen extends Screen {
 		super.update();
 
 		draw();
-		if (this.selectionCooldown.checkFinished()) {
+		if (this.selectionCooldown.checkFinished()
+				&& this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_UP)
 					|| inputManager.isKeyDown(KeyEvent.VK_W)) {
 				previousMenuItem();

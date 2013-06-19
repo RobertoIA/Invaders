@@ -1,11 +1,9 @@
 package screen;
 
 import java.awt.event.KeyEvent;
-
 import java.io.IOException;
 import java.util.List;
 
-import engine.Cooldown;
 import engine.Core;
 import engine.Score;
 
@@ -18,7 +16,6 @@ import engine.Score;
 @SuppressWarnings("serial")
 public class HighScoreScreen extends Screen {
 
-	private Cooldown selectionCooldown;
 	private List<Score> highScores;
 
 	/**
@@ -35,8 +32,6 @@ public class HighScoreScreen extends Screen {
 		super(width, height, fps);
 
 		this.returnCode = 1;
-		this.selectionCooldown = Core.getCooldown(200);
-		this.selectionCooldown.reset();
 
 		try {
 			this.highScores = Core.getFileManager().loadHighScores();
@@ -61,8 +56,8 @@ public class HighScoreScreen extends Screen {
 		super.update();
 
 		draw();
-		if (this.selectionCooldown.checkFinished()
-				&& inputManager.isKeyDown(KeyEvent.VK_SPACE))
+		if (inputManager.isKeyDown(KeyEvent.VK_SPACE)
+				&& this.inputDelay.checkFinished())
 			this.isRunning = false;
 	}
 

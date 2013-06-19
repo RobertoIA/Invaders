@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
@@ -27,6 +28,7 @@ public class Screen extends JFrame {
 	protected int height;
 	protected int fps;
 	protected Insets insets;
+	protected Cooldown inputDelay;
 
 	protected boolean isRunning;
 	protected int returnCode;
@@ -49,6 +51,8 @@ public class Screen extends JFrame {
 		this.drawManager = Core.getDrawManager();
 		this.inputManager = Core.getInputManager();
 		this.logger = Core.getLogger();
+		this.inputDelay = Core.getCooldown(1000);
+		this.inputDelay.reset();
 		this.returnCode = 0;
 	}
 
@@ -99,7 +103,6 @@ public class Screen extends JFrame {
 	 * Updates the elements on screen and checks for events.
 	 */
 	protected void update() {
-
 	}
 
 	/**

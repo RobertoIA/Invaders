@@ -91,7 +91,7 @@ public class GameScreen extends Screen {
 	protected void update() {
 		super.update();
 
-		if (!this.ship.isDestroyed()) {
+		if (!this.ship.isDestroyed() && this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
 					|| inputManager.isKeyDown(KeyEvent.VK_D))
 				this.ship.moveRight();

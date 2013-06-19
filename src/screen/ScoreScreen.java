@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import engine.Cooldown;
 import engine.Core;
 import engine.Score;
 
@@ -23,7 +22,6 @@ public class ScoreScreen extends Screen {
 	private int bulletsShot;
 	private int shipsDestroyed;
 	private boolean playAgain;
-	private Cooldown inputCooldown;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -45,9 +43,6 @@ public class ScoreScreen extends Screen {
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
-		// Waits for a second before accepting input.
-		this.inputCooldown = Core.getCooldown(1000);
-		this.inputCooldown.reset();
 
 		try {
 			List<Score> highScores = Core.getFileManager().loadHighScores();
@@ -55,7 +50,7 @@ public class ScoreScreen extends Screen {
 				// TODO placeholder player name.
 				highScores.add(new Score("AAA", score));
 				Collections.sort(highScores);
-				
+
 				Core.getFileManager().saveHighScores(highScores);
 			} else if (highScores.get(highScores.size() - 1).getScore() < this.score) {
 				// TODO placeholder player name.
@@ -86,7 +81,7 @@ public class ScoreScreen extends Screen {
 		super.update();
 
 		draw();
-		if (this.inputCooldown.checkFinished())
+		if (this.inputDelay.checkFinished()) {
 			// Return to main menu.
 			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 				this.returnCode = 1;
@@ -97,6 +92,7 @@ public class ScoreScreen extends Screen {
 				this.returnCode = 2;
 				this.isRunning = false;
 			}
+		}
 
 	}
 
@@ -108,7 +104,7 @@ public class ScoreScreen extends Screen {
 
 		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
 				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.inputCooldown.checkFinished());
+						/ this.bulletsShot, this.inputDelay.checkFinished());
 
 		drawManager.completeDrawing(this);
 	}
