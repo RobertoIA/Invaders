@@ -263,27 +263,38 @@ public class DrawManager {
 	 *            Score of the finished game.
 	 */
 	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
-			int shipsDestroyed, float accuracy, boolean acceptsInput) {
+			int shipsDestroyed, float accuracy, boolean acceptsInput, boolean isNewRecord) {
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
 		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
 		String accuracyString = String
 				.format("accuracy %.2f%%", accuracy * 100);
+		String newRecordString = "New Record!";
+		String introduceNameString = "Introduce name:";
 		String continueOrExitString = "Press Space to play again, Escape to exit";
+		
+		int stringsHeight = isNewRecord ? 4 : 2;
 
-		backBufferGraphics.setColor(Color.GREEN);
-		drawCenteredBigString(screen, gameOverString, screen.getHeight() / 2
+		backBufferGraphics .setColor(Color.GREEN);
+		drawCenteredBigString(screen, gameOverString, screen.getHeight() / stringsHeight
 				- fontBigMetrics.getHeight() * 2);
 
 		backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, scoreString, screen.getHeight() / 2);
+		drawCenteredRegularString(screen, scoreString, screen.getHeight() / stringsHeight);
 		drawCenteredRegularString(screen, livesRemainingString,
-				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
+				screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 2);
 		drawCenteredRegularString(screen, shipsDestroyedString,
-				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 4);
+				screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 4);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
-				/ 2 + fontRegularMetrics.getHeight() * 6);
+				/ stringsHeight + fontRegularMetrics.getHeight() * 6);
+		
+		if (isNewRecord) {
+			backBufferGraphics.setColor(Color.GREEN);
+			drawCenteredRegularString(screen, newRecordString, screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 8);
+			backBufferGraphics.setColor(Color.WHITE);
+			drawCenteredRegularString(screen, introduceNameString, screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 10);
+		}
 
 		if (acceptsInput)
 			backBufferGraphics.setColor(Color.GREEN);

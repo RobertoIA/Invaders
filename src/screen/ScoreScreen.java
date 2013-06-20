@@ -21,7 +21,7 @@ public class ScoreScreen extends Screen {
 	private int livesRemaining;
 	private int bulletsShot;
 	private int shipsDestroyed;
-	private boolean playAgain;
+	private boolean isNewRecord;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -43,16 +43,19 @@ public class ScoreScreen extends Screen {
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
+		this.isNewRecord = false;
 
 		try {
 			List<Score> highScores = Core.getFileManager().loadHighScores();
 			if (highScores.size() < 7) {
+				this.isNewRecord = true;
 				// TODO placeholder player name.
 				highScores.add(new Score("AAA", score));
 				Collections.sort(highScores);
 
 				Core.getFileManager().saveHighScores(highScores);
 			} else if (highScores.get(highScores.size() - 1).getScore() < this.score) {
+				this.isNewRecord = true;
 				// TODO placeholder player name.
 				highScores.add(new Score("AAA", score));
 				Collections.sort(highScores);
@@ -104,17 +107,9 @@ public class ScoreScreen extends Screen {
 
 		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
 				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.inputDelay.checkFinished());
+						/ this.bulletsShot, this.inputDelay.checkFinished(),
+				this.isNewRecord);
 
 		drawManager.completeDrawing(this);
-	}
-
-	/**
-	 * Checks if the play again option has been selected.
-	 * 
-	 * @return Start a new game or not.
-	 */
-	public boolean playAgain() {
-		return this.playAgain;
 	}
 }
