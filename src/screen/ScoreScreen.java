@@ -22,6 +22,7 @@ public class ScoreScreen extends Screen {
 	private int bulletsShot;
 	private int shipsDestroyed;
 	private boolean isNewRecord;
+	private char[] name;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -44,6 +45,7 @@ public class ScoreScreen extends Screen {
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
 		this.isNewRecord = false;
+		this.name = "AAA".toCharArray();
 
 		try {
 			List<Score> highScores = Core.getFileManager().loadHighScores();
@@ -108,7 +110,7 @@ public class ScoreScreen extends Screen {
 		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
 				this.shipsDestroyed, (float) this.shipsDestroyed
 						/ this.bulletsShot, this.inputDelay.checkFinished(),
-				this.isNewRecord);
+				this.isNewRecord, this.name, 0 );
 
 		drawManager.completeDrawing(this);
 	}

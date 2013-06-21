@@ -263,7 +263,9 @@ public class DrawManager {
 	 *            Score of the finished game.
 	 */
 	public void drawScoreScreen(Screen screen, int score, int livesRemaining,
-			int shipsDestroyed, float accuracy, boolean acceptsInput, boolean isNewRecord) {
+			int shipsDestroyed, float accuracy, boolean acceptsInput,
+			boolean isNewRecord, char[] name, int nameCharSelected) {
+		// TODO diferent methods for new record / no new record.
 		String gameOverString = "Game Over";
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
@@ -273,27 +275,62 @@ public class DrawManager {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
 		String continueOrExitString = "Press Space to play again, Escape to exit";
-		
+
 		int stringsHeight = isNewRecord ? 4 : 2;
 
-		backBufferGraphics .setColor(Color.GREEN);
-		drawCenteredBigString(screen, gameOverString, screen.getHeight() / stringsHeight
-				- fontBigMetrics.getHeight() * 2);
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, gameOverString, screen.getHeight()
+				/ stringsHeight - fontBigMetrics.getHeight() * 2);
 
 		backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, scoreString, screen.getHeight() / stringsHeight);
-		drawCenteredRegularString(screen, livesRemainingString,
-				screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 2);
-		drawCenteredRegularString(screen, shipsDestroyedString,
-				screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 4);
+		drawCenteredRegularString(screen, scoreString, screen.getHeight()
+				/ stringsHeight);
+		drawCenteredRegularString(
+				screen,
+				livesRemainingString,
+				screen.getHeight() / stringsHeight
+						+ fontRegularMetrics.getHeight() * 2);
+		drawCenteredRegularString(
+				screen,
+				shipsDestroyedString,
+				screen.getHeight() / stringsHeight
+						+ fontRegularMetrics.getHeight() * 4);
 		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
 				/ stringsHeight + fontRegularMetrics.getHeight() * 6);
-		
+
 		if (isNewRecord) {
 			backBufferGraphics.setColor(Color.GREEN);
-			drawCenteredRegularString(screen, newRecordString, screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 8);
+			drawCenteredRegularString(
+					screen,
+					newRecordString,
+					screen.getHeight() / stringsHeight
+							+ fontRegularMetrics.getHeight() * 8);
 			backBufferGraphics.setColor(Color.WHITE);
-			drawCenteredRegularString(screen, introduceNameString, screen.getHeight() / stringsHeight + fontRegularMetrics.getHeight() * 10);
+			drawCenteredRegularString(
+					screen,
+					introduceNameString,
+					screen.getHeight() / stringsHeight
+							+ fontRegularMetrics.getHeight() * 10);
+			// Name 3 letters.
+			int positionX = screen.getWidth()
+					/ 2
+					- (fontRegularMetrics.getWidths()[name[0]]
+							+ fontRegularMetrics.getWidths()[name[1]]
+							+ fontRegularMetrics.getWidths()[name[2]] + fontRegularMetrics
+								.getWidths()[' ']);
+			for (int i = 0; i < 3; i++) {
+				if (i == nameCharSelected)
+					backBufferGraphics.setColor(Color.GREEN);
+				else
+					backBufferGraphics.setColor(Color.WHITE);
+				// TODO correctly center position.
+				positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
+				positionX = i == 0 ? positionX : positionX
+						+ fontRegularMetrics.getWidths()[name[i - 1]];
+				backBufferGraphics.drawString(Character.toString(name[i]),
+						positionX, screen.getHeight() / stringsHeight
+								+ fontRegularMetrics.getHeight() * 12);
+			}
 		}
 
 		if (acceptsInput)
