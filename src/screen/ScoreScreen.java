@@ -107,11 +107,17 @@ public class ScoreScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
-				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.inputDelay.checkFinished(),
-				this.isNewRecord, this.name, 0 );
-
+		if (this.isNewRecord)
+			drawManager.drawScoreScreen(this, this.score, this.livesRemaining,
+					this.shipsDestroyed, (float) this.shipsDestroyed
+							/ this.bulletsShot,
+					this.inputDelay.checkFinished(), this.name, 0);
+		else
+			drawManager
+					.drawScoreScreen(this, this.score, this.livesRemaining,
+							this.shipsDestroyed, (float) this.shipsDestroyed
+									/ this.bulletsShot,
+							this.inputDelay.checkFinished());
 		drawManager.completeDrawing(this);
 	}
 }
