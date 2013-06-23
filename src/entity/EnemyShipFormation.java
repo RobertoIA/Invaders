@@ -110,8 +110,6 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Draws every individual component of the formation.
 	 */
 	public void draw() {
-		move();
-
 		for (List<EnemyShip> column : this.enemyShips)
 			for (EnemyShip enemyShip : column)
 				drawManager.drawEntity(enemyShip, enemyShip.getPositionX(),
@@ -121,7 +119,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/**
 	 * Updates the position of the ships.
 	 */
-	private void move() {
+	public void update() {
 		cleanUp();
 
 		int movementX = 0;

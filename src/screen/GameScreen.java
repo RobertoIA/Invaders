@@ -91,40 +91,44 @@ public class GameScreen extends Screen {
 	protected void update() {
 		super.update();
 
-		if (!this.ship.isDestroyed() && this.inputDelay.checkFinished()) {
-			if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-					|| inputManager.isKeyDown(KeyEvent.VK_D))
-				this.ship.moveRight();
-			if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
-					|| inputManager.isKeyDown(KeyEvent.VK_A))
-				this.ship.moveLeft();
-			if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
-				if (this.ship.shoot(this.bullets))
-					this.bulletsShot++;
-		}
+		if (this.inputDelay.checkFinished()) {
 
-		this.enemyShipFormation.shoot(this.bullets);
+			if (!this.ship.isDestroyed()) {
+				if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+						|| inputManager.isKeyDown(KeyEvent.VK_D))
+					this.ship.moveRight();
+				if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
+						|| inputManager.isKeyDown(KeyEvent.VK_A))
+					this.ship.moveLeft();
+				if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+					if (this.ship.shoot(this.bullets))
+						this.bulletsShot++;
+			}
 
-		if (this.enemyShipSpecial != null) {
-			if (!this.enemyShipSpecial.isDestroyed())
-				this.enemyShipSpecial.move(2, 0);
-			else if (this.enemyShipSpecialExplosionCooldown.checkFinished())
+			this.enemyShipFormation.shoot(this.bullets);
+
+			if (this.enemyShipSpecial != null) {
+				if (!this.enemyShipSpecial.isDestroyed())
+					this.enemyShipSpecial.move(2, 0);
+				else if (this.enemyShipSpecialExplosionCooldown.checkFinished())
+					this.enemyShipSpecial = null;
+
+			}
+			if (this.enemyShipSpecial == null
+					&& this.enemyShipSpecialCooldown.checkFinished()) {
+				this.enemyShipSpecial = new EnemyShip(this);
+				this.enemyShipSpecialCooldown.reset();
+				this.logger.info("A special ship appears");
+			}
+			if (this.enemyShipSpecial != null
+					&& this.enemyShipSpecial.getPositionX() > this.width) {
 				this.enemyShipSpecial = null;
+				this.logger.info("The special ship has escaped");
+			}
 
+			this.ship.update();
+			this.enemyShipFormation.update();
 		}
-		if (this.enemyShipSpecial == null
-				&& this.enemyShipSpecialCooldown.checkFinished()) {
-			this.enemyShipSpecial = new EnemyShip(this);
-			this.enemyShipSpecialCooldown.reset();
-			this.logger.info("A special ship appears");
-		}
-		if (this.enemyShipSpecial != null
-				&& this.enemyShipSpecial.getPositionX() > this.width) {
-			this.enemyShipSpecial = null;
-			this.logger.info("The special ship has escaped");
-		}
-
-		this.ship.update();
 
 		manageCollisions();
 		cleanBullets();
