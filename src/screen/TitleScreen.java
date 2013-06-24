@@ -98,7 +98,8 @@ public class TitleScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawTitleScreen(this, this.returnCode);
+		drawManager.drawTitle(this);
+		drawManager.drawMenu(this, this.returnCode);
 
 		drawManager.completeDrawing(this);
 	}

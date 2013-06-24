@@ -166,14 +166,17 @@ public class GameScreen extends Screen {
 		// Interface.
 		drawManager.drawScore(this, this.score);
 		drawManager.drawLives(this, this.lives);
-		drawManager.drawSeparatingLine(this);
+		drawManager.drawHorizontalLine(this, 39);
 
 		// Countdown to game start.
-		if (!this.inputDelay.checkFinished())
-			drawManager
-					.drawCountDown(
-							this,
-							(int) ((4000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000));
+		if (!this.inputDelay.checkFinished()) {
+			int countdown = (int) ((4000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000);
+			drawManager.drawCountDown(this, countdown);
+			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
+					/ 12);
+			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
+					/ 12);
+		}
 
 		drawManager.completeDrawing(this);
 	}
