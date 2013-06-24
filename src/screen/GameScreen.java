@@ -35,6 +35,7 @@ public class GameScreen extends Screen {
 	private int lives;
 	private int bulletsShot;
 	private int shipsDestroyed;
+	private long gameStartTime;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
@@ -71,6 +72,11 @@ public class GameScreen extends Screen {
 		this.lives = 3;
 		this.bulletsShot = 0;
 		this.shipsDestroyed = 0;
+
+		// Special input delay / countdown.
+		this.gameStartTime = System.currentTimeMillis();
+		this.inputDelay = Core.getCooldown(4000);
+		this.inputDelay.reset();
 	}
 
 	/**
@@ -161,6 +167,13 @@ public class GameScreen extends Screen {
 		drawManager.drawScore(this, this.score);
 		drawManager.drawLives(this, this.lives);
 		drawManager.drawSeparatingLine(this);
+
+		// Countdown to game start.
+		if (!this.inputDelay.checkFinished())
+			drawManager
+					.drawCountDown(
+							this,
+							(int) ((4000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000));
 
 		drawManager.completeDrawing(this);
 	}

@@ -367,7 +367,7 @@ public class DrawManager {
 				backBufferGraphics.setColor(Color.GREEN);
 			else
 				backBufferGraphics.setColor(Color.WHITE);
-			
+
 			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
@@ -443,5 +443,28 @@ public class DrawManager {
 		backBufferGraphics.setFont(fontBig);
 		backBufferGraphics.drawString(string, screen.getWidth() / 2
 				- fontBigMetrics.stringWidth(string) / 2, height);
+	}
+
+	/**
+	 * Countdown to game start.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param number
+	 *            Countdown number.
+	 */
+	public void drawCountDown(Screen screen, int number) {
+		int rectWidth = screen.getWidth();
+		int rectHeight = screen.getHeight() / 6;
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
+				rectWidth, rectHeight);
+		backBufferGraphics.setColor(Color.GREEN);
+		if (number != 0)
+			drawCenteredBigString(screen, Integer.toString(number),
+					screen.getHeight() / 2 + fontBigMetrics.getHeight() / 2);
+		else
+			drawCenteredBigString(screen, "GO!", screen.getHeight() / 2
+					+ fontBigMetrics.getHeight() / 2);
 	}
 }
