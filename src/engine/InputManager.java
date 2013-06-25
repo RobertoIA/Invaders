@@ -9,16 +9,20 @@ import java.awt.event.KeyListener;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class InputManager implements KeyListener {
+public final class InputManager implements KeyListener {
 
+	/** Number of recognised keys. */
+	private static final int NUM_KEYS = 256;
+	/** Array with the jeys marked as pressed or not. */
 	private static boolean[] keys;
+	/** Singleton instance of the class. */
 	private static InputManager instance;
 
 	/**
 	 * Private constructor.
 	 */
 	private InputManager() {
-		keys = new boolean[256];
+		keys = new boolean[NUM_KEYS];
 	}
 
 	/**
@@ -39,33 +43,42 @@ public class InputManager implements KeyListener {
 	 *            Key number to check.
 	 * @return Key state.
 	 */
-	public boolean isKeyDown(int keyCode) {
+	public boolean isKeyDown(final int keyCode) {
 		return keys[keyCode];
 	}
 
 	/**
 	 * Changes the state of the key to pressed.
+	 * 
+	 * @param key
+	 *            Key pressed.
 	 */
 	@Override
-	public void keyPressed(KeyEvent key) {
-		if (key.getKeyCode() >= 0 && key.getKeyCode() < 256)
+	public void keyPressed(final KeyEvent key) {
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
 			keys[key.getKeyCode()] = true;
 	}
 
 	/**
 	 * Changes the state of the key to not pressed.
+	 * 
+	 * @param key
+	 *            Key released.
 	 */
 	@Override
-	public void keyReleased(KeyEvent key) {
-		if (key.getKeyCode() >= 0 && key.getKeyCode() < 256)
+	public void keyReleased(final KeyEvent key) {
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
 			keys[key.getKeyCode()] = false;
 	}
 
 	/**
 	 * Does nothing.
+	 * 
+	 * @param key
+	 *            Key typed.
 	 */
 	@Override
-	public void keyTyped(KeyEvent key) {
+	public void keyTyped(final KeyEvent key) {
 
 	}
 }

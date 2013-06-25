@@ -8,7 +8,9 @@ package engine;
  */
 public class Score implements Comparable<Score> {
 
+	/** Player's name. */
 	private String name;
+	/** Score points. */
 	private int score;
 
 	/**
@@ -19,7 +21,7 @@ public class Score implements Comparable<Score> {
 	 * @param score
 	 *            Player score.
 	 */
-	public Score(String name, int score) {
+	public Score(final String name, final int score) {
 		this.name = name;
 		this.score = score;
 	}
@@ -27,9 +29,9 @@ public class Score implements Comparable<Score> {
 	/**
 	 * Getter for the player's name.
 	 * 
-	 * @return Name of the player-
+	 * @return Name of the player.
 	 */
-	public String getName() {
+	public final String getName() {
 		return this.name;
 	}
 
@@ -38,17 +40,23 @@ public class Score implements Comparable<Score> {
 	 * 
 	 * @return High score.
 	 */
-	public int getScore() {
+	public final int getScore() {
 		return this.score;
 	}
 
 	/**
 	 * Orders the scores descending by score.
+	 * 
+	 * @param score
+	 *            Score to compare the current one with.
+	 * @return Comparison between the two scores. Positive if the current one is
+	 *         smaller, positive if its bigger, zero if its the same.
 	 */
 	@Override
-	public int compareTo(Score score) {
-		return this.score < score.getScore() ? 1 : this.score > score
+	public final int compareTo(final Score score) {
+		int comparison = this.score < score.getScore() ? 1 : this.score > score
 				.getScore() ? -1 : 0;
+		return comparison;
 	}
 
 }

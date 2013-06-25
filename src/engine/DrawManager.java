@@ -16,23 +16,64 @@ import screen.Screen;
 import entity.Entity;
 import entity.Ship;
 
-public class DrawManager {
+/**
+ * Manages screen drawing.
+ * 
+ * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
+ * 
+ */
+public final class DrawManager {
 
+	/** Singleton instance of the class. */
 	private static DrawManager instance;
+	/** FileManager instance. */
 	private static FileManager fileManager;
+	/** Application logger. */
 	private static Logger logger;
+	/** Graphics context. */
 	private static Graphics graphics;
+	/** Buffer Graphics. */
 	private static Graphics backBufferGraphics;
+	/** Buffer image. */
 	private static BufferedImage backBuffer;
+	/** Normal sized font. */
 	private static Font fontRegular;
+	/** Normal sized font properties. */
 	private static FontMetrics fontRegularMetrics;
+	/** Big sized font. */
 	private static Font fontBig;
+	/** Big sized font properties. */
 	private static FontMetrics fontBigMetrics;
 
+	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
+	/** Sprite types. */
 	public static enum SpriteType {
-		Ship, ShipDestroyed, Bullet, EnemyBullet, EnemyShipA1, EnemyShipA2, EnemyShipB1, EnemyShipB2, EnemyShipC1, EnemyShipC2, EnemyShipSpecial, Explosion
+		/** Player ship. */
+		Ship,
+		/** Destroyed player ship. */
+		ShipDestroyed,
+		/** Player bullet. */
+		Bullet,
+		/** Enemy bullet. */
+		EnemyBullet,
+		/** First enemy ship - first form. */
+		EnemyShipA1,
+		/** First enemy ship - second form. */
+		EnemyShipA2,
+		/** Second enemy ship - first form. */
+		EnemyShipB1,
+		/** Second enemy ship - second form. */
+		EnemyShipB2,
+		/** Third enemy ship - first form. */
+		EnemyShipC1,
+		/** Third enemy ship - second form. */
+		EnemyShipC2,
+		/** Bonus ship. */
+		EnemyShipSpecial,
+		/** Destroyed enemy ship. */
+		Explosion
 	};
 
 	/**
@@ -92,7 +133,7 @@ public class DrawManager {
 	 * @param screen
 	 *            Screen to draw in.
 	 */
-	public void initDrawing(Screen screen) {
+	public void initDrawing(final Screen screen) {
 		backBuffer = new BufferedImage(screen.getWidth(), screen.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 
@@ -116,7 +157,7 @@ public class DrawManager {
 	 * @param screen
 	 *            Screen to draw on.
 	 */
-	public void completeDrawing(Screen screen) {
+	public void completeDrawing(final Screen screen) {
 		graphics.drawImage(backBuffer, screen.getInsets().left,
 				screen.getInsets().top, screen);
 	}
@@ -131,7 +172,8 @@ public class DrawManager {
 	 * @param positionY
 	 *            Coordinates for the upper side of the image.
 	 */
-	public void drawEntity(Entity entity, int positionX, int positionY) {
+	public void drawEntity(final Entity entity, final int positionX,
+			final int positionY) {
 		boolean[][] image = spriteMap.get(entity.getSpriteType());
 
 		backBufferGraphics.setColor(entity.getColor());
@@ -149,7 +191,7 @@ public class DrawManager {
 	 *            Screen to draw in.
 	 */
 	@SuppressWarnings("unused")
-	private void drawBorders(Screen screen) {
+	private void drawBorders(final Screen screen) {
 		backBufferGraphics.setColor(Color.GREEN);
 		backBufferGraphics.drawLine(0, 0, screen.getWidth() - 1, 0);
 		backBufferGraphics.drawLine(0, 0, 0, screen.getHeight() - 1);
@@ -166,7 +208,7 @@ public class DrawManager {
 	 *            Screen to draw in.
 	 */
 	@SuppressWarnings("unused")
-	private void drawGrid(Screen screen) {
+	private void drawGrid(final Screen screen) {
 		backBufferGraphics.setColor(Color.DARK_GRAY);
 		for (int i = 0; i < screen.getHeight() - 1; i += 2)
 			backBufferGraphics.drawLine(0, i, screen.getWidth() - 1, i);
@@ -182,7 +224,7 @@ public class DrawManager {
 	 * @param score
 	 *            Current score.
 	 */
-	public void drawScore(Screen screen, int score) {
+	public void drawScore(final Screen screen, final int score) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		String scoreString = String.format("%04d", score);
@@ -197,7 +239,7 @@ public class DrawManager {
 	 * @param lives
 	 *            Current lives.
 	 */
-	public void drawLives(Screen screen, int lives) {
+	public void drawLives(final Screen screen, final int lives) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
@@ -214,7 +256,7 @@ public class DrawManager {
 	 * @param positionY
 	 *            Y coordinate of the line.
 	 */
-	public void drawHorizontalLine(Screen screen, int positionY) {
+	public void drawHorizontalLine(final Screen screen, final int positionY) {
 		backBufferGraphics.setColor(Color.GREEN);
 		backBufferGraphics.drawLine(0, positionY, screen.getWidth(), positionY);
 		backBufferGraphics.drawLine(0, positionY + 1, screen.getWidth(),
@@ -227,9 +269,10 @@ public class DrawManager {
 	 * @param screen
 	 *            Screen to draw on.
 	 */
-	public void drawTitle(Screen screen) {
+	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
-		String instructionsString = "select with w+s / arrows, confirm with space";
+		String instructionsString =
+				"select with w+s / arrows, confirm with space";
 
 		backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, instructionsString,
@@ -247,7 +290,7 @@ public class DrawManager {
 	 * @param option
 	 *            Option selected.
 	 */
-	public void drawMenu(Screen screen, int option) {
+	public void drawMenu(final Screen screen, final int option) {
 		String playString = "Play";
 		String highScoresString = "High scores";
 		String exitString = "exit";
@@ -285,9 +328,12 @@ public class DrawManager {
 	 *            Total ships destroyed.
 	 * @param accuracy
 	 *            Total accuracy.
+	 * @param isNewRecord
+	 *            If the score is a new high score.
 	 */
-	public void drawResults(Screen screen, int score, int livesRemaining,
-			int shipsDestroyed, float accuracy, boolean isNewRecord) {
+	public void drawResults(final Screen screen, final int score,
+			final int livesRemaining, final int shipsDestroyed,
+			final float accuracy, final boolean isNewRecord) {
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
 		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
@@ -319,7 +365,8 @@ public class DrawManager {
 	 * @param nameCharSelected
 	 *            Current character selected for modification.
 	 */
-	public void drawNameInput(Screen screen, char[] name, int nameCharSelected) {
+	public void drawNameInput(final Screen screen, final char[] name,
+			final int nameCharSelected) {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
 
@@ -335,8 +382,9 @@ public class DrawManager {
 				/ 2
 				- (fontRegularMetrics.getWidths()[name[0]]
 						+ fontRegularMetrics.getWidths()[name[1]]
-						+ fontRegularMetrics.getWidths()[name[2]] + fontRegularMetrics
-							.getWidths()[' ']) / 2;
+						+ fontRegularMetrics.getWidths()[name[2]]
+						+ fontRegularMetrics.getWidths()[' ']) / 2;
+		
 		for (int i = 0; i < 3; i++) {
 			if (i == nameCharSelected)
 				backBufferGraphics.setColor(Color.GREEN);
@@ -346,8 +394,9 @@ public class DrawManager {
 			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
-							+ (fontRegularMetrics.getWidths()[name[i - 1]] + fontRegularMetrics
-									.getWidths()[' ']) / 2;
+							+ (fontRegularMetrics.getWidths()[name[i - 1]]
+							+ fontRegularMetrics.getWidths()[' ']) / 2;
+			
 			backBufferGraphics.drawString(Character.toString(name[i]),
 					positionX,
 					screen.getHeight() / 4 + fontRegularMetrics.getHeight()
@@ -362,11 +411,14 @@ public class DrawManager {
 	 *            Screen to draw on.
 	 * @param acceptsInput
 	 *            If the screen accepts input.
+	 * @param isNewRecord
+	 *            If the score is a new high score.
 	 */
-	public void drawGameOver(Screen screen, boolean acceptsInput,
-			boolean isNewRecord) {
+	public void drawGameOver(final Screen screen, final boolean acceptsInput,
+			final boolean isNewRecord) {
 		String gameOverString = "Game Over";
-		String continueOrExitString = "Press Space to play again, Escape to exit";
+		String continueOrExitString =
+				"Press Space to play again, Escape to exit";
 
 		int height = isNewRecord ? 4 : 2;
 
@@ -388,7 +440,7 @@ public class DrawManager {
 	 * @param screen
 	 *            Screen to draw on.
 	 */
-	public void drawHighScoreMenu(Screen screen) {
+	public void drawHighScoreMenu(final Screen screen) {
 		String highScoreString = "High Scores";
 		String instructionsString = "Press Space to return";
 
@@ -408,7 +460,8 @@ public class DrawManager {
 	 * @param highScores
 	 *            List of high scores.
 	 */
-	public void drawHighScores(Screen screen, List<Score> highScores) {
+	public void drawHighScores(final Screen screen,
+			final List<Score> highScores) {
 		backBufferGraphics.setColor(Color.WHITE);
 		int i = 0;
 		String scoreString = "";
@@ -432,8 +485,8 @@ public class DrawManager {
 	 * @param height
 	 *            Height of the drawing.
 	 */
-	public void drawCenteredRegularString(Screen screen, String string,
-			int height) {
+	public void drawCenteredRegularString(final Screen screen,
+			final String string, final int height) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.drawString(string, screen.getWidth() / 2
 				- fontRegularMetrics.stringWidth(string) / 2, height);
@@ -449,7 +502,8 @@ public class DrawManager {
 	 * @param height
 	 *            Height of the drawing.
 	 */
-	public void drawCenteredBigString(Screen screen, String string, int height) {
+	public void drawCenteredBigString(final Screen screen, final String string,
+			final int height) {
 		backBufferGraphics.setFont(fontBig);
 		backBufferGraphics.drawString(string, screen.getWidth() / 2
 				- fontBigMetrics.stringWidth(string) / 2, height);
@@ -465,7 +519,8 @@ public class DrawManager {
 	 * @param number
 	 *            Countdown number.
 	 */
-	public void drawCountDown(Screen screen, int level, int number) {
+	public void drawCountDown(final Screen screen, final int level,
+			final int number) {
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);

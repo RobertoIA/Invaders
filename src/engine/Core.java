@@ -18,26 +18,41 @@ import screen.TitleScreen;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class Core {
+public final class Core {
 
+	/** Width of current screen. */
+	private static final int WIDTH = 448;
+	/** Height of current screen. */
+	private static final int HEIGHT = 520;
+	/** Max fps of current screen. */
+	private static final int FPS = 60;
+
+	/** Max lives. */
+	private static final int MAX_LIVES = 3;
+	/** Levels between extra life. */
+	private static final int EXTRA_LIFE_FRECUENCY = 3;
+	/** Total number of levels. */
+	private static final int NUM_LEVELS = 15;
+
+	/** Screen currently shown. */
 	private static Screen currentScreen;
-	private static final int width = 448;
-	private static final int height = 520;
-	private static int fps = 60;
-
-	private static final Logger logger = Logger.getLogger(Core.class
+	/** Application logger. */
+	private static final Logger LOGGER = Logger.getLogger(Core.class
 			.getSimpleName());
+	/** Logger handler for printing to disk. */
 	private static Handler fileHandler;
+	/** Logger handler for printing to console. */
 	private static ConsoleHandler consoleHandler;
 
 	/**
 	 * Test implementation.
 	 * 
 	 * @param args
+	 *            Program args, ignored.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
-			logger.setUseParentHandlers(false);
+			LOGGER.setUseParentHandlers(false);
 
 			fileHandler = new FileHandler("log");
 			fileHandler.setFormatter(new MinimalFormatter());
@@ -45,9 +60,9 @@ public class Core {
 			consoleHandler = new ConsoleHandler();
 			consoleHandler.setFormatter(new MinimalFormatter());
 
-			logger.addHandler(fileHandler);
-			logger.addHandler(consoleHandler);
-			logger.setLevel(Level.ALL);
+			LOGGER.addHandler(fileHandler);
+			LOGGER.addHandler(consoleHandler);
+			LOGGER.setLevel(Level.ALL);
 
 		} catch (Exception e) {
 			// TODO handle exception
@@ -64,33 +79,34 @@ public class Core {
 		do {
 			level = 1;
 			score = 0;
-			livesRemaining = 3;
+			livesRemaining = MAX_LIVES;
 			bulletsShot = 0;
 			shipsDestroyed = 0;
 
-			if (currentScreen != null)
+			if (currentScreen != null) {
 				currentScreen.dispose();
+			}
 
 			switch (returnCode) {
 			case 1:
 				// Main menu.
-				currentScreen = new TitleScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height
-						+ " title screen at " + fps + " fps.");
+				currentScreen = new TitleScreen(WIDTH, HEIGHT, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " title screen at " + FPS + " fps.");
 				currentScreen.initialize();
 				returnCode = currentScreen.run();
-				logger.info("Closing title screen.");
+				LOGGER.info("Closing title screen.");
 				break;
 			case 2:
 				// Game & score.
 				do {
 					currentScreen = new GameScreen(level, score,
-							livesRemaining, width, height, fps);
-					logger.info("Starting " + width + "x" + height
-							+ " game screen at " + fps + " fps.");
+							livesRemaining, WIDTH, HEIGHT, FPS);
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " game screen at " + FPS + " fps.");
 					currentScreen.initialize();
 					currentScreen.run();
-					logger.info("Closing game screen.");
+					LOGGER.info("Closing game screen.");
 
 					score = ((GameScreen) currentScreen).getScore();
 					livesRemaining = ((GameScreen) currentScreen).getLives();
@@ -100,32 +116,34 @@ public class Core {
 							.getShipsDestroyed();
 					currentScreen.dispose();
 
-					// One extra live every 3 levels.
-					if (level % 3 == 0 && livesRemaining < 3)
+					// One extra live every few levels.
+					if (level % EXTRA_LIFE_FRECUENCY == 0
+							&& livesRemaining < MAX_LIVES) {
 						livesRemaining++;
-					
-					level++;
-				} while (livesRemaining > 0 && level <= 15);
+					}
 
-				logger.info("Starting " + width + "x" + height
-						+ " score screen at " + fps + " fps, with a score of "
+					level++;
+				} while (livesRemaining > 0 && level <= NUM_LEVELS);
+
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " score screen at " + FPS + " fps, with a score of "
 						+ score + ", " + livesRemaining + " lives remaining, "
 						+ bulletsShot + " bullets shot and " + shipsDestroyed
 						+ " ships destroyed.");
-				currentScreen = new ScoreScreen(width, height, fps, score,
+				currentScreen = new ScoreScreen(WIDTH, HEIGHT, FPS, score,
 						livesRemaining, bulletsShot, shipsDestroyed);
 				currentScreen.initialize();
 				returnCode = currentScreen.run();
-				logger.info("Closing score screen.");
+				LOGGER.info("Closing score screen.");
 				break;
 			case 3:
 				// High scores.
-				currentScreen = new HighScoreScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height
-						+ " high score screen at " + fps + " fps.");
+				currentScreen = new HighScoreScreen(WIDTH, HEIGHT, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " high score screen at " + FPS + " fps.");
 				currentScreen.initialize();
 				returnCode = currentScreen.run();
-				logger.info("Closing high score screen.");
+				LOGGER.info("Closing high score screen.");
 				break;
 			default:
 				break;
@@ -139,12 +157,19 @@ public class Core {
 	}
 
 	/**
+	 * Constructor, not called.
+	 */
+	private Core() {
+
+	}
+
+	/**
 	 * Controls access to the logger.
 	 * 
 	 * @return Application logger.
 	 */
 	public static Logger getLogger() {
-		return logger;
+		return LOGGER;
 	}
 
 	/**
@@ -181,7 +206,7 @@ public class Core {
 	 *            Duration of the cooldown.
 	 * @return A new cooldown.
 	 */
-	public static Cooldown getCooldown(int milliseconds) {
+	public static Cooldown getCooldown(final int milliseconds) {
 		return new Cooldown(milliseconds);
 	}
 
@@ -194,7 +219,8 @@ public class Core {
 	 *            Variation in the cooldown duration.
 	 * @return A new cooldown with variance.
 	 */
-	public static Cooldown getVariableCooldown(int milliseconds, int variance) {
+	public static Cooldown getVariableCooldown(final int milliseconds,
+			final int variance) {
 		return new Cooldown(milliseconds, variance);
 	}
 }

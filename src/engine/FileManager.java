@@ -29,10 +29,14 @@ import engine.DrawManager.SpriteType;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class FileManager {
+public final class FileManager {
 
+	/** Singleton instance of the class. */
 	private static FileManager instance;
+	/** Application logger. */
 	private static Logger logger;
+	/** Max number of high scores. */
+	private static final int MAX_SCORES = 7;
 
 	/**
 	 * private constructor.
@@ -59,8 +63,9 @@ public class FileManager {
 	 *            Mapping of sprite type and empty boolean matrix that will
 	 *            contain the image.
 	 * @throws IOException
+	 *             In case of loading problems.
 	 */
-	public void loadSprite(Map<SpriteType, boolean[][]> spriteMap)
+	public void loadSprite(final Map<SpriteType, boolean[][]> spriteMap)
 			throws IOException {
 		InputStream inputStream = null;
 
@@ -100,9 +105,12 @@ public class FileManager {
 	 *            Point size of the font.
 	 * @return New font.
 	 * @throws IOException
+	 *             In case of loading problems.
 	 * @throws FontFormatException
+	 *             In case of incorrect font format.
 	 */
-	public Font loadFont(float size) throws IOException, FontFormatException {
+	public Font loadFont(final float size) throws IOException,
+			FontFormatException {
 		InputStream inputStream = null;
 		Font font;
 
@@ -126,10 +134,9 @@ public class FileManager {
 	 * 
 	 * @return Default high scores.
 	 * @throws IOException
-	 * @throws NumberFormatException
+	 *             In case of loading problems.
 	 */
-	private List<Score> loadDefaultHighScores() throws NumberFormatException,
-			IOException {
+	private List<Score> loadDefaultHighScores() throws IOException {
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader reader = null;
@@ -140,13 +147,14 @@ public class FileManager {
 			reader = new BufferedReader(new InputStreamReader(inputStream));
 
 			Score highScore = null;
-			String name = null;
-			String score;
+			String name = reader.readLine();
+			String score = reader.readLine();
 
-			while ((name = reader.readLine()) != null
-					&& (score = reader.readLine()) != null) {
+			while ((name != null) && (score != null)) {
 				highScore = new Score(name, Integer.parseInt(score));
 				highScores.add(highScore);
+				name = reader.readLine();
+				score = reader.readLine();
 			}
 		} finally {
 			if (inputStream != null)
@@ -162,10 +170,9 @@ public class FileManager {
 	 * 
 	 * @return Sorted list of scores - players.
 	 * @throws IOException
-	 * @throws NumberFormatException
+	 *             In case of loading problems.
 	 */
-	public List<Score> loadHighScores() throws NumberFormatException,
-			IOException {
+	public List<Score> loadHighScores() throws IOException {
 
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
@@ -188,13 +195,14 @@ public class FileManager {
 			logger.info("Loading user high scores.");
 
 			Score highScore = null;
-			String name = null;
-			String score;
+			String name = bufferedReader.readLine();
+			String score = bufferedReader.readLine();
 
-			while ((name = bufferedReader.readLine()) != null
-					&& (score = bufferedReader.readLine()) != null) {
+			while ((name != null) && (score != null)) {
 				highScore = new Score(name, Integer.parseInt(score));
 				highScores.add(highScore);
+				name = bufferedReader.readLine();
+				score = bufferedReader.readLine();
 			}
 
 		} catch (FileNotFoundException e) {
@@ -216,8 +224,10 @@ public class FileManager {
 	 * @param highScores
 	 *            High scores to save.
 	 * @throws IOException
+	 *             In case of loading problems.
 	 */
-	public void saveHighScores(List<Score> highScores) throws IOException {
+	public void saveHighScores(final List<Score> highScores) 
+			throws IOException {
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;
 
@@ -244,7 +254,7 @@ public class FileManager {
 			// Saves 7 or less scores.
 			int savedCount = 0;
 			for (Score score : highScores) {
-				if (savedCount >= 7)
+				if (savedCount >= MAX_SCORES)
 					break;
 				bufferedWriter.write(score.getName());
 				bufferedWriter.newLine();
