@@ -38,7 +38,7 @@ public class Core {
 	public static void main(String[] args) {
 		try {
 			logger.setUseParentHandlers(false);
-			
+
 			fileHandler = new FileHandler("log");
 			fileHandler.setFormatter(new MinimalFormatter());
 
@@ -54,6 +54,7 @@ public class Core {
 			e.printStackTrace();
 		}
 
+		int level;
 		int score;
 		int livesRemaining;
 		int bulletsShot;
@@ -61,6 +62,12 @@ public class Core {
 
 		int returnCode = 1;
 		do {
+			level = 1;
+			score = 0;
+			livesRemaining = 3;
+			bulletsShot = 0;
+			shipsDestroyed = 0;
+
 			if (currentScreen != null)
 				currentScreen.dispose();
 
@@ -76,19 +83,29 @@ public class Core {
 				break;
 			case 2:
 				// Game & score.
-				currentScreen = new GameScreen(width, height, fps);
-				logger.info("Starting " + width + "x" + height
-						+ " game screen at " + fps + " fps.");
-				currentScreen.initialize();
-				currentScreen.run();
-				logger.info("Closing game screen.");
+				do {
+					currentScreen = new GameScreen(level, score,
+							livesRemaining, width, height, fps);
+					logger.info("Starting " + width + "x" + height
+							+ " game screen at " + fps + " fps.");
+					currentScreen.initialize();
+					currentScreen.run();
+					logger.info("Closing game screen.");
 
-				score = ((GameScreen) currentScreen).getScore();
-				livesRemaining = ((GameScreen) currentScreen).getLives();
-				bulletsShot = ((GameScreen) currentScreen).getBulletsShot();
-				shipsDestroyed = ((GameScreen) currentScreen)
-						.getShipsDestroyed();
-				currentScreen.dispose();
+					score = ((GameScreen) currentScreen).getScore();
+					livesRemaining = ((GameScreen) currentScreen).getLives();
+					bulletsShot += ((GameScreen) currentScreen)
+							.getBulletsShot();
+					shipsDestroyed += ((GameScreen) currentScreen)
+							.getShipsDestroyed();
+					currentScreen.dispose();
+
+					// One extra live every 3 levels.
+					if (level % 3 == 0 && livesRemaining < 3)
+						livesRemaining++;
+					
+					level++;
+				} while (livesRemaining > 0 && level <= 15);
 
 				logger.info("Starting " + width + "x" + height
 						+ " score screen at " + fps + " fps, with a score of "
@@ -147,7 +164,7 @@ public class Core {
 	public static InputManager getInputManager() {
 		return InputManager.getInstance();
 	}
-	
+
 	/**
 	 * Controls access to the file manager.
 	 * 

@@ -22,8 +22,8 @@ import entity.Ship;
 @SuppressWarnings("serial")
 public class GameScreen extends Screen {
 
+	private int level;
 	private EnemyShipFormation enemyShipFormation;
-
 	private Ship ship;
 	private EnemyShip enemyShipSpecial;
 	private Cooldown enemyShipSpecialCooldown;
@@ -40,6 +40,12 @@ public class GameScreen extends Screen {
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
+	 * @param level
+	 *            Game difficulty level.
+	 * @param score
+	 *            Initial score (accumulates from previous levels).
+	 * @param lives
+	 *            Lives remaining (carries over from previous levels).
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -47,8 +53,13 @@ public class GameScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public GameScreen(int width, int height, int fps) {
+	public GameScreen(int level, int score, int lives, int width, int height,
+			int fps) {
 		super(width, height, fps);
+
+		this.level = level;
+		this.score = score;
+		this.lives = lives;
 	}
 
 	/**
@@ -68,14 +79,12 @@ public class GameScreen extends Screen {
 		this.enemyShipSpecialCooldown.reset();
 		this.enemyShipSpecialExplosionCooldown = Core.getCooldown(500);
 		this.bullets = new HashSet<Bullet>();
-		this.score = 0;
-		this.lives = 3;
 		this.bulletsShot = 0;
 		this.shipsDestroyed = 0;
 
 		// Special input delay / countdown.
 		this.gameStartTime = System.currentTimeMillis();
-		this.inputDelay = Core.getCooldown(4000);
+		this.inputDelay = Core.getCooldown(6000);
 		this.inputDelay.reset();
 	}
 
@@ -170,8 +179,8 @@ public class GameScreen extends Screen {
 
 		// Countdown to game start.
 		if (!this.inputDelay.checkFinished()) {
-			int countdown = (int) ((4000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000);
-			drawManager.drawCountDown(this, countdown);
+			int countdown = (int) ((6000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000);
+			drawManager.drawCountDown(this, this.level, countdown);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
 					/ 12);
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height

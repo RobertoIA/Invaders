@@ -460,17 +460,22 @@ public class DrawManager {
 	 * 
 	 * @param screen
 	 *            Screen to draw on.
+	 * @param level
+	 *            Game difficulty level.
 	 * @param number
 	 *            Countdown number.
 	 */
-	public void drawCountDown(Screen screen, int number) {
+	public void drawCountDown(Screen screen, int level, int number) {
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
 				rectWidth, rectHeight);
 		backBufferGraphics.setColor(Color.GREEN);
-		if (number != 0)
+		if (number >= 4)
+			drawCenteredBigString(screen, "Level " + level, screen.getHeight()
+					/ 2 + fontBigMetrics.getHeight() / 3);
+		else if (number != 0)
 			drawCenteredBigString(screen, Integer.toString(number),
 					screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
 		else
