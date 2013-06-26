@@ -13,13 +13,19 @@ import engine.DrawManager.SpriteType;
  */
 public class Entity {
 
+	/** Screen to draw the entity on. */
 	protected Screen screen;
+	/** Position in the x-axis of the upper left corner of the entity. */
 	protected int positionX;
+	/** Position in the y-axis of the upper left corner of the entity. */
 	protected int positionY;
+	/** Width of the entity. */
 	protected int width;
+	/** Height of the entity. */
 	protected int height;
+	/** Color of the entity. */
 	private Color color;
-
+	/** Sprite type assigned to the entity. */
 	protected SpriteType spriteType;
 
 	/**
@@ -35,9 +41,12 @@ public class Entity {
 	 *            Width of the entity.
 	 * @param height
 	 *            Height of the entity.
+	 * @param color
+	 *            Color of the entity.
 	 */
-	public Entity(Screen screen, int positionX, int positionY, int width,
-			int height, Color color) {
+	public Entity(final Screen screen, final int positionX,
+			final int positionY, final int width, final int height,
+			final Color color) {
 		this.screen = screen;
 		this.positionX = positionX;
 		this.positionY = positionY;
@@ -51,7 +60,7 @@ public class Entity {
 	 * 
 	 * @return Color of the entity, used when drawing it.
 	 */
-	public Color getColor() {
+	public final Color getColor() {
 		return color;
 	}
 
@@ -60,7 +69,7 @@ public class Entity {
 	 * 
 	 * @return Position of the entity in the X axis.
 	 */
-	public int getPositionX() {
+	public final int getPositionX() {
 		return this.positionX;
 	}
 
@@ -69,7 +78,7 @@ public class Entity {
 	 * 
 	 * @return Position of the entity in the Y axis.
 	 */
-	public int getPositionY() {
+	public final int getPositionY() {
 		return this.positionY;
 	}
 
@@ -79,7 +88,7 @@ public class Entity {
 	 * @param positionX
 	 *            New position of the entity in the X axis.
 	 */
-	public void setPositionX(int positionX) {
+	public final void setPositionX(final int positionX) {
 		this.positionX = positionX;
 	}
 
@@ -89,7 +98,7 @@ public class Entity {
 	 * @param positionY
 	 *            New position of the entity in the Y axis.
 	 */
-	public void setPositionY(int positionY) {
+	public final void setPositionY(final int positionY) {
 		this.positionY = positionY;
 	}
 
@@ -98,7 +107,7 @@ public class Entity {
 	 * 
 	 * @return Sprite corresponding to the entity.
 	 */
-	public SpriteType getSpriteType() {
+	public final SpriteType getSpriteType() {
 		return this.spriteType;
 	}
 
@@ -107,7 +116,7 @@ public class Entity {
 	 * 
 	 * @return Width of the entity.
 	 */
-	public int getWidth() {
+	public final int getWidth() {
 		return this.width;
 	}
 
@@ -116,7 +125,7 @@ public class Entity {
 	 * 
 	 * @return Height of the entity.
 	 */
-	public int getHeight() {
+	public final int getHeight() {
 		return this.height;
 	}
 }

@@ -7,10 +7,28 @@ import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
 
+/**
+ * Implements a enemy ship, to be destroyed by the player.
+ * 
+ * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
+ * 
+ */
 public class EnemyShip extends Entity {
+	
+	/** Point value of a type A enemy. */
+	private static final int A_TYPE_POINTS = 10;
+	/** Point value of a type B enemy. */
+	private static final int B_TYPE_POINTS = 20;
+	/** Point value of a type C enemy. */
+	private static final int C_TYPE_POINTS = 30;
+	/** Point value of a bonus enemy. */
+	private static final int BONUS_TYPE_POINTS = 100;
 
+	/** Cooldown between sprite changes. */
 	private Cooldown animationCooldown;
+	/** Checks if the ship has been hit by a bullet. */
 	private boolean isDestroyed;
+	/** Values of the ship, in points, when destroyed. */
 	private int pointValue;
 
 	/**
@@ -22,9 +40,11 @@ public class EnemyShip extends Entity {
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY
 	 *            Initial position of the ship in the Y axis.
+	 * @param spriteType
+	 *            Sprite type, image corresponding to the ship.
 	 */
-	public EnemyShip(Screen screen, int positionX, int positionY,
-			SpriteType spriteType) {
+	public EnemyShip(final Screen screen, final int positionX,
+			final int positionY, final SpriteType spriteType) {
 		super(screen, positionX, positionY, 12 * 2, 8 * 2, Color.WHITE);
 
 		this.spriteType = spriteType;
@@ -34,15 +54,15 @@ public class EnemyShip extends Entity {
 		switch (this.spriteType) {
 		case EnemyShipA1:
 		case EnemyShipA2:
-			this.pointValue = 10;
+			this.pointValue = A_TYPE_POINTS;
 			break;
 		case EnemyShipB1:
 		case EnemyShipB2:
-			this.pointValue = 20;
+			this.pointValue = B_TYPE_POINTS;
 			break;
 		case EnemyShipC1:
 		case EnemyShipC2:
-			this.pointValue = 30;
+			this.pointValue = C_TYPE_POINTS;
 			break;
 		default:
 			this.pointValue = 0;
@@ -57,12 +77,12 @@ public class EnemyShip extends Entity {
 	 * @param screen
 	 *            Screen where the special ship will be drawn.
 	 */
-	public EnemyShip(Screen screen) {
+	public EnemyShip(final Screen screen) {
 		super(screen, -32, 60, 16 * 2, 7 * 2, Color.RED);
 
 		this.spriteType = SpriteType.EnemyShipSpecial;
 		this.isDestroyed = false;
-		this.pointValue = 100;
+		this.pointValue = BONUS_TYPE_POINTS;
 	}
 
 	/**
@@ -70,7 +90,7 @@ public class EnemyShip extends Entity {
 	 * 
 	 * @return Value of the ship.
 	 */
-	public int getPointValue() {
+	public final int getPointValue() {
 		return this.pointValue;
 	}
 
@@ -82,7 +102,7 @@ public class EnemyShip extends Entity {
 	 * @param distanceY
 	 *            Distance to move in the Y axis.
 	 */
-	public void move(int distanceX, int distanceY) {
+	public final void move(final int distanceX, final int distanceY) {
 		this.positionX += distanceX;
 		this.positionY += distanceY;
 	}
@@ -90,7 +110,7 @@ public class EnemyShip extends Entity {
 	/**
 	 * Updates attributes, mainly used for animation purposes.
 	 */
-	public void update() {
+	public final void update() {
 		if (this.animationCooldown.checkFinished()) {
 			this.animationCooldown.reset();
 
@@ -122,7 +142,7 @@ public class EnemyShip extends Entity {
 	/**
 	 * Destroys the ship, causing an explosion.
 	 */
-	public void destroy() {
+	public final void destroy() {
 		this.isDestroyed = true;
 		this.spriteType = SpriteType.Explosion;
 	}
@@ -132,7 +152,7 @@ public class EnemyShip extends Entity {
 	 * 
 	 * @return True if the ship has been destroyed.
 	 */
-	public boolean isDestroyed() {
+	public final boolean isDestroyed() {
 		return this.isDestroyed;
 	}
 }

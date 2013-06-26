@@ -13,6 +13,10 @@ import engine.DrawManager.SpriteType;
  */
 public class Bullet extends Entity {
 
+	/**
+	 * Speed of the bullet, positive or negative depending on direction -
+	 * positive is down.
+	 */
 	private int speed;
 
 	/**
@@ -28,17 +32,18 @@ public class Bullet extends Entity {
 	 *            Speed of the bullet, positive or negative depending on
 	 *            direction - positive is down.
 	 */
-	public Bullet(Screen screen, int positionX, int positionY, int speed) {
+	public Bullet(final Screen screen, final int positionX,
+			final int positionY, final int speed) {
 		super(screen, positionX, positionY, 3 * 2, 5 * 2, Color.WHITE);
 
 		this.speed = speed;
 		setSprite();
 	}
-	
+
 	/**
 	 * Sets correct sprite for the bullet, based on speed.
 	 */
-	public void setSprite() {
+	public final void setSprite() {
 		if (speed < 0)
 			this.spriteType = SpriteType.Bullet;
 		else
@@ -48,7 +53,7 @@ public class Bullet extends Entity {
 	/**
 	 * Updates the bullet's position.
 	 */
-	public void update() {
+	public final void update() {
 		this.positionY += this.speed;
 	}
 
@@ -58,15 +63,8 @@ public class Bullet extends Entity {
 	 * @param speed
 	 *            New speed of the bullet.
 	 */
-	public void setSpeed(int speed) {
+	public final void setSpeed(final int speed) {
 		this.speed = speed;
-	}
-
-	/**
-	 * Getter for the Y axis position of the bullet.
-	 */
-	public int getPositionY() {
-		return this.positionY;
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class Bullet extends Entity {
 	 * 
 	 * @return Speed of the bullet.
 	 */
-	public int getSpeed() {
+	public final int getSpeed() {
 		return this.speed;
 	}
 }

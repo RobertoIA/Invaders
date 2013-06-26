@@ -11,9 +11,17 @@ import screen.Screen;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class BulletPool {
+public final class BulletPool {
 
+	/** Set of already created bullets. */
 	private static Set<Bullet> pool = new HashSet<Bullet>();
+
+	/**
+	 * Constructor, not called.
+	 */
+	private BulletPool() {
+
+	}
 
 	/**
 	 * Returns a bullet from the pool if one is available, a new one if there
@@ -30,8 +38,8 @@ public class BulletPool {
 	 *            on direction - positive is down.
 	 * @return Requested bullet.
 	 */
-	public static Bullet getBullet(Screen screen, int positionX, int positionY,
-			int speed) {
+	public static Bullet getBullet(final Screen screen, final int positionX,
+			final int positionY, final int speed) {
 		Bullet bullet;
 		if (!pool.isEmpty()) {
 			bullet = pool.iterator().next();
@@ -48,12 +56,12 @@ public class BulletPool {
 	}
 
 	/**
-	 * Adds one or more bullets to the list of availables.
+	 * Adds one or more bullets to the list of available ones.
 	 * 
 	 * @param bullet
 	 *            Bullets to recycle.
 	 */
-	public static void recycle(Set<Bullet> bullet) {
+	public static void recycle(final Set<Bullet> bullet) {
 		pool.addAll(bullet);
 	}
 }

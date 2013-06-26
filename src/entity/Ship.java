@@ -15,9 +15,17 @@ import engine.DrawManager.SpriteType;
  * 
  */
 public class Ship extends Entity {
+	
+	/** Time between shots. */
+	private static final int SHOOTING_INTERVAL = 0;
+	/** Speed of the bullets shot by the ship. */
+	private static final int BULLET_SPEED = -4;
 
+	/** Movement of the ship for each unit of time. */
 	private int speed;
+	/** Minimum time between shots. */
 	private Cooldown shootingCooldown;
+	/** Time spent inactive between hits. */
 	private Cooldown destructionCooldown;
 
 	/**
@@ -32,20 +40,21 @@ public class Ship extends Entity {
 	 * @param speed
 	 *            Absolute speed of the ship, when ordered to move.
 	 */
-	public Ship(Screen screen, int positionX, int positionY, int speed) {
+	public Ship(final Screen screen, final int positionX, final int positionY,
+			final int speed) {
 		super(screen, positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
 
 		this.spriteType = SpriteType.Ship;
 		this.speed = speed;
-		this.shootingCooldown = Core.getCooldown(350);
+		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
 
 	/**
-	 * Moves the ship speed units right, or until the right screen border is
+	 * Moves the ship speed uni ts right, or until the right screen border is
 	 * reached.
 	 */
-	public void moveRight() {
+	public final void moveRight() {
 		this.positionX += this.speed;
 		if (this.positionX > this.screen.getWidth() - this.width - 1)
 			this.positionX = this.screen.getWidth() - this.width - 1;
@@ -55,7 +64,7 @@ public class Ship extends Entity {
 	 * Moves the ship speed units left, or until the left screen border is
 	 * reached.
 	 */
-	public void moveLeft() {
+	public final void moveLeft() {
 		this.positionX -= this.speed;
 		if (this.positionX < 1)
 			this.positionX = 1;
@@ -68,11 +77,11 @@ public class Ship extends Entity {
 	 *            List of bullets on screen, to add the new bullet.
 	 * @return Checks if the bullet was shot correctly.
 	 */
-	public boolean shoot(Set<Bullet> bullets) {
+	public final boolean shoot(final Set<Bullet> bullets) {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(this.screen, positionX
-					+ this.width / 2, positionY, -4));
+					+ this.width / 2, positionY, BULLET_SPEED));
 			return true;
 		}
 		return false;
@@ -81,7 +90,7 @@ public class Ship extends Entity {
 	/**
 	 * Updates status of the ship.
 	 */
-	public void update() {
+	public final void update() {
 		if (!this.destructionCooldown.checkFinished())
 			this.spriteType = SpriteType.ShipDestroyed;
 		else
@@ -91,7 +100,7 @@ public class Ship extends Entity {
 	/**
 	 * Switches the ship to its destroyed state.
 	 */
-	public void destroy() {
+	public final void destroy() {
 		this.destructionCooldown.reset();
 	}
 
@@ -100,7 +109,7 @@ public class Ship extends Entity {
 	 * 
 	 * @return True if the ship is currently destroyed.
 	 */
-	public boolean isDestroyed() {
+	public final boolean isDestroyed() {
 		return !this.destructionCooldown.checkFinished();
 	}
 }
