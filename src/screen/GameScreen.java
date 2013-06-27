@@ -21,20 +21,47 @@ import entity.Ship;
  */
 @SuppressWarnings("serial")
 public class GameScreen extends Screen {
+	
+	/** Milliseconds until the screen accepts user input. */
+	private static final int INPUT_DELAY = 6000;
+	/** Bonus score for each life remaining at the end of the level. */
+	private static final int LIFE_SCORE = 100;
+	/** Minimum time between bonus ship's appearances. */
+	private static final int BONUS_SHIP_INTERVAL = 20000;
+	/** Maximum variance in the time between bonus ship's appearances. */
+	private static final int BONUS_SHIP_VARIANCE = 10000;
+	/** Time until bonus ship explosion dissapears. */
+	private static final int BONUS_SHIP_EXPLOSION = 500;
+	/** Height of the interface separation line. */
+	private static final int SEPARATION_LINE_HEIGHT = 40;
 
+	/** Current difficulty level number. */
 	private int level;
+	/** Formation of enemy ships. */
 	private EnemyShipFormation enemyShipFormation;
+	/** Player's ship. */
 	private Ship ship;
+	/** Bonus enemy ship that appears sometimes. */
 	private EnemyShip enemyShipSpecial;
+	/** Minimum time between bonus ship appearances. */
 	private Cooldown enemyShipSpecialCooldown;
+	/** Time until bonus ship explosion dissapears. */
 	private Cooldown enemyShipSpecialExplosionCooldown;
+	/** Set of all bullets fired by on screen ships. */
 	private Set<Bullet> bullets;
+	/** Number of ships in the formation - horizontally. */
 	private int formationSizeX;
+	/** Number of ships in the formation - vertically. */
 	private int formationSizeY;
+	/** Current score. */
 	private int score;
+	/** Player lives left. */
 	private int lives;
+	/** Total bullets shot by the player. */
 	private int bulletsShot;
+	/** Total ships destroyed by the player. */
 	private int shipsDestroyed;
+	/** Moment the game starts. */
 	private long gameStartTime;
 
 	/**
@@ -53,8 +80,8 @@ public class GameScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public GameScreen(int level, int score, int lives, int width, int height,
-			int fps) {
+	public GameScreen(final int level, final int score, final int lives,
+			final int width, final int height, final int fps) {
 		super(width, height, fps);
 
 		this.level = level;
@@ -65,7 +92,7 @@ public class GameScreen extends Screen {
 	/**
 	 * Initializes basic screen properties, and adds necessary elements.
 	 */
-	public void initialize() {
+	public final void initialize() {
 		super.initialize();
 
 		this.formationSizeX = 7;
@@ -75,26 +102,30 @@ public class GameScreen extends Screen {
 		enemyShipFormation.attach(this);
 		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
 		// Appears each 10-30 seconds.
-		this.enemyShipSpecialCooldown = Core.getVariableCooldown(20000, 10000);
+		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
+				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
 		this.enemyShipSpecialCooldown.reset();
-		this.enemyShipSpecialExplosionCooldown = Core.getCooldown(500);
+		this.enemyShipSpecialExplosionCooldown =
+				Core.getCooldown(BONUS_SHIP_EXPLOSION);
 		this.bullets = new HashSet<Bullet>();
 		this.bulletsShot = 0;
 		this.shipsDestroyed = 0;
 
 		// Special input delay / countdown.
 		this.gameStartTime = System.currentTimeMillis();
-		this.inputDelay = Core.getCooldown(6000);
+		this.inputDelay = Core.getCooldown(INPUT_DELAY);
 		this.inputDelay.reset();
 	}
 
 	/**
 	 * Starts the action.
+	 * 
+	 * @return Next screen code.
 	 */
-	public int run() {
+	public final int run() {
 		super.run();
 
-		this.score += 100 * (this.lives - 1);
+		this.score += LIFE_SCORE * (this.lives - 1);
 		this.logger.info("Screen cleared with a score of " + this.score);
 
 		return this.returnCode;
@@ -103,7 +134,7 @@ public class GameScreen extends Screen {
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
-	protected void update() {
+	protected final void update() {
 		super.update();
 
 		if (this.inputDelay.checkFinished()) {
@@ -175,11 +206,13 @@ public class GameScreen extends Screen {
 		// Interface.
 		drawManager.drawScore(this, this.score);
 		drawManager.drawLives(this, this.lives);
-		drawManager.drawHorizontalLine(this, 39);
+		drawManager.drawHorizontalLine(this, SEPARATION_LINE_HEIGHT - 1);
 
 		// Countdown to game start.
 		if (!this.inputDelay.checkFinished()) {
-			int countdown = (int) ((6000 - (System.currentTimeMillis() - this.gameStartTime)) / 1000);
+			int countdown =
+					(int) ((INPUT_DELAY - (System.currentTimeMillis()
+							- this.gameStartTime)) / 1000);
 			drawManager.drawCountDown(this, this.level, countdown);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
 					/ 12);
@@ -197,7 +230,7 @@ public class GameScreen extends Screen {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets) {
 			bullet.update();
-			if (bullet.getPositionY() < 40
+			if (bullet.getPositionY() < SEPARATION_LINE_HEIGHT
 					|| bullet.getPositionY() > this.height)
 				recyclable.add(bullet);
 		}
@@ -251,7 +284,7 @@ public class GameScreen extends Screen {
 	 *            Second entity, the ship.
 	 * @return Result of the collision test.
 	 */
-	private boolean checkCollision(Entity a, Entity b) {
+	private boolean checkCollision(final Entity a, final Entity b) {
 		// Calculate center point of the entities in both axis.
 		int centerAX = a.getPositionX() + a.getWidth() / 2;
 		int centerAY = a.getPositionY() + a.getHeight() / 2;
@@ -272,7 +305,7 @@ public class GameScreen extends Screen {
 	 * 
 	 * @return Score in points.
 	 */
-	public int getScore() {
+	public final int getScore() {
 		return this.score;
 	}
 
@@ -281,7 +314,7 @@ public class GameScreen extends Screen {
 	 * 
 	 * @return Lives remaining.
 	 */
-	public int getLives() {
+	public final int getLives() {
 		return this.lives;
 	}
 
@@ -290,7 +323,7 @@ public class GameScreen extends Screen {
 	 * 
 	 * @return Number of bullets shot by the player.
 	 */
-	public int getBulletsShot() {
+	public final int getBulletsShot() {
 		return this.bulletsShot;
 	}
 
@@ -299,7 +332,7 @@ public class GameScreen extends Screen {
 	 * 
 	 * @return Number of enemies shot down by the player.
 	 */
-	public int getShipsDestroyed() {
+	public final int getShipsDestroyed() {
 		return this.shipsDestroyed;
 	}
 }

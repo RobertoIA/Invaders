@@ -14,6 +14,10 @@ import engine.Core;
 @SuppressWarnings("serial")
 public class TitleScreen extends Screen {
 
+	/** Milliseconds between changes in user selection. */
+	private static final int SELECTION_TIME = 200;
+	
+	/** Time between changes in user selection. */
 	private Cooldown selectionCooldown;
 
 	/**
@@ -26,19 +30,21 @@ public class TitleScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public TitleScreen(int width, int height, int fps) {
+	public TitleScreen(final int width, final int height, final int fps) {
 		super(width, height, fps);
 
 		// Defaults to play.
 		this.returnCode = 2;
-		this.selectionCooldown = Core.getCooldown(200);
+		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
 		this.selectionCooldown.reset();
 	}
 
 	/**
 	 * Starts the action.
+	 * 
+	 * @return Next screen code.
 	 */
-	public int run() {
+	public final int run() {
 		super.run();
 
 		return this.returnCode;
@@ -47,7 +53,7 @@ public class TitleScreen extends Screen {
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
-	protected void update() {
+	protected final void update() {
 		super.update();
 
 		draw();
