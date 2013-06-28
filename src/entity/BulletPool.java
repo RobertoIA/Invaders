@@ -38,7 +38,7 @@ public final class BulletPool {
 	 *            on direction - positive is down.
 	 * @return Requested bullet.
 	 */
-	public static Bullet getBullet(final Screen screen, final int positionX,
+	public static Bullet getBullet(final int positionX,
 			final int positionY, final int speed) {
 		Bullet bullet;
 		if (!pool.isEmpty()) {
@@ -49,7 +49,7 @@ public final class BulletPool {
 			bullet.setSpeed(speed);
 			bullet.setSprite();
 		} else {
-			bullet = new Bullet(screen, positionX, positionY, speed);
+			bullet = new Bullet(positionX, positionY, speed);
 			bullet.setPositionX(positionX - bullet.getWidth() / 2);
 		}
 		return bullet;

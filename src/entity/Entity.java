@@ -13,8 +13,6 @@ import engine.DrawManager.SpriteType;
  */
 public class Entity {
 
-	/** Screen to draw the entity on. */
-	protected Screen screen;
 	/** Position in the x-axis of the upper left corner of the entity. */
 	protected int positionX;
 	/** Position in the y-axis of the upper left corner of the entity. */
@@ -31,8 +29,6 @@ public class Entity {
 	/**
 	 * Constructor, establishes the entity's generic properties.
 	 * 
-	 * @param screen
-	 *            Screen where the entity will be drawn.
 	 * @param positionX
 	 *            Initial position of the entity in the X axis.
 	 * @param positionY
@@ -44,10 +40,8 @@ public class Entity {
 	 * @param color
 	 *            Color of the entity.
 	 */
-	public Entity(final Screen screen, final int positionX,
-			final int positionY, final int width, final int height,
-			final Color color) {
-		this.screen = screen;
+	public Entity(final int positionX, final int positionY, final int width,
+			final int height, final Color color) {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;

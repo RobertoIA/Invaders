@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.Color;
 
-import screen.Screen;
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
@@ -34,8 +33,6 @@ public class EnemyShip extends Entity {
 	/**
 	 * Constructor, establishes the ship's properties.
 	 * 
-	 * @param screen
-	 *            Screen where the ship will be drawn.
 	 * @param positionX
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY
@@ -43,9 +40,9 @@ public class EnemyShip extends Entity {
 	 * @param spriteType
 	 *            Sprite type, image corresponding to the ship.
 	 */
-	public EnemyShip(final Screen screen, final int positionX,
-			final int positionY, final SpriteType spriteType) {
-		super(screen, positionX, positionY, 12 * 2, 8 * 2, Color.WHITE);
+	public EnemyShip(final int positionX, final int positionY,
+			final SpriteType spriteType) {
+		super(positionX, positionY, 12 * 2, 8 * 2, Color.WHITE);
 
 		this.spriteType = spriteType;
 		this.animationCooldown = Core.getCooldown(500);
@@ -73,12 +70,9 @@ public class EnemyShip extends Entity {
 	/**
 	 * Constructor, establishes the ship's properties for a special ship, with
 	 * known starting properties.
-	 * 
-	 * @param screen
-	 *            Screen where the special ship will be drawn.
 	 */
-	public EnemyShip(final Screen screen) {
-		super(screen, -32, 60, 16 * 2, 7 * 2, Color.RED);
+	public EnemyShip() {
+		super(-32, 60, 16 * 2, 7 * 2, Color.RED);
 
 		this.spriteType = SpriteType.EnemyShipSpecial;
 		this.isDestroyed = false;

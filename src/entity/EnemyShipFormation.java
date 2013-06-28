@@ -129,8 +129,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				else
 					spriteType = SpriteType.EnemyShipA1;
 
-				column.add(new EnemyShip(screen,
-						(SEPARATION_DISTANCE * this.enemyShips.indexOf(column))
+				column.add(new EnemyShip((SEPARATION_DISTANCE 
+						* this.enemyShips.indexOf(column))
 								+ positionX, (SEPARATION_DISTANCE * i)
 								+ positionY, spriteType));
 				this.shipCount++;
@@ -279,9 +279,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
-			bullets.add(BulletPool.getBullet(this.screen,
-					shooter.getPositionX() + shooter.width / 2,
-					shooter.getPositionY(), BULLET_SPEED));
+			bullets.add(BulletPool.getBullet(shooter.getPositionX()
+					+ shooter.width / 2, shooter.getPositionY(), BULLET_SPEED));
 		}
 	}
 

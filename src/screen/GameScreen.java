@@ -100,7 +100,7 @@ public class GameScreen extends Screen {
 		enemyShipFormation = new EnemyShipFormation(formationSizeX,
 				formationSizeY);
 		enemyShipFormation.attach(this);
-		this.ship = new Ship(this, this.width / 2, this.height - 30, 8);
+		this.ship = new Ship(this.width / 2, this.height - 30, 8);
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
 				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
@@ -140,12 +140,23 @@ public class GameScreen extends Screen {
 		if (this.inputDelay.checkFinished()) {
 
 			if (!this.ship.isDestroyed()) {
-				if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-						|| inputManager.isKeyDown(KeyEvent.VK_D))
+				boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+						|| inputManager.isKeyDown(KeyEvent.VK_D);
+				boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
+						|| inputManager.isKeyDown(KeyEvent.VK_A);
+				
+				boolean isRightBorder =
+						this.ship.getPositionX() + this.ship.getWidth()
+						+ this.ship.getSpeed() > this.width - 1;
+				boolean isLeftBorder =
+						this.ship.getPositionX() - this.ship.getSpeed() < 1;
+				
+				if (moveRight && !isRightBorder) {
 					this.ship.moveRight();
-				if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
-						|| inputManager.isKeyDown(KeyEvent.VK_A))
+				}
+				if (moveLeft && !isLeftBorder) {
 					this.ship.moveLeft();
+				}
 				if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 					if (this.ship.shoot(this.bullets))
 						this.bulletsShot++;
@@ -162,7 +173,7 @@ public class GameScreen extends Screen {
 			}
 			if (this.enemyShipSpecial == null
 					&& this.enemyShipSpecialCooldown.checkFinished()) {
-				this.enemyShipSpecial = new EnemyShip(this);
+				this.enemyShipSpecial = new EnemyShip();
 				this.enemyShipSpecialCooldown.reset();
 				this.logger.info("A special ship appears");
 			}
