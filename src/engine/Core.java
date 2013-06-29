@@ -34,6 +34,8 @@ public final class Core {
 	/** Total number of levels. */
 	private static final int NUM_LEVELS = 15;
 
+	/** Frame to draw the screen on. */
+	private static Frame frame;
 	/** Screen currently shown. */
 	private static Screen currentScreen;
 	/** Application logger. */
@@ -68,6 +70,11 @@ public final class Core {
 			// TODO handle exception
 			e.printStackTrace();
 		}
+		
+		frame = new Frame(WIDTH, HEIGHT);
+		DrawManager.getInstance().setFrame(frame);
+		int width = frame.getWidth();
+		int height = frame.getHeight();
 
 		int level;
 		int score;
@@ -83,29 +90,23 @@ public final class Core {
 			bulletsShot = 0;
 			shipsDestroyed = 0;
 
-			if (currentScreen != null) {
-				currentScreen.dispose();
-			}
-
 			switch (returnCode) {
 			case 1:
 				// Main menu.
-				currentScreen = new TitleScreen(WIDTH, HEIGHT, FPS);
+				currentScreen = new TitleScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " title screen at " + FPS + " fps.");
-				currentScreen.initialize();
-				returnCode = currentScreen.run();
+				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing title screen.");
 				break;
 			case 2:
 				// Game & score.
 				do {
 					currentScreen = new GameScreen(level, score,
-							livesRemaining, WIDTH, HEIGHT, FPS);
+							livesRemaining, width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
-					currentScreen.initialize();
-					currentScreen.run();
+					frame.setScreen(currentScreen);
 					LOGGER.info("Closing game screen.");
 
 					score = ((GameScreen) currentScreen).getScore();
@@ -114,7 +115,6 @@ public final class Core {
 							.getBulletsShot();
 					shipsDestroyed += ((GameScreen) currentScreen)
 							.getShipsDestroyed();
-					currentScreen.dispose();
 
 					// One extra live every few levels.
 					if (level % EXTRA_LIFE_FRECUENCY == 0
@@ -130,19 +130,17 @@ public final class Core {
 						+ score + ", " + livesRemaining + " lives remaining, "
 						+ bulletsShot + " bullets shot and " + shipsDestroyed
 						+ " ships destroyed.");
-				currentScreen = new ScoreScreen(WIDTH, HEIGHT, FPS, score,
+				currentScreen = new ScoreScreen(width, height, FPS, score,
 						livesRemaining, bulletsShot, shipsDestroyed);
-				currentScreen.initialize();
-				returnCode = currentScreen.run();
+				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing score screen.");
 				break;
 			case 3:
 				// High scores.
-				currentScreen = new HighScoreScreen(WIDTH, HEIGHT, FPS);
+				currentScreen = new HighScoreScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " high score screen at " + FPS + " fps.");
-				currentScreen.initialize();
-				returnCode = currentScreen.run();
+				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing high score screen.");
 				break;
 			default:

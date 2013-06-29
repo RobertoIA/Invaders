@@ -4,8 +4,6 @@ import java.awt.Insets;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
@@ -18,7 +16,7 @@ import engine.InputManager;
  * 
  */
 @SuppressWarnings("serial")
-public class Screen extends JFrame {
+public class Screen {
 	
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 1000;
@@ -73,19 +71,7 @@ public class Screen extends JFrame {
 	 * Initializes basic screen properties.
 	 */
 	public void initialize() {
-		setSize(this.width, this.height);
-		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		setLocationRelativeTo(null);
-		setVisible(true);
-
-		this.insets = getInsets();
-		this.width -= this.insets.left + this.insets.right;
-		this.height -= this.insets.top + this.insets.bottom;
-		setTitle("Invaders");
-
-		addKeyListener(Core.getInputManager());
 	}
 
 	/**

@@ -26,6 +26,8 @@ public final class DrawManager {
 
 	/** Singleton instance of the class. */
 	private static DrawManager instance;
+	/** Current frame. */
+	private static Frame frame;
 	/** FileManager instance. */
 	private static FileManager fileManager;
 	/** Application logger. */
@@ -127,6 +129,16 @@ public final class DrawManager {
 	}
 
 	/**
+	 * Sets the frame to draw the image on.
+	 * 
+	 * @param currentFrame
+	 *            Frame to draw on.
+	 */
+	public void setFrame(final Frame currentFrame) {
+		frame = currentFrame;
+	}
+
+	/**
 	 * First part of the drawing process. Initialices buffers, draws the
 	 * background and prepares the images.
 	 * 
@@ -137,7 +149,7 @@ public final class DrawManager {
 		backBuffer = new BufferedImage(screen.getWidth(), screen.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 
-		graphics = screen.getGraphics();
+		graphics = frame.getGraphics();
 		backBufferGraphics = backBuffer.getGraphics();
 
 		backBufferGraphics.setColor(Color.BLACK);
@@ -158,8 +170,8 @@ public final class DrawManager {
 	 *            Screen to draw on.
 	 */
 	public void completeDrawing(final Screen screen) {
-		graphics.drawImage(backBuffer, screen.getInsets().left,
-				screen.getInsets().top, screen);
+		graphics.drawImage(backBuffer, frame.getInsets().left,
+				frame.getInsets().top, frame);
 	}
 
 	/**
@@ -271,8 +283,7 @@ public final class DrawManager {
 	 */
 	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
-		String instructionsString =
-				"select with w+s / arrows, confirm with space";
+		String instructionsString = "select with w+s / arrows, confirm with space";
 
 		backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, instructionsString,
@@ -382,9 +393,9 @@ public final class DrawManager {
 				/ 2
 				- (fontRegularMetrics.getWidths()[name[0]]
 						+ fontRegularMetrics.getWidths()[name[1]]
-						+ fontRegularMetrics.getWidths()[name[2]]
-						+ fontRegularMetrics.getWidths()[' ']) / 2;
-		
+						+ fontRegularMetrics.getWidths()[name[2]] + fontRegularMetrics
+							.getWidths()[' ']) / 2;
+
 		for (int i = 0; i < 3; i++) {
 			if (i == nameCharSelected)
 				backBufferGraphics.setColor(Color.GREEN);
@@ -394,9 +405,9 @@ public final class DrawManager {
 			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
-							+ (fontRegularMetrics.getWidths()[name[i - 1]]
-							+ fontRegularMetrics.getWidths()[' ']) / 2;
-			
+							+ (fontRegularMetrics.getWidths()[name[i - 1]] + fontRegularMetrics
+									.getWidths()[' ']) / 2;
+
 			backBufferGraphics.drawString(Character.toString(name[i]),
 					positionX,
 					screen.getHeight() / 4 + fontRegularMetrics.getHeight()
@@ -417,8 +428,7 @@ public final class DrawManager {
 	public void drawGameOver(final Screen screen, final boolean acceptsInput,
 			final boolean isNewRecord) {
 		String gameOverString = "Game Over";
-		String continueOrExitString =
-				"Press Space to play again, Escape to exit";
+		String continueOrExitString = "Press Space to play again, Escape to exit";
 
 		int height = isNewRecord ? 4 : 2;
 
@@ -460,8 +470,7 @@ public final class DrawManager {
 	 * @param highScores
 	 *            List of high scores.
 	 */
-	public void drawHighScores(final Screen screen,
-			final List<Score> highScores) {
+	public void drawHighScores(final Screen screen, final List<Score> highScores) {
 		backBufferGraphics.setColor(Color.WHITE);
 		int i = 0;
 		String scoreString = "";
