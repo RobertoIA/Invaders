@@ -19,7 +19,6 @@ import entity.Ship;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-@SuppressWarnings("serial")
 public class GameScreen extends Screen {
 	
 	/** Milliseconds until the screen accepts user input. */

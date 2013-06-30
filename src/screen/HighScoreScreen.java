@@ -13,7 +13,6 @@ import engine.Score;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-@SuppressWarnings("serial")
 public class HighScoreScreen extends Screen {
 
 	/** List of past high scores. */

@@ -11,7 +11,6 @@ import engine.Core;
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-@SuppressWarnings("serial")
 public class TitleScreen extends Screen {
 
 	/** Milliseconds between changes in user selection. */
