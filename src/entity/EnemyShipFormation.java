@@ -216,13 +216,19 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			positionY += movementY;
 
 			// Cleans explosions.
-			for (List<EnemyShip> column : this.enemyShips)
-				for (int i = 0; i < column.size(); i++)
-					if (column.get(i) != null && column.get(i).isDestroyed()) {
-						column.remove(i);
-						this.logger.info("Removed enemy " + i + " from column "
+			List<EnemyShip> destroyed;
+			for (List<EnemyShip> column : this.enemyShips) {
+				destroyed = new ArrayList<EnemyShip>();
+				for (EnemyShip ship : column) {
+					if (ship != null && ship.isDestroyed()) {
+						destroyed.add(ship);
+						this.logger.info("Removed enemy "
+								+ column.indexOf(ship) + " from column "
 								+ this.enemyShips.indexOf(column));
 					}
+				}
+				column.removeAll(destroyed);
+			}
 
 			for (List<EnemyShip> column : this.enemyShips)
 				for (EnemyShip enemyShip : column) {
@@ -257,12 +263,23 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			logger.info("Removed column " + index);
 		}
 
-		this.width =
-				this.enemyShips.get(this.enemyShips.size() - 1).get(0).positionX
-				- this.enemyShips.get(0).get(0).positionX + this.shipWidth;
+		int leftMostPoint = 0;
+		int rightMostPoint = 0;
+		
+		for (List<EnemyShip> column : this.enemyShips) {
+			if (!column.isEmpty()) {
+				if (leftMostPoint == 0)
+					leftMostPoint = column.get(0).getPositionX();
+				rightMostPoint = column.get(0).getPositionX();
+			}
+		}
+
+		// TODO should be + shipwidth?
+		this.width = rightMostPoint - leftMostPoint - this.shipWidth;
+				
 		this.height = maxColumn;
 
-		this.positionX = this.enemyShips.get(0).get(0).positionX;
+		this.positionX = leftMostPoint;
 		this.positionY = minPositionY;
 	}
 
