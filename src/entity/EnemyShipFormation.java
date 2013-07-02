@@ -26,7 +26,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/** Variance in the time between shots. */
 	private static final int SHOOTING_VARIANCE = 1500;
 	/** Initial position in the x-axis. */
-	private static final int INIT_POS_X = 40;
+	private static final int INIT_POS_X = 20;
 	/** Initial position in the x-axis. */
 	private static final int INIT_POS_Y = 100;
 	/** Distance between ships. */
@@ -41,6 +41,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private static final int Y_SPEED = 4;
 	/** Speed of the bullets shot by the members. */
 	private static final int BULLET_SPEED = 3;
+	/** Margin on the sides of the screen. */
+	private static final int SIDE_MARGIN = 20;
+	/** Margin on the bottom of the screen. */
+	private static final int BOTTOM_MARGIN = 80;
+	/** Distance to go down each pass. */
+	private static final int DESCENT_DISTANCE = 20;
 
 	/** DrawManager instance. */
 	private DrawManager drawManager;
@@ -184,12 +190,14 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			movementInterval = 0;
 
 			boolean isAtBottom = positionY
-					+ this.height > screen.getHeight() - 80;
+					+ this.height > screen.getHeight() - BOTTOM_MARGIN;
 			boolean isAtRightSide = positionX
-					+ this.width >= screen.getWidth() - 40;
-			boolean isAtLeftSide = positionX <= 40;
-			boolean isAtLeftToRightAltitude = positionY % 40 == 0;
-			boolean isAtRightToLeftAltitude = positionY % 20 == 0;
+					+ this.width >= screen.getWidth() - SIDE_MARGIN;
+			boolean isAtLeftSide = positionX <= SIDE_MARGIN;
+			boolean isAtLeftToRightAltitude = positionY % DESCENT_DISTANCE * 2
+					== 0;
+			boolean isAtRightToLeftAltitude = positionY % DESCENT_DISTANCE
+					== 0;
 
 			if ((currentDirection == Direction.RIGHT
 					&& !isAtBottom && isAtRightSide)
@@ -197,7 +205,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 					&& !isAtBottom && isAtLeftSide)) {
 				currentDirection = Direction.DOWN;
 				this.logger.info("Formation now moving down");
-			} else if (isAtLeftToRightAltitude && positionX <= 40) {
+			} else if (isAtLeftToRightAltitude && positionX <= SIDE_MARGIN) {
 				currentDirection = Direction.RIGHT;
 				this.logger.info("Formation now moving right");
 			} else if (isAtRightToLeftAltitude && isAtRightSide) {
@@ -274,9 +282,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			}
 		}
 
-		// TODO should be + shipwidth?
-		this.width = rightMostPoint - leftMostPoint - this.shipWidth;
-				
+		this.width = rightMostPoint - leftMostPoint + this.shipWidth;
 		this.height = maxColumn;
 
 		this.positionX = leftMostPoint;
