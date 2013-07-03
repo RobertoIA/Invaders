@@ -70,25 +70,17 @@ public final class Core {
 			// TODO handle exception
 			e.printStackTrace();
 		}
-		
+
 		frame = new Frame(WIDTH, HEIGHT);
 		DrawManager.getInstance().setFrame(frame);
 		int width = frame.getWidth();
 		int height = frame.getHeight();
 
-		int level;
-		int score;
-		int livesRemaining;
-		int bulletsShot;
-		int shipsDestroyed;
+		GameState gameState;
 
 		int returnCode = 1;
 		do {
-			level = 1;
-			score = 0;
-			livesRemaining = MAX_LIVES;
-			bulletsShot = 0;
-			shipsDestroyed = 0;
+			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
 
 			switch (returnCode) {
 			case 1:
@@ -102,36 +94,40 @@ public final class Core {
 			case 2:
 				// Game & score.
 				do {
-					currentScreen = new GameScreen(level, score,
-							livesRemaining, width, height, FPS);
+					currentScreen = new GameScreen(gameState, width, height,
+							FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
 					frame.setScreen(currentScreen);
 					LOGGER.info("Closing game screen.");
 
-					score = ((GameScreen) currentScreen).getScore();
-					livesRemaining = ((GameScreen) currentScreen).getLives();
-					bulletsShot += ((GameScreen) currentScreen)
-							.getBulletsShot();
-					shipsDestroyed += ((GameScreen) currentScreen)
-							.getShipsDestroyed();
+					gameState = ((GameScreen) currentScreen).getGameState();
 
 					// One extra live every few levels.
-					if (level % EXTRA_LIFE_FRECUENCY == 0
-							&& livesRemaining < MAX_LIVES) {
-						livesRemaining++;
+					if (gameState.getLevel() % EXTRA_LIFE_FRECUENCY == 0
+							&& gameState.getLivesRemaining() < MAX_LIVES) {
+						gameState = new GameState(gameState.getLevel() + 1,
+								gameState.getScore(),
+								gameState.getLivesRemaining() + 1,
+								gameState.getBulletsShot(),
+								gameState.getShipsDestroyed());
+					} else {
+						gameState = new GameState(gameState.getLevel() + 1,
+								gameState.getScore(),
+								gameState.getLivesRemaining(),
+								gameState.getBulletsShot(),
+								gameState.getShipsDestroyed());
 					}
-
-					level++;
-				} while (livesRemaining > 0 && level <= NUM_LEVELS);
+				} while (gameState.getLivesRemaining() > 0 &&
+						gameState.getLevel() <= NUM_LEVELS);
 
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " score screen at " + FPS + " fps, with a score of "
-						+ score + ", " + livesRemaining + " lives remaining, "
-						+ bulletsShot + " bullets shot and " + shipsDestroyed
-						+ " ships destroyed.");
-				currentScreen = new ScoreScreen(width, height, FPS, score,
-						livesRemaining, bulletsShot, shipsDestroyed);
+						+ gameState.getScore() + ", "
+						+ gameState.getLivesRemaining() + " lives remaining, "
+						+ gameState.getBulletsShot() + " bullets shot and "
+						+ gameState.getShipsDestroyed() + " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, FPS, gameState);
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing score screen.");
 				break;

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import engine.Cooldown;
 import engine.Core;
+import engine.GameState;
 import entity.Bullet;
 import entity.BulletPool;
 import entity.EnemyShip;
@@ -20,7 +21,7 @@ import entity.Ship;
  * 
  */
 public class GameScreen extends Screen {
-	
+
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 6000;
 	/** Bonus score for each life remaining at the end of the level. */
@@ -66,12 +67,8 @@ public class GameScreen extends Screen {
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
-	 * @param level
-	 *            Game difficulty level.
-	 * @param score
-	 *            Initial score (accumulates from previous levels).
-	 * @param lives
-	 *            Lives remaining (carries over from previous levels).
+	 * @param gameState
+	 *            Current game state.
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -79,13 +76,15 @@ public class GameScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public GameScreen(final int level, final int score, final int lives,
-			final int width, final int height, final int fps) {
+	public GameScreen(final GameState gameState, final int width,
+			final int height, final int fps) {
 		super(width, height, fps);
 
-		this.level = level;
-		this.score = score;
-		this.lives = lives;
+		this.level = gameState.getLevel();
+		this.score = gameState.getScore();
+		this.lives = gameState.getLivesRemaining();
+		this.bulletsShot = gameState.getBulletsShot();
+		this.shipsDestroyed = gameState.getShipsDestroyed();
 	}
 
 	/**
@@ -104,11 +103,9 @@ public class GameScreen extends Screen {
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
 				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
 		this.enemyShipSpecialCooldown.reset();
-		this.enemyShipSpecialExplosionCooldown =
-				Core.getCooldown(BONUS_SHIP_EXPLOSION);
+		this.enemyShipSpecialExplosionCooldown = Core
+				.getCooldown(BONUS_SHIP_EXPLOSION);
 		this.bullets = new HashSet<Bullet>();
-		this.bulletsShot = 0;
-		this.shipsDestroyed = 0;
 
 		// Special input delay / countdown.
 		this.gameStartTime = System.currentTimeMillis();
@@ -143,13 +140,13 @@ public class GameScreen extends Screen {
 						|| inputManager.isKeyDown(KeyEvent.VK_D);
 				boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
 						|| inputManager.isKeyDown(KeyEvent.VK_A);
-				
-				boolean isRightBorder =
-						this.ship.getPositionX() + this.ship.getWidth()
-						+ this.ship.getSpeed() > this.width - 1;
-				boolean isLeftBorder =
-						this.ship.getPositionX() - this.ship.getSpeed() < 1;
-				
+
+				boolean isRightBorder = this.ship.getPositionX()
+						+ this.ship.getWidth() + this.ship.getSpeed()
+						> this.width - 1;
+				boolean isLeftBorder = this.ship.getPositionX()
+						- this.ship.getSpeed() < 1;
+
 				if (moveRight && !isRightBorder) {
 					this.ship.moveRight();
 				}
@@ -220,9 +217,8 @@ public class GameScreen extends Screen {
 
 		// Countdown to game start.
 		if (!this.inputDelay.checkFinished()) {
-			int countdown =
-					(int) ((INPUT_DELAY - (System.currentTimeMillis()
-							- this.gameStartTime)) / 1000);
+			int countdown = (int) ((INPUT_DELAY - (System.currentTimeMillis()
+					- this.gameStartTime)) / 1000);
 			drawManager.drawCountDown(this, this.level, countdown);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
 					/ 12);
@@ -311,38 +307,12 @@ public class GameScreen extends Screen {
 	}
 
 	/**
-	 * Returns current score.
+	 * Returns a GameState object representing the status of the game.
 	 * 
-	 * @return Score in points.
+	 * @return Current game state.
 	 */
-	public final int getScore() {
-		return this.score;
-	}
-
-	/**
-	 * Returns current number of lives.
-	 * 
-	 * @return Lives remaining.
-	 */
-	public final int getLives() {
-		return this.lives;
-	}
-
-	/**
-	 * Returns bullets shot in the course of the game.
-	 * 
-	 * @return Number of bullets shot by the player.
-	 */
-	public final int getBulletsShot() {
-		return this.bulletsShot;
-	}
-
-	/**
-	 * Returns ships destroyed in the course of the game.
-	 * 
-	 * @return Number of enemies shot down by the player.
-	 */
-	public final int getShipsDestroyed() {
-		return this.shipsDestroyed;
+	public final GameState getGameState() {
+		return new GameState(this.level, this.score, this.lives,
+				this.bulletsShot, this.shipsDestroyed);
 	}
 }
