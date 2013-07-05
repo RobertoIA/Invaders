@@ -44,6 +44,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private static final int BOTTOM_MARGIN = 80;
 	/** Distance to go down each pass. */
 	private static final int DESCENT_DISTANCE = 20;
+	/** Minimum speed allowed. */
+	private static final int MINIMUM_SPEED = 3;
 
 	/** DrawManager instance. */
 	private DrawManager drawManager;
@@ -192,7 +194,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		int movementX = 0;
 		int movementY = 0;
-		this.movementSpeed = this.shipCount * this.baseSpeed;
+		double remainingProportion = (double) this.shipCount
+				/ (this.nShipsHigh * this.nShipsWide);
+		this.movementSpeed = (int) (Math.pow(remainingProportion, 2)
+				* this.baseSpeed);
+		this.movementSpeed += MINIMUM_SPEED;
+		
 		movementInterval++;
 		if (movementInterval >= this.movementSpeed) {
 			movementInterval = 0;
