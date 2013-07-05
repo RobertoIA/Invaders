@@ -77,6 +77,7 @@ public final class Core {
 		int height = frame.getHeight();
 
 		GameState gameState;
+		GameSettings defaultSettings = new GameSettings(7, 5, 1, 2500);
 
 		int returnCode = 1;
 		do {
@@ -94,8 +95,8 @@ public final class Core {
 			case 2:
 				// Game & score.
 				do {
-					currentScreen = new GameScreen(gameState, width, height,
-							FPS);
+					currentScreen = new GameScreen(gameState, defaultSettings,
+							width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
 					frame.setScreen(currentScreen);
@@ -118,8 +119,8 @@ public final class Core {
 								gameState.getBulletsShot(),
 								gameState.getShipsDestroyed());
 					}
-				} while (gameState.getLivesRemaining() > 0 &&
-						gameState.getLevel() <= NUM_LEVELS);
+				} while (gameState.getLivesRemaining() > 0
+						&& gameState.getLevel() <= NUM_LEVELS);
 
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " score screen at " + FPS + " fps, with a score of "

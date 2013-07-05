@@ -6,6 +6,7 @@ import java.util.Set;
 
 import engine.Cooldown;
 import engine.Core;
+import engine.GameSettings;
 import engine.GameState;
 import entity.Bullet;
 import entity.BulletPool;
@@ -35,6 +36,8 @@ public class GameScreen extends Screen {
 	/** Height of the interface separation line. */
 	private static final int SEPARATION_LINE_HEIGHT = 40;
 
+	/** Current game difficulty settings. */
+	private GameSettings gameSettings;
 	/** Current difficulty level number. */
 	private int level;
 	/** Formation of enemy ships. */
@@ -49,10 +52,6 @@ public class GameScreen extends Screen {
 	private Cooldown enemyShipSpecialExplosionCooldown;
 	/** Set of all bullets fired by on screen ships. */
 	private Set<Bullet> bullets;
-	/** Number of ships in the formation - horizontally. */
-	private int formationSizeX;
-	/** Number of ships in the formation - vertically. */
-	private int formationSizeY;
 	/** Current score. */
 	private int score;
 	/** Player lives left. */
@@ -69,6 +68,8 @@ public class GameScreen extends Screen {
 	 * 
 	 * @param gameState
 	 *            Current game state.
+	 * @param gameSettings
+	 *            Current game settings.
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -76,10 +77,12 @@ public class GameScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public GameScreen(final GameState gameState, final int width,
-			final int height, final int fps) {
+	public GameScreen(final GameState gameState,
+			final GameSettings gameSettings, final int width, final int height,
+			final int fps) {
 		super(width, height, fps);
 
+		this.gameSettings = gameSettings;
 		this.level = gameState.getLevel();
 		this.score = gameState.getScore();
 		this.lives = gameState.getLivesRemaining();
@@ -93,10 +96,7 @@ public class GameScreen extends Screen {
 	public final void initialize() {
 		super.initialize();
 
-		this.formationSizeX = 7;
-		this.formationSizeY = 5;
-		enemyShipFormation = new EnemyShipFormation(formationSizeX,
-				formationSizeY);
+		enemyShipFormation = new EnemyShipFormation(this.gameSettings);
 		enemyShipFormation.attach(this);
 		this.ship = new Ship(this.width / 2, this.height - 30, 8);
 		// Appears each 10-30 seconds.

@@ -12,6 +12,7 @@ import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
+import engine.GameSettings;
 
 /**
  * Groups enemy ships into a formation that moves together.
@@ -21,10 +22,6 @@ import engine.DrawManager.SpriteType;
  */
 public class EnemyShipFormation implements Iterable<EnemyShip> {
 
-	/** Time between shots. */
-	private static final int SHOOTING_INTERVAL = 2500;
-	/** Variance in the time between shots. */
-	private static final int SHOOTING_VARIANCE = 1500;
 	/** Initial position in the x-axis. */
 	private static final int INIT_POS_X = 20;
 	/** Initial position in the x-axis. */
@@ -63,6 +60,18 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private int nShipsWide;
 	/** Number of ships in the formation - vertically. */
 	private int nShipsHigh;
+	/** Time between shots. */
+	private int shootingInterval;
+	/** Variance in the time between shots. */
+	private int shootingVariance;
+	/** Initial ship speed. */
+	private int baseSpeed;
+	/** Speed of the ships. */
+	private int movementSpeed;
+	/** Current direction the formation is moving on. */
+	private Direction currentDirection;
+	/** Interval between movements, in frames. */
+	private int movementInterval;
 	/** Total width of the formation. */
 	private int width;
 	/** Total height of the formation. */
@@ -90,29 +99,27 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		DOWN
 	};
 
-	/** Current direction the formation is moving on. */
-	private Direction currentDirection;
-	/** Interval between movements, in frames. */
-	private int movementInterval;
-
 	/**
 	 * Constructor, sets the initial conditions.
 	 * 
-	 * @param nShipsWide
-	 *            Number of ships in the formation - horizontally.
-	 * @param nShipsHigh
-	 *            Number of ships in the formation - vertically.
+	 * @param gameSettings
+	 *            Current game settings.
 	 */
-	public EnemyShipFormation(final int nShipsWide, final int nShipsHigh) {
+	public EnemyShipFormation(final GameSettings gameSettings) {
 		this.drawManager = Core.getDrawManager();
 		this.logger = Core.getLogger();
 		this.enemyShips = new ArrayList<List<EnemyShip>>();
 		this.currentDirection = Direction.RIGHT;
 		this.movementInterval = 0;
-		this.shootingCooldown = Core.getVariableCooldown(SHOOTING_INTERVAL,
-				SHOOTING_VARIANCE);
-		this.nShipsWide = nShipsWide;
-		this.nShipsHigh = nShipsHigh;
+		this.nShipsWide = gameSettings.getFormationWidth();
+		this.nShipsHigh = gameSettings.getFormationHeight();
+		this.shootingInterval = gameSettings.getShootingFrecuency();
+		this.shootingVariance = (int) (gameSettings.getShootingFrecuency()
+				* .2);
+		this.shootingCooldown = Core.getVariableCooldown(shootingInterval,
+				shootingVariance);
+		this.baseSpeed = gameSettings.getBaseSpeed();
+		this.movementSpeed = this.baseSpeed;
 		this.positionX = INIT_POS_X;
 		this.positionY = INIT_POS_Y;
 		this.shooters = new ArrayList<EnemyShip>();
@@ -185,8 +192,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		int movementX = 0;
 		int movementY = 0;
+		this.movementSpeed = this.shipCount * this.baseSpeed;
 		movementInterval++;
-		if (movementInterval >= this.shipCount * 2) {
+		if (movementInterval >= this.movementSpeed) {
 			movementInterval = 0;
 
 			boolean isAtBottom = positionY
