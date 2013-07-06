@@ -1,5 +1,7 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -33,11 +35,59 @@ public final class Core {
 	private static final int EXTRA_LIFE_FRECUENCY = 3;
 	/** Total number of levels. */
 	private static final int NUM_LEVELS = 15;
-
+	
+	/** Difficulty settings for level 1. */
+	private static final GameSettings SETTINGS_LEVEL_1 =
+			new GameSettings(3, 2, 120, 2500);
+	/** Difficulty settings for level 2. */
+	private static final GameSettings SETTINGS_LEVEL_2 =
+			new GameSettings(3, 2, 120, 2500);
+	/** Difficulty settings for level 3. */
+	private static final GameSettings SETTINGS_LEVEL_3 =
+			new GameSettings(3, 2, 120, 2500);
+	/** Difficulty settings for level 4. */
+	private static final GameSettings SETTINGS_LEVEL_4 =
+			new GameSettings(4, 3, 100, 2500);
+	/** Difficulty settings for level 5. */
+	private static final GameSettings SETTINGS_LEVEL_5 =
+			new GameSettings(4, 3, 100, 2000);
+	/** Difficulty settings for level 6. */
+	private static final GameSettings SETTINGS_LEVEL_6 =
+			new GameSettings(4, 3, 100, 2000);
+	/** Difficulty settings for level 7. */
+	private static final GameSettings SETTINGS_LEVEL_7 =
+			new GameSettings(5, 4, 75, 2000);
+	/** Difficulty settings for level 8. */
+	private static final GameSettings SETTINGS_LEVEL_8 =
+			new GameSettings(5, 4, 75, 2000);
+	/** Difficulty settings for level 9. */
+	private static final GameSettings SETTINGS_LEVEL_9 =
+			new GameSettings(5, 4, 75, 1500);
+	/** Difficulty settings for level 10. */
+	private static final GameSettings SETTINGS_LEVEL_10 =
+			new GameSettings(6, 5, 50, 1500);
+	/** Difficulty settings for level 11. */
+	private static final GameSettings SETTINGS_LEVEL_11 =
+			new GameSettings(6, 5, 50, 1500);
+	/** Difficulty settings for level 12. */
+	private static final GameSettings SETTINGS_LEVEL_12 =
+			new GameSettings(7, 6, 50, 1000);
+	/** Difficulty settings for level 13. */
+	private static final GameSettings SETTINGS_LEVEL_13 =
+			new GameSettings(7, 6, 25, 1000);
+	/** Difficulty settings for level 14. */
+	private static final GameSettings SETTINGS_LEVEL_14 =
+			new GameSettings(8, 7, 25, 1000);
+	/** Difficulty settings for level 15. */
+	private static final GameSettings SETTINGS_LEVEL_15 =
+			new GameSettings(8, 7, 0, 500);
+	
 	/** Frame to draw the screen on. */
 	private static Frame frame;
 	/** Screen currently shown. */
 	private static Screen currentScreen;
+	/** Difficulty settings list. */
+	private static List<GameSettings> gameSettings;
 	/** Application logger. */
 	private static final Logger LOGGER = Logger.getLogger(Core.class
 			.getSimpleName());
@@ -45,6 +95,7 @@ public final class Core {
 	private static Handler fileHandler;
 	/** Logger handler for printing to console. */
 	private static ConsoleHandler consoleHandler;
+
 
 	/**
 	 * Test implementation.
@@ -76,8 +127,24 @@ public final class Core {
 		int width = frame.getWidth();
 		int height = frame.getHeight();
 
+		gameSettings = new ArrayList<GameSettings>();
+		gameSettings.add(SETTINGS_LEVEL_1);
+		gameSettings.add(SETTINGS_LEVEL_2);
+		gameSettings.add(SETTINGS_LEVEL_3);
+		gameSettings.add(SETTINGS_LEVEL_4);
+		gameSettings.add(SETTINGS_LEVEL_5);
+		gameSettings.add(SETTINGS_LEVEL_6);
+		gameSettings.add(SETTINGS_LEVEL_7);
+		gameSettings.add(SETTINGS_LEVEL_8);
+		gameSettings.add(SETTINGS_LEVEL_9);
+		gameSettings.add(SETTINGS_LEVEL_10);
+		gameSettings.add(SETTINGS_LEVEL_11);
+		gameSettings.add(SETTINGS_LEVEL_12);
+		gameSettings.add(SETTINGS_LEVEL_13);
+		gameSettings.add(SETTINGS_LEVEL_14);
+		gameSettings.add(SETTINGS_LEVEL_15);
+		
 		GameState gameState;
-		GameSettings defaultSettings = new GameSettings(7, 5, 1, 2500);
 
 		int returnCode = 1;
 		do {
@@ -95,7 +162,8 @@ public final class Core {
 			case 2:
 				// Game & score.
 				do {
-					currentScreen = new GameScreen(gameState, defaultSettings,
+					currentScreen = new GameScreen(gameState,
+							gameSettings.get(gameState.getLevel()),
 							width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
