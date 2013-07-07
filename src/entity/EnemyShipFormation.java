@@ -38,6 +38,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private static final int Y_SPEED = 4;
 	/** Speed of the bullets shot by the members. */
 	private static final int BULLET_SPEED = 3;
+	/** Proportion of differences between shooting times. */
+	private static final double SHOOTING_VARIANCE = .2;
 	/** Margin on the sides of the screen. */
 	private static final int SIDE_MARGIN = 20;
 	/** Margin on the bottom of the screen. */
@@ -117,7 +119,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.nShipsHigh = gameSettings.getFormationHeight();
 		this.shootingInterval = gameSettings.getShootingFrecuency();
 		this.shootingVariance = (int) (gameSettings.getShootingFrecuency()
-				* .2);
+				* SHOOTING_VARIANCE);
 		this.shootingCooldown = Core.getVariableCooldown(shootingInterval,
 				shootingVariance);
 		this.baseSpeed = gameSettings.getBaseSpeed();

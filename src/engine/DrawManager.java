@@ -283,7 +283,8 @@ public final class DrawManager {
 	 */
 	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
-		String instructionsString = "select with w+s / arrows, confirm with space";
+		String instructionsString =
+				"select with w+s / arrows, confirm with space";
 
 		backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, instructionsString,
@@ -393,8 +394,8 @@ public final class DrawManager {
 				/ 2
 				- (fontRegularMetrics.getWidths()[name[0]]
 						+ fontRegularMetrics.getWidths()[name[1]]
-						+ fontRegularMetrics.getWidths()[name[2]] + fontRegularMetrics
-							.getWidths()[' ']) / 2;
+						+ fontRegularMetrics.getWidths()[name[2]]
+								+ fontRegularMetrics.getWidths()[' ']) / 2;
 
 		for (int i = 0; i < 3; i++) {
 			if (i == nameCharSelected)
@@ -405,8 +406,8 @@ public final class DrawManager {
 			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
-							+ (fontRegularMetrics.getWidths()[name[i - 1]] + fontRegularMetrics
-									.getWidths()[' ']) / 2;
+							+ (fontRegularMetrics.getWidths()[name[i - 1]]
+									+ fontRegularMetrics.getWidths()[' ']) / 2;
 
 			backBufferGraphics.drawString(Character.toString(name[i]),
 					positionX,
@@ -428,7 +429,8 @@ public final class DrawManager {
 	public void drawGameOver(final Screen screen, final boolean acceptsInput,
 			final boolean isNewRecord) {
 		String gameOverString = "Game Over";
-		String continueOrExitString = "Press Space to play again, Escape to exit";
+		String continueOrExitString =
+				"Press Space to play again, Escape to exit";
 
 		int height = isNewRecord ? 4 : 2;
 
@@ -470,7 +472,8 @@ public final class DrawManager {
 	 * @param highScores
 	 *            List of high scores.
 	 */
-	public void drawHighScores(final Screen screen, final List<Score> highScores) {
+	public void drawHighScores(final Screen screen,
+			final List<Score> highScores) {
 		backBufferGraphics.setColor(Color.WHITE);
 		int i = 0;
 		String scoreString = "";

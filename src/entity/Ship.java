@@ -31,8 +31,6 @@ public class Ship extends Entity {
 	/**
 	 * Constructor, establishes the ship's properties.
 	 * 
-	 * @param screen
-	 *            Screen where the ship will be drawn.
 	 * @param positionX
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY

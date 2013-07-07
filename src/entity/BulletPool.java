@@ -3,8 +3,6 @@ package entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import screen.Screen;
-
 /**
  * Implements a pool of recyclable bullets.
  * 
@@ -27,8 +25,6 @@ public final class BulletPool {
 	 * Returns a bullet from the pool if one is available, a new one if there
 	 * isn't.
 	 * 
-	 * @param screen
-	 *            Screen where the bullet will be drawn.
 	 * @param positionX
 	 *            Requested position of the bullet in the X axis.
 	 * @param positionY
