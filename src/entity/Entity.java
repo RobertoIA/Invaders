@@ -2,7 +2,6 @@ package entity;
 
 import java.awt.Color;
 
-import screen.Screen;
 import engine.DrawManager.SpriteType;
 
 /**

@@ -3,7 +3,6 @@ package entity;
 import java.awt.Color;
 import java.util.Set;
 
-import screen.Screen;
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
@@ -17,12 +16,12 @@ import engine.DrawManager.SpriteType;
 public class Ship extends Entity {
 
 	/** Time between shots. */
-	private static final int SHOOTING_INTERVAL = 0;
+	private static final int SHOOTING_INTERVAL = 750;
 	/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -4;
-
 	/** Movement of the ship for each unit of time. */
-	private int speed;
+	private static final int SPEED = 2;
+	
 	/** Minimum time between shots. */
 	private Cooldown shootingCooldown;
 	/** Time spent inactive between hits. */
@@ -35,14 +34,13 @@ public class Ship extends Entity {
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY
 	 *            Initial position of the ship in the Y axis.
-	 * @param speed
+	 * @param SPEED
 	 *            Absolute speed of the ship, when ordered to move.
 	 */
-	public Ship(final int positionX, final int positionY, final int speed) {
+	public Ship(final int positionX, final int positionY) {
 		super(positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
 
 		this.spriteType = SpriteType.Ship;
-		this.speed = speed;
 		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
@@ -52,7 +50,7 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveRight() {
-		this.positionX += this.speed;
+		this.positionX += SPEED;
 	}
 
 	/**
@@ -60,7 +58,7 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveLeft() {
-		this.positionX -= this.speed;
+		this.positionX -= SPEED;
 	}
 
 	/**
@@ -112,6 +110,6 @@ public class Ship extends Entity {
 	 * @return Speed of the ship.
 	 */
 	public final int getSpeed() {
-		return this.speed;
+		return SPEED;
 	}
 }
