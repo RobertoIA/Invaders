@@ -163,7 +163,7 @@ public final class Core {
 				// Game & score.
 				do {
 					currentScreen = new GameScreen(gameState,
-							gameSettings.get(gameState.getLevel()),
+							gameSettings.get(gameState.getLevel() - 1),
 							width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
