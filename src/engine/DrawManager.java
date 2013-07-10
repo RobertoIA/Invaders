@@ -530,9 +530,11 @@ public final class DrawManager {
 	 *            Game difficulty level.
 	 * @param number
 	 *            Countdown number.
+	 * @param bonusLife
+	 *            Checks if a bonus life is received.
 	 */
 	public void drawCountDown(final Screen screen, final int level,
-			final int number) {
+			final int number, final boolean bonusLife) {
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);
@@ -540,8 +542,16 @@ public final class DrawManager {
 				rectWidth, rectHeight);
 		backBufferGraphics.setColor(Color.GREEN);
 		if (number >= 4)
-			drawCenteredBigString(screen, "Level " + level, screen.getHeight()
-					/ 2 + fontBigMetrics.getHeight() / 3);
+			if (!bonusLife) {
+				drawCenteredBigString(screen, "Level " + level,
+						screen.getHeight() / 2
+						+ fontBigMetrics.getHeight() / 3);
+			} else {
+				drawCenteredBigString(screen, "Level " + level
+						+ " - Bonus life!",
+						screen.getHeight() / 2
+						+ fontBigMetrics.getHeight() / 3);
+			}
 		else if (number != 0)
 			drawCenteredBigString(screen, Integer.toString(number),
 					screen.getHeight() / 2 + fontBigMetrics.getHeight() / 3);
