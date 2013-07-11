@@ -74,6 +74,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private int movementSpeed;
 	/** Current direction the formation is moving on. */
 	private Direction currentDirection;
+	/** Direction the formation was moving previously. */
+	private Direction previousDirection;
 	/** Interval between movements, in frames. */
 	private int movementInterval;
 	/** Total width of the formation. */
@@ -211,23 +213,37 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			boolean isAtRightSide = positionX
 					+ this.width >= screen.getWidth() - SIDE_MARGIN;
 			boolean isAtLeftSide = positionX <= SIDE_MARGIN;
-			boolean isAtLeftToRightAltitude = positionY % DESCENT_DISTANCE * 2
-					== 0;
-			boolean isAtRightToLeftAltitude = positionY % DESCENT_DISTANCE
-					== 0;
+			boolean isAtHorizontalAltitude = positionY % DESCENT_DISTANCE == 0;
 
-			if ((currentDirection == Direction.RIGHT
-					&& !isAtBottom && isAtRightSide)
-					|| (currentDirection == Direction.LEFT
-					&& !isAtBottom && isAtLeftSide)) {
-				currentDirection = Direction.DOWN;
-				this.logger.info("Formation now moving down");
-			} else if (isAtLeftToRightAltitude && positionX <= SIDE_MARGIN) {
-				currentDirection = Direction.RIGHT;
-				this.logger.info("Formation now moving right");
-			} else if (isAtRightToLeftAltitude && isAtRightSide) {
-				currentDirection = Direction.LEFT;
-				this.logger.info("Formation now moving left");
+			if (currentDirection == Direction.DOWN) {
+				if (isAtHorizontalAltitude)
+					if (previousDirection == Direction.RIGHT) {
+						currentDirection = Direction.LEFT;
+						this.logger.info("Formation now moving left 1");
+					} else {
+						currentDirection = Direction.RIGHT;
+						this.logger.info("Formation now moving right 2");
+					}
+			} else if (currentDirection == Direction.LEFT) {
+				if (isAtLeftSide)
+					if (!isAtBottom) {
+						previousDirection = currentDirection;
+						currentDirection = Direction.DOWN;
+						this.logger.info("Formation now moving down 3");
+					} else {
+						currentDirection = Direction.RIGHT;
+						this.logger.info("Formation now moving right 4");
+					}
+			} else {
+				if (isAtRightSide)
+					if (!isAtBottom) {
+						previousDirection = currentDirection;
+						currentDirection = Direction.DOWN;
+						this.logger.info("Formation now moving down 5");
+					} else {
+						currentDirection = Direction.LEFT;
+						this.logger.info("Formation now moving left 6");
+					}
 			}
 
 			if (currentDirection == Direction.RIGHT)
