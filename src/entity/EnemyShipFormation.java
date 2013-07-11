@@ -47,7 +47,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/** Distance to go down each pass. */
 	private static final int DESCENT_DISTANCE = 20;
 	/** Minimum speed allowed. */
-	private static final int MINIMUM_SPEED = 3;
+	private static final int MINIMUM_SPEED = 10;
 
 	/** DrawManager instance. */
 	private DrawManager drawManager;
