@@ -3,7 +3,7 @@ Invaders
 [Space Invaders](http://en.wikipedia.org/wiki/Space_Invaders) clone, written in Java.
 
 ###Screenshots
-![](http://min.us/ljt8HhaA8laZq)
+![](http://i.minus.com/ijt8HhaA8laZq.png)
 
 ###Download
 [Dropbox](https://dl.dropboxusercontent.com/u/23829102/invaders.zip)
