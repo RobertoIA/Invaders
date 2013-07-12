@@ -122,8 +122,6 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.shootingInterval = gameSettings.getShootingFrecuency();
 		this.shootingVariance = (int) (gameSettings.getShootingFrecuency()
 				* SHOOTING_VARIANCE);
-		this.shootingCooldown = Core.getVariableCooldown(shootingInterval,
-				shootingVariance);
 		this.baseSpeed = gameSettings.getBaseSpeed();
 		this.movementSpeed = this.baseSpeed;
 		this.positionX = INIT_POS_X;
@@ -166,8 +164,6 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		for (List<EnemyShip> column : this.enemyShips)
 			this.shooters.add(column.get(column.size() - 1));
-
-		shootingCooldown.reset();
 	}
 
 	/**
@@ -194,6 +190,12 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * Updates the position of the ships.
 	 */
 	public final void update() {
+		if(this.shootingCooldown == null) {
+			this.shootingCooldown = Core.getVariableCooldown(shootingInterval,
+					shootingVariance);
+			this.shootingCooldown.reset();
+		}
+		
 		cleanUp();
 
 		int movementX = 0;

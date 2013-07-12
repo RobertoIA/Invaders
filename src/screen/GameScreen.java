@@ -171,8 +171,6 @@ public class GameScreen extends Screen {
 						this.bulletsShot++;
 			}
 
-			this.enemyShipFormation.shoot(this.bullets);
-
 			if (this.enemyShipSpecial != null) {
 				if (!this.enemyShipSpecial.isDestroyed())
 					this.enemyShipSpecial.move(2, 0);
@@ -194,6 +192,7 @@ public class GameScreen extends Screen {
 
 			this.ship.update();
 			this.enemyShipFormation.update();
+			this.enemyShipFormation.shoot(this.bullets);
 		}
 
 		manageCollisions();
