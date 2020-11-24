@@ -162,6 +162,9 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
+# Output
+/out
+
 #############
 ## Custom
 #############
