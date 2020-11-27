@@ -3,7 +3,7 @@ os:
 - osx
 dist: xenial
 jdk:
-- openjdk8
+- openjdk15
 branches:
   only:
   - master
