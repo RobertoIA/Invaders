@@ -25,7 +25,7 @@
     "slack": [
       {
         "rooms": [
-          travis encrypt "hyuerica-selab:rQA2uoVX2rHX9SLGfqPoeJMw" --add notifications.slack -r SWdevelop-569/Invaders
+          "hyuerica-selab:c9uqYGOSmFRih2klEME9FvSk"
         ]
       }
     ]
