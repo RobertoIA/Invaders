@@ -169,3 +169,13 @@ pip-log.txt
 log*
 *.ttf
 .checkstyle
+
+## 우리가 추가한것들
+out/
+.idea/
+Invaders.iml
+res/
+src/META-INF/
+src/graphics
+src/scores
+src/font.ttf
