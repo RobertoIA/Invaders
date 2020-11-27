@@ -1,33 +1,18 @@
-{
-  "language": "java",
-  "os": [
-    "windows"
-  ],
-  "dist": "xenial",
-  "jdk": [
-    "openjdk8"
-  ],
-  "branches": {
-    "only": [
-      "master"
-    ]
-  },
-  "cache": {
-    "directories": [
-      "$HOME/.m2/repository",
-      "$HOME/.gradle"
-    ]
-  },
-  "script": [
-    "./gradlew clean build"
-  ],
-  "notifications": {
-    "slack": [
-      {
-        "rooms": [
-          "hyuerica-selab:c9uqYGOSmFRih2klEME9FvSk"
-        ]
-      }
-    ]
-  }
-}
+language: java
+os:
+- windows
+dist: xenial
+jdk:
+- openjdk8
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.gradle"
+script:
+- "./gradlew clean build"
+notifications:
+  slack:
+    secure: ARUYEnXEt9hlNcx69OGowRj8zJm5+dr4PF6vf0tTo885q47FVGHOSifZFuFXXCNs/MOvNUHLwE7fKHRQNeBYbNQTWmfOBwLHfvdrWrLLGnh1aBviyjnrpFiGMtz5bTBMfYPI1k4k5WfCrq/Es5FK7f+56eIWZWOz3ca06/7cLpXyhY1DcjtEjzfIr1GyWHzclrQVdf+unwOKx0Uk46FamVpiB+F30lXIBLdv4u9CWGGIp6Rc1/Wp8K/Wtb5IcYBgt2x45pBR6vO00vvYt4jIHFod/oyRuW1aptRyWKSxsoe6AHxwozPkbEk4cz7HTtX5CHbRrmA1dEqckS9DCqv8CL0dMJeKHBbSCJOOXaopzs2c5HG3SrtruW/+I8Clj4fIanlyeefCWA1qrK9QGkyK7tFApxqEl1f2wtEXgRNruHoFoc45yBKa5PciZDW0Yi23TjreMDQZQszSPa+8eu3lplzumlsVkTELXJrKDUC7KpMBFl1OU5Q/xlYKAbhxkC7Gjg7myNe6FZzg24FyeaaD2bU8E4Vu3O1/dVVpF0TCiuydQACl7ugCsv0FzsCkQybvn52z5f0qDvmd8vait7xlT8e1el1AyQDnzMvJWlSqTyfY2mUUmEzjd4r7sL9eQhxT4xCUeXp+NCG+TkL29k8UnU5gRsZAhHhYPUQyoHtg8vo=
