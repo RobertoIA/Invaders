@@ -177,20 +177,22 @@ public final class Core {
 				LOGGER.info("Closing high score screen.");
 				break;
 			case 4:
-				currentScreen = new TitleScreen(width, height, FPS);
+				//reset scores.
+				currentScreen = new HighScoreScreen(width, height, FPS);
 				if(JOptionPane.showConfirmDialog(null,"reset the scores?","confirm",JOptionPane.YES_NO_OPTION)
 						== JOptionPane.YES_OPTION){
 					try {
 						getFileManager().resetHighScores();
+						LOGGER.info("Reset");
 					} catch (NumberFormatException | IOException e) {
+						LOGGER.info("Didn't Reset");
 					}
-					returnCode = frame.setScreen(currentScreen);
-					LOGGER.info("Reset");
+
 				}
 				else {
-					returnCode = frame.setScreen(currentScreen);
-					LOGGER.info("Reset");
+					LOGGER.info("Didn't Choose to Reset");
 				}
+				returnCode = frame.setScreen(currentScreen);
 				break;
 
 			default:
