@@ -2,17 +2,7 @@ package engine;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -266,6 +256,30 @@ public final class FileManager {
 		} finally {
 			if (bufferedWriter != null)
 				bufferedWriter.close();
+		}
+	}
+
+
+
+	/////////////////////////////////////
+	public void resetHighScores(final List<Score> highScores)
+			throws IOException {
+		String jarPath = FileManager.class.getProtectionDomain()
+				.getCodeSource().getLocation().getPath();
+		jarPath = URLDecoder.decode(jarPath, "UTF-8");
+
+		String scoresPath = new File(jarPath).getParent();
+		scoresPath += File.separator;
+		scoresPath += "scores";
+//		File file = new File(scoresPath);
+		String dummy = "";
+		try {
+			FileWriter fw = new FileWriter(scoresPath);
+			fw.write(dummy);
+
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }
