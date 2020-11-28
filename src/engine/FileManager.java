@@ -262,7 +262,7 @@ public final class FileManager {
 
 
 	/////////////////////////////////////
-	public void resetHighScores(final List<Score> highScores)
+	public void resetHighScores()
 			throws IOException {
 		String jarPath = FileManager.class.getProtectionDomain()
 				.getCodeSource().getLocation().getPath();
