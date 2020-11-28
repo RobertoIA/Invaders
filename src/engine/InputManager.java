@@ -14,7 +14,7 @@ public final class InputManager implements KeyListener {
 	/** Number of recognised keys. */
 	private static final int NUM_KEYS = 256;
 	/** Array with the jeys marked as pressed or not. */
-	private static boolean[] keys;
+	public static boolean[] keys;
 	/** Singleton instance of the class. */
 	private static InputManager instance;
 
