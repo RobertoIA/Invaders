@@ -1,5 +1,7 @@
 package engine;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
@@ -13,6 +15,8 @@ import screen.HighScoreScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
+
+import javax.swing.*;
 
 /**
  * Implements core game logic.
@@ -172,6 +176,23 @@ public final class Core {
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing high score screen.");
 				break;
+			case 4:
+				currentScreen = new TitleScreen(width, height, FPS);
+				if(JOptionPane.showConfirmDialog(null,"reset the scores?","confirm",JOptionPane.YES_NO_OPTION)
+						== JOptionPane.YES_OPTION){
+					try {
+						getFileManager().resetHighScores();
+					} catch (NumberFormatException | IOException e) {
+					}
+					returnCode = frame.setScreen(currentScreen);
+					LOGGER.info("Reset");
+				}
+				else {
+					returnCode = frame.setScreen(currentScreen);
+					LOGGER.info("Reset");
+				}
+				break;
+
 			default:
 				break;
 			}
