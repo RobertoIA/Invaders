@@ -78,7 +78,7 @@ public class GameScreen extends Screen {
 	 *            Current game state.
 	 * @param gameSettings
 	 *            Current game settings.
-	 * @param bonnusLife
+	 * @param bonusLife
 	 *            Checks if a bonus life is awarded this level.
 	 * @param width
 	 *            Screen width.
@@ -122,6 +122,7 @@ public class GameScreen extends Screen {
 		this.bullets = new HashSet<Bullet>();
 
 		// Special input delay / countdown.
+		// 카운트다운에 걸리는 시간 딜레이
 		this.gameStartTime = System.currentTimeMillis();
 		this.inputDelay = Core.getCooldown(INPUT_DELAY);
 		this.inputDelay.reset();
@@ -239,6 +240,7 @@ public class GameScreen extends Screen {
 			int countdown = (int) ((INPUT_DELAY
 					- (System.currentTimeMillis()
 							- this.gameStartTime)) / 1000);
+			this.logger.info(String.valueOf(countdown));
 			drawManager.drawCountDown(this, this.level, countdown,
 					this.bonusLife);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
@@ -246,9 +248,17 @@ public class GameScreen extends Screen {
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
 					/ 12);
 		}
+		if (true){
+			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
+					/ 12);
+			drawManager.drawPause(this);
+			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
+					/ 12);
+		}
 
 		drawManager.completeDrawing(this);
 	}
+
 
 	/**
 	 * Cleans bullets that go off screen.
