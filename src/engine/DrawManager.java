@@ -571,11 +571,16 @@ public final class DrawManager {
 	public void drawPause(final Screen screen){
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
+		String restartString =
+				"Press ESC Button to resume the game";
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2,
 				rectWidth, rectHeight);
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, "Pause", screen.getHeight() / 2
-				+ fontBigMetrics.getHeight() / 3);
+				+ fontBigMetrics.getHeight() / 8);
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, restartString,
+				screen.getHeight() / 2 + 3 * fontBigMetrics.getHeight() / 3);
 	}
 }

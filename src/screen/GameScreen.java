@@ -1,8 +1,10 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import engine.Cooldown;
 import engine.Core;
@@ -24,7 +26,7 @@ import entity.Ship;
 public class GameScreen extends Screen {
 
 	/** Milliseconds until the screen accepts user input. */
-	private static final int INPUT_DELAY = 6000;
+	private static final int INPUT_DELAY = 1000;
 	/** Bonus score for each life remaining at the end of the level. */
 	private static final int LIFE_SCORE = 100;
 	/** Minimum time between bonus ship's appearances. */
@@ -37,6 +39,9 @@ public class GameScreen extends Screen {
 	private static final int SCREEN_CHANGE_INTERVAL = 1500;
 	/** Height of the interface separation line. */
 	private static final int SEPARATION_LINE_HEIGHT = 40;
+	/** 정지버튼이 전에 눌렸였는지 아닌지 검사**/
+	boolean isNextpressed = false;
+	boolean isPausepressed = false;
 
 	/** Current game difficulty settings. */
 	private GameSettings gameSettings;
@@ -70,7 +75,6 @@ public class GameScreen extends Screen {
 	private boolean levelFinished;
 	/** Checks if a bonus life is received. */
 	private boolean bonusLife;
-
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -155,6 +159,10 @@ public class GameScreen extends Screen {
 						|| inputManager.isKeyDown(KeyEvent.VK_D);
 				boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
 						|| inputManager.isKeyDown(KeyEvent.VK_A);
+				// del 키로 next level 로 넘김
+				boolean gameNext = inputManager.isKeyDown(KeyEvent.VK_BACK_SPACE);
+				// esc 키로 pause 시킴
+				boolean gamePause = inputManager.isKeyDown(KeyEvent.VK_ESCAPE);
 
 				boolean isRightBorder = this.ship.getPositionX()
 						+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
@@ -167,6 +175,24 @@ public class GameScreen extends Screen {
 				if (moveLeft && !isLeftBorder) {
 					this.ship.moveLeft();
 				}
+				if (gameNext){
+					if (!isNextpressed){
+					isNextpressed = true;
+					this.isRunning = false;
+					this.logger.info("skip the current level");
+					}
+				}
+				if (gamePause){
+					if (!isPausepressed){
+						isPausepressed = true;
+						this.logger.info("Pausing game screen");
+					}
+				else {
+						isPausepressed = false;
+						this.logger.info("resuming game screen");
+					}
+				}
+
 				if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 					if (this.ship.shoot(this.bullets))
 						this.bulletsShot++;
@@ -193,6 +219,8 @@ public class GameScreen extends Screen {
 
 			this.ship.update();
 			this.enemyShipFormation.update();
+			// 입력된 그래픽들을 적용해줌.
+			this.drawManager.completeDrawing(this);
 			this.enemyShipFormation.shoot(this.bullets);
 		}
 
@@ -240,7 +268,6 @@ public class GameScreen extends Screen {
 			int countdown = (int) ((INPUT_DELAY
 					- (System.currentTimeMillis()
 							- this.gameStartTime)) / 1000);
-			this.logger.info(String.valueOf(countdown));
 			drawManager.drawCountDown(this, this.level, countdown,
 					this.bonusLife);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
@@ -248,7 +275,8 @@ public class GameScreen extends Screen {
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
 					/ 12);
 		}
-		if (true){
+		// Pause the game
+		if (isPausepressed){
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
 					/ 12);
 			drawManager.drawPause(this);
@@ -257,8 +285,25 @@ public class GameScreen extends Screen {
 		}
 
 		drawManager.completeDrawing(this);
-	}
-
+//		if (isPausepressed){
+//			try {
+//				System.in.read();
+//
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//			try {
+//				this.logger.info("check check");
+//				while (!Thread.currentThread().isInterrupted()){
+//					Thread.sleep(300);
+//				}
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			} finally {
+//
+//			}
+		}
 
 	/**
 	 * Cleans bullets that go off screen.
