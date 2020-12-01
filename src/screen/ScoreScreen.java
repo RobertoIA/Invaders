@@ -81,7 +81,7 @@ public class ScoreScreen extends Screen {
 			this.highScores = Core.getFileManager().loadHighScores();
 			if (highScores.size() < MAX_HIGH_SCORE_NUM
 					|| highScores.get(highScores.size() - 1).getScore()
-					< this.score)
+					< this.score.getPlayer1Value())
 				this.isNewRecord = true;
 
 		} catch (IOException e) {
@@ -156,7 +156,7 @@ public class ScoreScreen extends Screen {
 	 * Saves the score as a high score.
 	 */
 	private void saveScore() {
-		highScores.add(new Score(new String(this.name), score));
+		highScores.add(new Score(new String(this.name), score.getPlayer1Value()));
 		Collections.sort(highScores);
 		if (highScores.size() > MAX_HIGH_SCORE_NUM)
 			highScores.remove(highScores.size() - 1);
@@ -176,9 +176,9 @@ public class ScoreScreen extends Screen {
 
 		drawManager.drawGameOver(this, this.inputDelay.checkFinished(),
 				this.isNewRecord);
-		drawManager.drawResults(this, this.score, this.livesRemaining,
-				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.isNewRecord);
+		drawManager.drawResults(this, this.score.getPlayer1Value(), this.livesRemaining.getPlayer1Value(),
+				this.shipsDestroyed.getPlayer1Value(), (float) this.shipsDestroyed.getPlayer1Value()
+						/ this.bulletsShot.getPlayer1Value(), this.isNewRecord);
 
 		if (this.isNewRecord)
 			drawManager.drawNameInput(this, this.name, this.nameCharSelected);
