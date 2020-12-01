@@ -113,7 +113,7 @@ public final class Core {
 		GameState gameState;
 
 		int returnCode = 1;
-		int playerCode;
+		int playerCode = 1;
 		int difficultyCode;
 		do {
 			gameState = new GameState(1, new Pair(0, 0),
@@ -170,7 +170,7 @@ public final class Core {
 										gameState.getShipsDestroyed(),
                     playerCode);
 
-							} while (gameState.getLivesRemaining() > 0
+							} while (gameState.getLivesRemaining().getPlayer1Value() > 0
 									&& gameState.getLevel() <= NUM_LEVELS);
 
 							LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
