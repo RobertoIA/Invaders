@@ -116,12 +116,6 @@ public final class Core {
 		int playerCode = 1;
 		int difficultyCode;
 		do {
-			gameState = new GameState(1, new Pair(0, 0),
-					new Pair(MAX_LIVES, MAX_LIVES),
-					new Pair(0, 0),
-					new Pair(0, 0),
-					playerCode);
-
 			switch (returnCode) {
 				case 1:
 					// Main menu.
@@ -144,6 +138,12 @@ public final class Core {
 							+ " difficulty select screen at " + FPS + " fps.");
 					difficultyCode = frame.setScreen(currentScreen);
 					LOGGER.info("Closing difficulty select screen.");
+
+					gameState = new GameState(1, new Pair(0, 0),
+							new Pair(MAX_LIVES, MAX_LIVES),
+							new Pair(0, 0),
+							new Pair(0, 0),
+							playerCode);
 
 					if (playerCode == 1) {
 						if (difficultyCode == 1) {
