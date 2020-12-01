@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import screen.*;
 
+import entity.Pair;
+
 /**
  * Implements core game logic.
  * 
@@ -114,7 +116,11 @@ public final class Core {
 		int playerCode;
 		int difficultyCode;
 		do {
-			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
+			gameState = new GameState(1, new Pair(0, 0),
+					new Pair(MAX_LIVES, MAX_LIVES),
+					new Pair(0, 0),
+					new Pair(0, 0),
+					playerCode);
 
 			switch (returnCode) {
 				case 1:
@@ -145,7 +151,7 @@ public final class Core {
 								// One extra live every few levels.
 								boolean bonusLife = gameState.getLevel()
 										% EXTRA_LIFE_FRECUENCY == 0
-										&& gameState.getLivesRemaining() < MAX_LIVES;
+										&& gameState.getLivesRemaining().getPlayer1Value() < MAX_LIVES;
 
 								currentScreen = new GameScreen(gameState,
 										gameSettings.get(gameState.getLevel() - 1),
@@ -161,7 +167,8 @@ public final class Core {
 										gameState.getScore(),
 										gameState.getLivesRemaining(),
 										gameState.getBulletsShot(),
-										gameState.getShipsDestroyed());
+										gameState.getShipsDestroyed(),
+                    playerCode);
 
 							} while (gameState.getLivesRemaining() > 0
 									&& gameState.getLevel() <= NUM_LEVELS);

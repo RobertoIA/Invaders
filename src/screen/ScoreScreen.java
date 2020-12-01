@@ -10,6 +10,8 @@ import engine.Core;
 import engine.GameState;
 import engine.Score;
 
+import entity.Pair;
+
 /**
  * Implements the score screen.
  * 
@@ -28,13 +30,15 @@ public class ScoreScreen extends Screen {
 	private static final int LAST_CHAR = 90;
 
 	/** Current score. */
-	private int score;
+	private Pair score;
 	/** Player lives left. */
-	private int livesRemaining;
+	private Pair livesRemaining;
 	/** Total bullets shot by the player. */
-	private int bulletsShot;
+	private Pair bulletsShot;
 	/** Total ships destroyed by the player. */
-	private int shipsDestroyed;
+	private Pair shipsDestroyed;
+	/** Current Players' numbers.*/
+	private int playerCode;
 	/** List of past high scores. */
 	private List<Score> highScores;
 	/** Checks if current score is a new high score. */
@@ -66,6 +70,7 @@ public class ScoreScreen extends Screen {
 		this.livesRemaining = gameState.getLivesRemaining();
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
+		this.playerCode = gameState.getPlayerCode();
 		this.isNewRecord = false;
 		this.name = "AAA".toCharArray();
 		this.nameCharSelected = 0;
