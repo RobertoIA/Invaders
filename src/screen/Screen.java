@@ -45,6 +45,8 @@ public class Screen {
 
 	protected int playerCode;
 
+	protected int difficultyCode;
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -67,6 +69,7 @@ public class Screen {
 		this.inputDelay.reset();
 		this.returnCode = 0;
 		this.playerCode = 0;
+		this.difficultyCode = 0;
 	}
 
 	/**
