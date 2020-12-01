@@ -584,4 +584,36 @@ public final class DrawManager {
 		drawCenteredRegularString(screen, twoPlayerString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
 	}
+
+	public void drawDifficultyTitle(final Screen screen) {
+		String titleString = "Difficulty select";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+	}
+
+	public void drawDifficultyMenu(final Screen screen, final int option) {
+		String easyString = "Easy";
+		String mediumString = "Medium";
+		String hardString = "Hard";
+
+		if (option == 1)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, easyString,
+				screen.getHeight() / 3 * 2);
+		if (option == 2)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, mediumString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		if (option == 3)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, hardString, screen.getHeight() / 3
+				* 2 + fontRegularMetrics.getHeight() * 4);
+	}
 }

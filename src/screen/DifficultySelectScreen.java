@@ -100,7 +100,8 @@ public class DifficultySelectScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawPlayerTitle(this);
+		drawManager.drawDifficultyTitle(this);
+		drawManager.drawDifficultyMenu(this, this.difficultyCode);
 
 		drawManager.completeDrawing(this);
 	}
