@@ -157,10 +157,10 @@ public class GameScreen extends Screen {
 	public final int run() {
 		super.run();
 
-		this.score.addPlayer1Value(LIFE_SCORE * (this.score.getPlayer1Value() - 1));
+		this.score.addPlayer1Value(LIFE_SCORE * (this.lives.getPlayer1Value() - 1));
 		this.logger.info("Screen cleared with a score of " + this.score + " for Player1");
 		if(this.playerCode == 2){
-			this.score.addPlayer2Value(LIFE_SCORE * (this.score.getPlayer2Value() - 1));
+			this.score.addPlayer2Value(LIFE_SCORE * (this.lives.getPlayer2Value() - 1));
 			this.logger.info("Screen cleared with a score of " + this.score + "for Player2");
 		}
 
