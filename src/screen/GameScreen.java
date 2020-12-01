@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import engine.Cooldown;
-import engine.Core;
-import engine.GameSettings;
-import engine.GameState;
+import engine.*;
 import entity.Bullet;
 import entity.BulletPool;
 import entity.EnemyShip;
@@ -26,7 +23,7 @@ import entity.Ship;
 public class GameScreen extends Screen {
 
 	/** Milliseconds until the screen accepts user input. */
-	private static final int INPUT_DELAY = 1000;
+	private static final int INPUT_DELAY = 6000;
 	/** Bonus score for each life remaining at the end of the level. */
 	private static final int LIFE_SCORE = 100;
 	/** Minimum time between bonus ship's appearances. */
@@ -151,7 +148,6 @@ public class GameScreen extends Screen {
 	 */
 	protected final void update() {
 		super.update();
-
 		if (this.inputDelay.checkFinished() && !this.levelFinished) {
 
 			if (!this.ship.isDestroyed()) {
@@ -183,13 +179,19 @@ public class GameScreen extends Screen {
 					}
 				}
 				if (gamePause){
-					if (!isPausepressed){
-						isPausepressed = true;
-						this.logger.info("Pausing game screen");
+					// 약간의 딜레이를 주어 esc키의 중복입력을 방지
+					try{
+						TimeUnit.MILLISECONDS.sleep(100);
+					}catch (Exception e){
+						e.printStackTrace();
 					}
-				else {
+					if (isPausepressed){
 						isPausepressed = false;
 						this.logger.info("resuming game screen");
+					}
+				else {
+						isPausepressed = true;
+						this.logger.info("Pausing game screen");
 					}
 				}
 
@@ -267,7 +269,7 @@ public class GameScreen extends Screen {
 		if (!this.inputDelay.checkFinished()) {
 			int countdown = (int) ((INPUT_DELAY
 					- (System.currentTimeMillis()
-							- this.gameStartTime)) / 1000);
+					- this.gameStartTime)) / 1000);
 			drawManager.drawCountDown(this, this.level, countdown,
 					this.bonusLife);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
@@ -275,35 +277,25 @@ public class GameScreen extends Screen {
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
 					/ 12);
 		}
-		// Pause the game
-		if (isPausepressed){
+		drawManager.completeDrawing(this);
+		// Show pause UI and stop time
+		if (isPausepressed) {
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height
 					/ 12);
 			drawManager.drawPause(this);
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
 					/ 12);
+			drawManager.completeDrawing(this);
+			try {
+				while (!inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+					TimeUnit.MILLISECONDS.sleep(100);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+	}
 
-		drawManager.completeDrawing(this);
-//		if (isPausepressed){
-//			try {
-//				System.in.read();
-//
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//			try {
-//				this.logger.info("check check");
-//				while (!Thread.currentThread().isInterrupted()){
-//					Thread.sleep(300);
-//				}
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			} finally {
-//
-//			}
-		}
 
 	/**
 	 * Cleans bullets that go off screen.
