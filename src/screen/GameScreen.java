@@ -198,8 +198,8 @@ public class GameScreen extends Screen {
 				}
 			} else if(playerCode == 2){ //When you are playing two players mode.
 				if (!this.ship1.isDestroyed()) { //player1 status
-					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
-					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
+					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_D);
+					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_A);
 
 					boolean isRightBorder = this.ship1.getPositionX()
 							+ this.ship1.getWidth() + this.ship1.getSpeed() > this.width - 1;
@@ -218,8 +218,8 @@ public class GameScreen extends Screen {
 				}
 
 				if (!this.ship2.isDestroyed()){ //player2 status
-					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_D);
-					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_A);
+					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
+					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
 
 					boolean isRightBorder = this.ship2.getPositionX()
 							+ this.ship2.getWidth() + this.ship2.getSpeed() > this.width - 1;
@@ -280,7 +280,7 @@ public class GameScreen extends Screen {
 				break;
 
 			case 2 : //two-players mode check
-				if ((this.enemyShipFormation.isEmpty() || this.lives.getPlayer1Value() == 0 || this.lives.getPlayer2Value() == 0)
+				if ((this.enemyShipFormation.isEmpty() || (this.lives.getPlayer1Value() == 0 && this.lives.getPlayer2Value() == 0))
 						&& !this.levelFinished) {
 					this.levelFinished = true;
 					this.screenFinishedCooldown.reset();
