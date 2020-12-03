@@ -2,7 +2,9 @@ package engine;
 
 /**
  * Implements an object that stores the state of the game between levels.
- * 
+ *
+ * // 난이도 간의 게임 상태를 저장하는 개체 구현
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
