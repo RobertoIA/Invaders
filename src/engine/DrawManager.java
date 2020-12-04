@@ -416,17 +416,55 @@ public final class DrawManager {
 				/ height + fontRegularMetrics.getHeight() * 6);
 	}
 
+	public void draw2PResults(final Screen screen, final int p1score, final int p2score,
+							  final int p1livesRemaining, final int p2livesRemaining,
+							  final int p1shipsDestroyed, final int p2shipsDestroyed,
+							  final float p1accuracy, final float p2accuracy, final boolean isNewRecord) {
+		String p1scoreString = String.format("1P: %04d", p1score);
+		String p2scoreString = String.format("2P: %04d", p2score);
+		String scoreString = "scores " + p1scoreString + "  " + p2scoreString;
+
+		String p1livesRemainingString = "1P: " + p1livesRemaining;
+		String p2livesRemainingString = "2P: " + p2livesRemaining;
+		String livesRemainingString = "lives remaining " + p1livesRemainingString + "  " + p2livesRemainingString;
+
+		String p1shipsDestroyedString = "1P: " + p1shipsDestroyed;
+		String p2shipsDestroyedString = "2P:  " + p2shipsDestroyed;
+		String shipsDestroyedString = "enemies destroyed " + p1shipsDestroyedString + "  " + p2shipsDestroyedString;
+
+		String p1accuracyString = String
+				.format("1P: %.2f%%", p1accuracy * 100);
+		String p2accuracyString = String
+				.format("2P:  %.2f%%", p2accuracy * 100);
+		String accuracyString = "accuracy " + p1accuracyString + "  " + p2accuracyString;
+
+		int height = isNewRecord ? 4 : 2;
+
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, scoreString, screen.getHeight()
+				/ height);
+		drawCenteredRegularString(screen, livesRemainingString,
+				screen.getHeight() / height + fontRegularMetrics.getHeight()
+						* 2);
+		drawCenteredRegularString(screen, shipsDestroyedString,
+				screen.getHeight() / height + fontRegularMetrics.getHeight()
+						* 4);
+		drawCenteredRegularString(screen, accuracyString, screen.getHeight()
+				/ height + fontRegularMetrics.getHeight() * 6);
+
+	}
+
 	/**
 	 * Draws interactive characters for name input.
 	 * 
 	 * @param screen
 	 *            Screen to draw on.
-	 * @param name
+	 * @param p1name
 	 *            Current name selected.
 	 * @param nameCharSelected
 	 *            Current character selected for modification.
 	 */
-	public void drawNameInput(final Screen screen, final char[] name,
+	public void drawNameInput(final Screen screen, final char[] p1name,
 			final int nameCharSelected) {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
@@ -441,9 +479,9 @@ public final class DrawManager {
 		// 3 letters name.
 		int positionX = screen.getWidth()
 				/ 2
-				- (fontRegularMetrics.getWidths()[name[0]]
-						+ fontRegularMetrics.getWidths()[name[1]]
-						+ fontRegularMetrics.getWidths()[name[2]]
+				- (fontRegularMetrics.getWidths()[p1name[0]]
+						+ fontRegularMetrics.getWidths()[p1name[1]]
+						+ fontRegularMetrics.getWidths()[p1name[2]]
 								+ fontRegularMetrics.getWidths()[' ']) / 2;
 
 		for (int i = 0; i < 3; i++) {
@@ -452,13 +490,52 @@ public final class DrawManager {
 			else
 				backBufferGraphics.setColor(Color.WHITE);
 
-			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
+			positionX += fontRegularMetrics.getWidths()[p1name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
-							+ (fontRegularMetrics.getWidths()[name[i - 1]]
+							+ (fontRegularMetrics.getWidths()[p1name[i - 1]]
 									+ fontRegularMetrics.getWidths()[' ']) / 2;
 
-			backBufferGraphics.drawString(Character.toString(name[i]),
+			backBufferGraphics.drawString(Character.toString(p1name[i]),
+					positionX,
+					screen.getHeight() / 4 + fontRegularMetrics.getHeight()
+							* 14);
+		}
+	}
+
+	public void draw2PNameInput(final Screen screen, final char[] p1name, final char[] p2name,
+							  final int nameCharSelected) {
+		String newRecordString = "New Record!";
+		String introduceNameString = "Introduce name:";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredRegularString(screen, newRecordString, screen.getHeight()
+				/ 4 + fontRegularMetrics.getHeight() * 10);
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, introduceNameString,
+				screen.getHeight() / 4 + fontRegularMetrics.getHeight() * 12);
+
+		// 3 letters name.
+		int positionX = screen.getWidth()
+				/ 2
+				- (fontRegularMetrics.getWidths()[p1name[0]]
+				+ fontRegularMetrics.getWidths()[p1name[1]]
+				+ fontRegularMetrics.getWidths()[p1name[2]]
+				+ fontRegularMetrics.getWidths()[' ']) / 2;
+
+		for (int i = 0; i < 3; i++) {
+			if (i == nameCharSelected)
+				backBufferGraphics.setColor(Color.GREEN);
+			else
+				backBufferGraphics.setColor(Color.WHITE);
+
+			positionX += fontRegularMetrics.getWidths()[p1name[i]] / 2;
+			positionX = i == 0 ? positionX
+					: positionX
+					+ (fontRegularMetrics.getWidths()[p1name[i - 1]]
+					+ fontRegularMetrics.getWidths()[' ']) / 2;
+
+			backBufferGraphics.drawString(Character.toString(p1name[i]),
 					positionX,
 					screen.getHeight() / 4 + fontRegularMetrics.getHeight()
 							* 14);
