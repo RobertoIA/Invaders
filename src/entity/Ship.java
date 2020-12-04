@@ -34,9 +34,11 @@ public class Ship extends Entity {
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY
 	 *            Initial position of the ship in the Y axis.
+	 * @param color
+	 *            Initial color of the ship.
 	 */
-	public Ship(final int positionX, final int positionY) {
-		super(positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
+	public Ship(final int positionX, final int positionY, Color color) {
+		super(positionX, positionY, 13 * 2, 8 * 2, color);
 
 		this.spriteType = SpriteType.Ship;
 		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);
@@ -64,13 +66,15 @@ public class Ship extends Entity {
 	 * 
 	 * @param bullets
 	 *            List of bullets on screen, to add the new bullet.
+	 * @param name
+	 *            Name of shooter of this bullet.
 	 * @return Checks if the bullet was shot correctly.
 	 */
-	public final boolean shoot(final Set<Bullet> bullets) {
+	public final boolean shoot(final Set<Bullet> bullets, final String name) {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(positionX + this.width / 2,
-					positionY, BULLET_SPEED));
+					positionY, BULLET_SPEED, name));
 			return true;
 		}
 		return false;
@@ -78,10 +82,14 @@ public class Ship extends Entity {
 
 	/**
 	 * Updates status of the ship.
+	 * @param livesRemaning
+	 * 				Left lives of the ship.
 	 */
-	public final void update() {
-		if (!this.destructionCooldown.checkFinished())
+	public final void update(int livesRemaning) {
+		if (!this.destructionCooldown.checkFinished() || livesRemaning <= 0) {
 			this.spriteType = SpriteType.ShipDestroyed;
+			if(livesRemaning <= 0) this.destructionCooldown.reset();
+		}
 		else
 			this.spriteType = SpriteType.Ship;
 	}

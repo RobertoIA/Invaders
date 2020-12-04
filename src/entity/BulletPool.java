@@ -32,10 +32,12 @@ public final class BulletPool {
 	 * @param speed
 	 *            Requested speed of the bullet, positive or negative depending
 	 *            on direction - positive is down.
+	 * @param name
+	 *            Requested name of the shooter of this bullet.
 	 * @return Requested bullet.
 	 */
 	public static Bullet getBullet(final int positionX,
-			final int positionY, final int speed) {
+			final int positionY, final int speed, final String name) {
 		Bullet bullet;
 		if (!pool.isEmpty()) {
 			bullet = pool.iterator().next();
@@ -45,7 +47,7 @@ public final class BulletPool {
 			bullet.setSpeed(speed);
 			bullet.setSprite();
 		} else {
-			bullet = new Bullet(positionX, positionY, speed);
+			bullet = new Bullet(positionX, positionY, speed, name);
 			bullet.setPositionX(positionX - bullet.getWidth() / 2);
 		}
 		return bullet;

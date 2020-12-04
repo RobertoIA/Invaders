@@ -10,6 +10,8 @@ import engine.Core;
 import engine.GameState;
 import engine.Score;
 
+import entity.Pair;
+
 /**
  * Implements the score screen.
  * 
@@ -28,13 +30,15 @@ public class ScoreScreen extends Screen {
 	private static final int LAST_CHAR = 90;
 
 	/** Current score. */
-	private int score;
+	private Pair score;
 	/** Player lives left. */
-	private int livesRemaining;
+	private Pair livesRemaining;
 	/** Total bullets shot by the player. */
-	private int bulletsShot;
+	private Pair bulletsShot;
 	/** Total ships destroyed by the player. */
-	private int shipsDestroyed;
+	private Pair shipsDestroyed;
+	/** Current Players' numbers.*/
+	private int playerCode;
 	/** List of past high scores. */
 	private List<Score> highScores;
 	/** Checks if current score is a new high score. */
@@ -66,6 +70,7 @@ public class ScoreScreen extends Screen {
 		this.livesRemaining = gameState.getLivesRemaining();
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
+		this.playerCode = gameState.getPlayerCode();
 		this.isNewRecord = false;
 		this.name = "AAA".toCharArray();
 		this.nameCharSelected = 0;
@@ -76,7 +81,7 @@ public class ScoreScreen extends Screen {
 			this.highScores = Core.getFileManager().loadHighScores();
 			if (highScores.size() < MAX_HIGH_SCORE_NUM
 					|| highScores.get(highScores.size() - 1).getScore()
-					< this.score)
+					< this.score.getPlayer1Value())
 				this.isNewRecord = true;
 
 		} catch (IOException e) {
@@ -151,7 +156,7 @@ public class ScoreScreen extends Screen {
 	 * Saves the score as a high score.
 	 */
 	private void saveScore() {
-		highScores.add(new Score(new String(this.name), score));
+		highScores.add(new Score(new String(this.name), score.getPlayer1Value()));
 		Collections.sort(highScores);
 		if (highScores.size() > MAX_HIGH_SCORE_NUM)
 			highScores.remove(highScores.size() - 1);
@@ -171,9 +176,9 @@ public class ScoreScreen extends Screen {
 
 		drawManager.drawGameOver(this, this.inputDelay.checkFinished(),
 				this.isNewRecord);
-		drawManager.drawResults(this, this.score, this.livesRemaining,
-				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.isNewRecord);
+		drawManager.drawResults(this, this.score.getPlayer1Value(), this.livesRemaining.getPlayer1Value(),
+				this.shipsDestroyed.getPlayer1Value(), (float) this.shipsDestroyed.getPlayer1Value()
+						/ this.bulletsShot.getPlayer1Value(), this.isNewRecord);
 
 		if (this.isNewRecord)
 			drawManager.drawNameInput(this, this.name, this.nameCharSelected);

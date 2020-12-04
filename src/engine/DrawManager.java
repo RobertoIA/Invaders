@@ -78,6 +78,11 @@ public final class DrawManager {
 		Explosion
 	};
 
+	/** Default color for player1's ship.*/
+	private Color SHIP1_COLOR = Color.GREEN;
+	/** Default color for player2's ship.*/
+	private Color SHIP2_COLOR = Color.RED;
+
 	/**
 	 * Private constructor.
 	 */
@@ -255,9 +260,53 @@ public final class DrawManager {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
-		Ship dummyShip = new Ship(0, 0);
+		Ship dummyShip = new Ship(0, 0, SHIP1_COLOR);
 		for (int i = 0; i < lives; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
+	}
+
+	/**
+	 * Draws current score on screen for two players.
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param score1
+	 *            Current Player1's score.
+	 * @param score2
+	 * 			  Current Player2's score.
+	 *
+	 */
+	public void drawScoreFor2(final Screen screen, final int score1, final int score2) {
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(Color.WHITE);
+		String scoreString1 = String.format("%04d", score1);
+		backBufferGraphics.drawString(scoreString1, screen.getWidth()/2 - 70, 25);
+		String scoreString2 = String.format("%04d", score2);
+		backBufferGraphics.drawString(scoreString2, screen.getWidth() - 60, 25);
+	}
+
+	/**
+	 * Draws number of remaining lives on screen for two players.
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param lives1
+	 *            Current lives.
+	 * @param lives2
+	 *            Current lives.
+	 */
+	public void drawLivesFor2(final Screen screen, final int lives1, final int lives2) {
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(Color.WHITE);
+		backBufferGraphics.drawString(Integer.toString(lives1), 10, 25);
+		backBufferGraphics.drawString(Integer.toString(lives2), screen.getWidth()/2 + 20, 25);
+		Ship dummyShip1 = new Ship(0, 0, SHIP1_COLOR);
+		Ship dummyShip2 = new Ship(0, 0, SHIP2_COLOR);
+		for (int i = 0; i < lives1; i++)
+			drawEntity(dummyShip1, 30 + 35 * i, 10);
+		for (int i = 0; i < lives2; i++){
+			drawEntity(dummyShip2, screen.getWidth()/2 + 40 + 35 * i, 10);
+		}
 	}
 
 	/**
@@ -583,5 +632,37 @@ public final class DrawManager {
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, twoPlayerString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+	}
+
+	public void drawDifficultyTitle(final Screen screen) {
+		String titleString = "Difficulty select";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+	}
+
+	public void drawDifficultyMenu(final Screen screen, final int option) {
+		String easyString = "Easy";
+		String mediumString = "Medium";
+		String hardString = "Hard";
+
+		if (option == 1)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, easyString,
+				screen.getHeight() / 3 * 2);
+		if (option == 2)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, mediumString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		if (option == 3)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, hardString, screen.getHeight() / 3
+				* 2 + fontRegularMetrics.getHeight() * 4);
 	}
 }
