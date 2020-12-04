@@ -1,7 +1,9 @@
 package screen;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerSelectScreenTest {
-    Screen screen = new Screen(448, 520 ,60 );
+    PlayerSelectScreen screen = new PlayerSelectScreen(448, 520 ,60 );
 }
