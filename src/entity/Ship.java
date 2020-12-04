@@ -82,10 +82,14 @@ public class Ship extends Entity {
 
 	/**
 	 * Updates status of the ship.
+	 * @param livesRemaning
+	 * 				Left lives of the ship.
 	 */
-	public final void update() {
-		if (!this.destructionCooldown.checkFinished())
+	public final void update(int livesRemaning) {
+		if (!this.destructionCooldown.checkFinished() || livesRemaning <= 0) {
 			this.spriteType = SpriteType.ShipDestroyed;
+			if(livesRemaning <= 0) this.destructionCooldown.reset();
+		}
 		else
 			this.spriteType = SpriteType.Ship;
 	}
