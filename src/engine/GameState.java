@@ -89,7 +89,7 @@ public class GameState {
 	 * @return the shipsDestroyed
 	 */
 	public final int getShipsDestroyedP1() {
-		return shipsDestroyed_p2;
+		return shipsDestroyed_p1;
 	}
 	
 	/**
