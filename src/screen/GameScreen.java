@@ -128,8 +128,8 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation = new EnemyShipFormation(this.gameSettings);
 		enemyShipFormation.attach(this);
-		this.ship_1 = new Ship(this.width / 2, this.height - 30);
-		this.ship_2 = new Ship(this.width / 2, this.height - 30); // will change
+		this.ship_1 = new Ship(this.width / 2, this.height - 30, true);
+		this.ship_2 = new Ship(this.width / 2, this.height - 30, false); // will change
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
 				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
