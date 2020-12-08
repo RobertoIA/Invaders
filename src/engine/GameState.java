@@ -10,15 +10,23 @@ public class GameState {
 
 	/** Current game level. */
 	private int level;
-	/** Current score. */
-	private int score;
-	/** Lives currently remaining. */
-	private int livesRemaining;
-	/** Bullets shot until now. */
-	private int bulletsShot;
-	/** Ships destroyed until now. */
-	private int shipsDestroyed;
-
+	/** Current score by p1. */
+	private int score_p1;
+	/** Lives currently remaining by p1. */
+	private int livesRemaining_p1;
+	/** Bullets shot until now by p1. */
+	private int bulletsShot_p1;
+	/** Ships destroyed until now by p1. */
+	private int shipsDestroyed_p1;
+	/** Current score by p2. */
+	private int score_p2;
+	/** Lives currently remaining by p2. */
+	private int livesRemaining_p2;
+	/** Bullets shot until now by p2. */
+	private int bulletsShot_p2;
+	/** Ships destroyed until now by p2. */
+	private int shipsDestroyed_p2;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -33,14 +41,20 @@ public class GameState {
 	 * @param shipsDestroyed
 	 *            Ships destroyed until now.
 	 */
-	public GameState(final int level, final int score,
-			final int livesRemaining, final int bulletsShot,
-			final int shipsDestroyed) {
+	public GameState(final int level, final int score_p1,
+			final int livesRemaining_p1, final int bulletsShot_p1,
+			final int shipsDestroyed_p1,final int score_p2,
+			final int livesRemaining_p2, final int bulletsShot_p2,
+			final int shipsDestroyed_p2) {
 		this.level = level;
-		this.score = score;
-		this.livesRemaining = livesRemaining;
-		this.bulletsShot = bulletsShot;
-		this.shipsDestroyed = shipsDestroyed;
+		this.score_p1 = score_p1;
+		this.livesRemaining_p1 = livesRemaining_p1;
+		this.bulletsShot_p1 = bulletsShot_p1;
+		this.shipsDestroyed_p1 = shipsDestroyed_p1;
+		this.score_p2 = score_p2;
+		this.livesRemaining_p2 = livesRemaining_p2;
+		this.bulletsShot_p2 = bulletsShot_p2;
+		this.shipsDestroyed_p2 = shipsDestroyed_p2;
 	}
 
 	/**
@@ -53,29 +67,56 @@ public class GameState {
 	/**
 	 * @return the score
 	 */
-	public final int getScore() {
-		return score;
+	public final int getScoreP1() {
+		return score_p1;
 	}
 
 	/**
 	 * @return the livesRemaining
 	 */
-	public final int getLivesRemaining() {
-		return livesRemaining;
+	public final int getLivesRemainingP1() {
+		return livesRemaining_p1;
 	}
 
 	/**
 	 * @return the bulletsShot
 	 */
-	public final int getBulletsShot() {
-		return bulletsShot;
+	public final int getBulletsShotP1() {
+		return bulletsShot_p1;
 	}
 
 	/**
 	 * @return the shipsDestroyed
 	 */
-	public final int getShipsDestroyed() {
-		return shipsDestroyed;
+	public final int getShipsDestroyedP1() {
+		return shipsDestroyed_p2;
+	}
+	
+	/**
+	 * @return the score
+	 */
+	public final int getScoreP2() {
+		return score_p2;
 	}
 
+	/**
+	 * @return the livesRemaining
+	 */
+	public final int getLivesRemainingP2() {
+		return livesRemaining_p2;
+	}
+
+	/**
+	 * @return the bulletsShot
+	 */
+	public final int getBulletsShotP2() {
+		return bulletsShot_p2;
+	}
+
+	/**
+	 * @return the shipsDestroyed
+	 */
+	public final int getShipsDestroyedP2() {
+		return shipsDestroyed_p2;
+	}
 }

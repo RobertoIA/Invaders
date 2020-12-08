@@ -95,12 +95,12 @@ public class GameScreen extends Screen {
 		this.gameSettings = gameSettings;
 		this.bonusLife = bonusLife;
 		this.level = gameState.getLevel();
-		this.score = gameState.getScore();
-		this.lives = gameState.getLivesRemaining();
+		this.score = gameState.getScoreP1();
+		this.lives = gameState.getLivesRemainingP1();
 		if (this.bonusLife)
 			this.lives++;
-		this.bulletsShot = gameState.getBulletsShot();
-		this.shipsDestroyed = gameState.getShipsDestroyed();
+		this.bulletsShot = gameState.getBulletsShotP1();
+		this.shipsDestroyed = gameState.getShipsDestroyedP1();
 	}
 
 	/**
@@ -336,6 +336,8 @@ public class GameScreen extends Screen {
 	 */
 	public final GameState getGameState() {
 		return new GameState(this.level, this.score, this.lives,
+				this.bulletsShot, this.shipsDestroyed,
+				this.score, this.lives,
 				this.bulletsShot, this.shipsDestroyed);
 	}
 }
