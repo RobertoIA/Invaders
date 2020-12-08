@@ -71,6 +71,14 @@ public class GameScreen extends Screen {
 	/** Checks if a bonus life is received. */
 	private boolean bonusLife;
 
+	private boolean isPaused = false;
+
+	private static final int RESUME = 1;
+	private static final int QUIT = 2;
+	private int menuNum;
+
+	private static final int SELECTION_TIME = 200;
+	private Cooldown selectionCooldown;
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -101,6 +109,9 @@ public class GameScreen extends Screen {
 			this.lives++;
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
+
+		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
+		this.selectionCooldown.reset();
 	}
 
 	/**
@@ -147,7 +158,7 @@ public class GameScreen extends Screen {
 	protected final void update() {
 		super.update();
 
-		if (this.inputDelay.checkFinished() && !this.levelFinished) {
+		if (this.inputDelay.checkFinished() && !this.levelFinished && !this.isPaused) { // Preserve current state.
 
 			if (!this.ship.isDestroyed()) {
 				boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT)
@@ -169,6 +180,13 @@ public class GameScreen extends Screen {
 				if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 					if (this.ship.shoot(this.bullets))
 						this.bulletsShot++;
+				if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)
+						&& this.inputDelay.checkFinished()
+						&& this.selectionCooldown.checkFinished()) {
+					// Escape!
+					this.isPaused = true;
+					this.selectionCooldown.reset();
+				}
 			}
 
 			if (this.enemyShipSpecial != null) {
@@ -195,6 +213,34 @@ public class GameScreen extends Screen {
 			this.enemyShipFormation.shoot(this.bullets);
 		}
 
+		if (this.isPaused) {
+			this.menuNum = 1;
+			if (this.selectionCooldown.checkFinished()
+					&& this.inputDelay.checkFinished()) {
+				while (true) {
+					draw(this.isPaused);
+					if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+						this.selectionCooldown.reset();
+						break;
+					} else if (inputManager.isKeyDown(KeyEvent.VK_UP)) {
+						if (menuNum != 1) menuNum--;
+						this.selectionCooldown.reset();
+					} else if (inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
+						if (menuNum != 2) menuNum++;
+						this.selectionCooldown.reset();
+					} else if (inputManager.isKeyDown(KeyEvent.VK_ENTER)) {
+						if (menuNum == 2) {
+							this.level = 7;
+							this.isRunning = false;
+						}
+						break;
+					}
+					System.out.println(menuNum);
+				}
+				isPaused = false;
+			}
+		}
+
 		manageCollisions();
 		cleanBullets();
 		draw();
@@ -214,6 +260,19 @@ public class GameScreen extends Screen {
 	 * Draws the elements associated with the screen.
 	 */
 	private void draw() {
+		if (this.isPaused) {
+			drawManager.initDrawing(this);
+
+			drawManager.drawHighScoreMenu(this);
+
+			drawManager.completeDrawing(this);
+
+			// Replace above with this code.
+			drawManager.drawPause(this);
+			drawManager.drawPauseMenu(this, this.menuNum);
+
+			return;
+		}
 		drawManager.initDrawing(this);
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
