@@ -36,7 +36,7 @@ public class GameScreen extends Screen {
 	/** Time from finishing the level to screen change. */
 	private static final int SCREEN_CHANGE_INTERVAL = 1500;
 	/** Height of the interface separation line. */
-	private static final int SEPARATION_LINE_HEIGHT = 40;
+	public static final int SEPARATION_LINE_HEIGHT = 40;
 
 	/** Current game difficulty settings. */
 	private GameSettings gameSettings;
@@ -232,7 +232,7 @@ public class GameScreen extends Screen {
 		// Interface.
 		drawManager.drawScore(this, this.score);
 		drawManager.drawLives(this, this.lives);
-		drawManager.drawHorizontalLine(this, SEPARATION_LINE_HEIGHT - 1);
+		drawManager.drawHorizontalLine(this, 2*SEPARATION_LINE_HEIGHT - 1);
 
 		// Countdown to game start.
 		if (!this.inputDelay.checkFinished()) {
@@ -257,7 +257,7 @@ public class GameScreen extends Screen {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets) {
 			bullet.update();
-			if (bullet.getPositionY() < SEPARATION_LINE_HEIGHT
+			if (bullet.getPositionY() < 2*SEPARATION_LINE_HEIGHT
 					|| bullet.getPositionY() > this.height)
 				recyclable.add(bullet);
 		}

@@ -5,6 +5,7 @@ import java.awt.Color;
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
+import screen.GameScreen;
 
 /**
  * Implements a enemy ship, to be destroyed by the player.
@@ -72,7 +73,7 @@ public class EnemyShip extends Entity {
 	 * known starting properties.
 	 */
 	public EnemyShip() {
-		super(-32, 60, 16 * 2, 7 * 2, Color.RED);
+		super(-32, 60 + GameScreen.SEPARATION_LINE_HEIGHT, 16 * 2, 7 * 2, Color.RED);
 
 		this.spriteType = SpriteType.EnemyShipSpecial;
 		this.isDestroyed = false;
