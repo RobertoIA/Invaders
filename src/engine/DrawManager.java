@@ -450,7 +450,7 @@ public final class DrawManager {
 	 */
 	public void drawHighScoreMenu(final Screen screen) {
 		String highScoreString = "High Scores";
-		String instructionsString = "Space: Back / R: Delete Record"; // 리셋 설명 방법 추가
+		String instructionsString = "Space: Back / R: Delete Record"; // 리셋 설명 방법 추가(길게 쓰려면 창이 넘어감)
 
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
