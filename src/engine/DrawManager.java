@@ -17,18 +17,18 @@ import entity.Entity;
 import entity.Ship;
 
 /**
- * Manages screen drawing.
+ * Manages screen drawing. // 화면에 띄우는 것 관리
  * 
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
 public final class DrawManager {
 
-	/** Singleton instance of the class. */
+	/** Singleton instance of the class. // 오직 한 개의 클래스 인스턴스만 갖도록  */
 	private static DrawManager instance;
-	/** Current frame. */
+	/** Current frame. // 현재 프레임 */
 	private static Frame frame;
-	/** FileManager instance. */
+	/** FileManager instance. // */
 	private static FileManager fileManager;
 	/** Application logger. */
 	private static Logger logger;
@@ -558,5 +558,14 @@ public final class DrawManager {
 		else
 			drawCenteredBigString(screen, "GO!", screen.getHeight() / 2
 					+ fontBigMetrics.getHeight() / 3);
+	}
+
+	public void drawPause(final Screen screen){
+		int rectWidth = screen.getWidth();
+		int rectHeight = screen.getHeight()/6;
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2, rectWidth, rectHeight);
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredBigString(screen,"PAUSE",screen.getHeight()/2+fontBigMetrics.getHeight()/3);
 	}
 }

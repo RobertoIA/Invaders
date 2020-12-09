@@ -2,7 +2,9 @@ package engine;
 
 /**
  * Implements a high score record.
- * 
+ *
+ * 파일 아예 새로 생성하고 덮어씌우는 식으로 해결하면 금방하실듯
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */

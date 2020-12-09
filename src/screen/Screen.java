@@ -19,6 +19,7 @@ public class Screen {
 	
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 1000;
+	private static final int PAUSE_COOLDOWN_DELAY = 200;
 
 	/** Draw Manager instance. */
 	protected DrawManager drawManager;
@@ -43,6 +44,9 @@ public class Screen {
 	/** What kind of screen goes next. */
 	protected int returnCode;
 
+	protected boolean pause;
+
+	protected Cooldown pauseDelay;
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -63,6 +67,8 @@ public class Screen {
 		this.logger = Core.getLogger();
 		this.inputDelay = Core.getCooldown(INPUT_DELAY);
 		this.inputDelay.reset();
+		this.pauseDelay = Core.getCooldown(PAUSE_COOLDOWN_DELAY);
+		this.pauseDelay.reset();
 		this.returnCode = 0;
 	}
 
@@ -80,7 +86,7 @@ public class Screen {
 	 */
 	public int run() {
 		this.isRunning = true;
-
+		this.pause = false;
 		while (this.isRunning) {
 			long time = System.currentTimeMillis();
 
