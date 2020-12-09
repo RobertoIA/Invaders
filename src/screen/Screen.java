@@ -43,6 +43,8 @@ public class Screen {
 	/** What kind of screen goes next. */
 	protected int returnCode;
 
+	protected boolean pause;
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -80,7 +82,7 @@ public class Screen {
 	 */
 	public int run() {
 		this.isRunning = true;
-
+		this.pause = false;
 		while (this.isRunning) {
 			long time = System.currentTimeMillis();
 
