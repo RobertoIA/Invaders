@@ -30,7 +30,7 @@ public final class Core {
 	private static final int FPS = 60;
 
 	/** Max lives. //최대 생명 개수 */
-	private static final int MAX_LIVES = 2;
+	private static final int MAX_LIVES = 3;
 	/** Levels between extra life. 추가로 주어지는 생명 개수 // */
 	private static final int EXTRA_LIFE_FRECUENCY = 3;
 	/** Total number of levels. // 총 레벨 7까지 */
