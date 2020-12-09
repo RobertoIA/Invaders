@@ -94,7 +94,7 @@ class DrawManagerTest {
             drawManager.initDrawing(this);
 
             drawManager.drawPreGame(this, 4);
-            drawManager.drawPreGameMenu(this, 2);
+            drawManager.drawMenu(this, 2);
 
             drawManager.completeDrawing(this);
         }
@@ -106,6 +106,17 @@ class DrawManagerTest {
         frame = new Frame(448, 520);
         DrawManager.getInstance().setFrame(frame);
         frame.setScreen(screen);
+
+    }
+    @org.junit.jupiter.api.Test
+    void shouldDrawGame() {
+        screen = new TestScreen(448, 520,60);
+        frame = new Frame(448, 520);
+        DrawManager.getInstance().setFrame(frame);
+        frame.setScreen(screen);
+    }
+    @org.junit.jupiter.api.Test
+    void shouldDrawTitle(){
 
     }
 }
