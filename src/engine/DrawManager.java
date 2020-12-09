@@ -474,6 +474,7 @@ public final class DrawManager {
 		int i = 0;
 		String scoreString = "";
 
+		// null인 경우를 고려해주지 않으면, nullpoint 오류 발생
 		if(highScores != null){
 			for (Score score : highScores) {
 				scoreString = String.format("%s        %04d", score.getName(),
