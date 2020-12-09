@@ -2,10 +2,6 @@
 ## Eclipse
 #################
 
-out
-graphics
-scores
-
 *.pydevproject
 .project
 .metadata
