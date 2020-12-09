@@ -2,6 +2,9 @@
 ## Eclipse
 #################
 
+graphics
+scores
+
 *.pydevproject
 .project
 .metadata
