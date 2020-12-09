@@ -1,5 +1,9 @@
 package screen;
 
+import java.awt.event.KeyEvent;
+import java.security.Key;
+import java.util.HashSet;
+import java.util.Set;
 import engine.Cooldown;
 import engine.Core;
 import engine.GameSettings;
@@ -114,6 +118,7 @@ public class GameScreen extends Screen {
 
 	/**
 	 * Constructor, establishes the properties of the screen.
+<<<<<<< HEAD
 	 *
 	 * @param gameState    Current game state.
 	 * @param gameSettings Current game settings.
@@ -121,6 +126,21 @@ public class GameScreen extends Screen {
 	 * @param width        Screen width.
 	 * @param height       Screen height.
 	 * @param fps          Frames per second, frame rate at which the game is run.
+=======
+	 * 
+	 * @param gameState
+	 *            Current game state.
+	 * @param gameSettings
+	 *            Current game settings.
+	 * @param bonusLife
+	 *            Checks if a bonus life is awarded this level.
+	 * @param width
+	 *            Screen width.
+	 * @param height
+	 *            Screen height.
+	 * @param fps
+	 *            Frames per second, frame rate at which the game is run.
+>>>>>>> develop
 	 */
 	public GameScreen(final GameState gameState,
 					  final GameSettings gameSettings, final boolean bonusLife,
@@ -182,67 +202,75 @@ public class GameScreen extends Screen {
 	protected final void update() {
 		super.update();
 
-		if (this.inputDelay.checkFinished() && !this.levelFinished) {
+		// pause button
+		boolean pauseBtn = inputManager.isKeyDown(KeyEvent.VK_ESCAPE);
+		if(pauseBtn && this.pauseDelay.checkFinished()){
+			pause = !pause;
+			this.pauseDelay.reset();
+		}
 
-			if (!this.ship.isDestroyed()) {
-				boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-						|| inputManager.isKeyDown(KeyEvent.VK_D);
-				boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
-						|| inputManager.isKeyDown(KeyEvent.VK_A);
+		if(!pause) {
+			if (this.inputDelay.checkFinished() && !this.levelFinished) {
 
-				boolean isRightBorder = this.ship.getPositionX()
-						+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
-				boolean isLeftBorder = this.ship.getPositionX()
-						- this.ship.getSpeed() < 1;
+				if (!this.ship.isDestroyed()) {
+					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+							|| inputManager.isKeyDown(KeyEvent.VK_D);
+					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
+							|| inputManager.isKeyDown(KeyEvent.VK_A);
 
-				if (moveRight && !isRightBorder) {
-					this.ship.moveRight();
+					boolean isRightBorder = this.ship.getPositionX()
+							+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
+					boolean isLeftBorder = this.ship.getPositionX()
+							- this.ship.getSpeed() < 1;
+
+					if (moveRight && !isRightBorder) {
+						this.ship.moveRight();
+					}
+					if (moveLeft && !isLeftBorder) {
+						this.ship.moveLeft();
+					}
+					if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+						if (this.ship.shoot(this.bullets))
+							this.bulletsShot++;
 				}
-				if (moveLeft && !isLeftBorder) {
-					this.ship.moveLeft();
-				}
-				if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
-					if (this.ship.shoot(this.bullets))
-						this.bulletsShot++;
-			}
 
-			if (this.enemyShipSpecial != null) {
-				if (!this.enemyShipSpecial.isDestroyed())
-					this.enemyShipSpecial.move(2, 0);
-				else if (this.enemyShipSpecialExplosionCooldown.checkFinished())
+				if (this.enemyShipSpecial != null) {
+					if (!this.enemyShipSpecial.isDestroyed())
+						this.enemyShipSpecial.move(2, 0);
+					else if (this.enemyShipSpecialExplosionCooldown.checkFinished())
+						this.enemyShipSpecial = null;
+
+				}
+				if (this.enemyShipSpecial == null
+						&& this.enemyShipSpecialCooldown.checkFinished()) {
+					this.enemyShipSpecial = new EnemyShip();
+					this.enemyShipSpecialCooldown.reset();
+					this.logger.info("A special ship appears");
+				}
+				if (this.enemyShipSpecial != null
+						&& this.enemyShipSpecial.getPositionX() > this.width) {
 					this.enemyShipSpecial = null;
+					this.logger.info("The special ship has escaped");
+				}
 
+				this.ship.update();
+				this.enemyShipFormation.update();
+				this.enemyShipFormation.shoot(this.bullets);
 			}
-			if (this.enemyShipSpecial == null
-					&& this.enemyShipSpecialCooldown.checkFinished()) {
-				this.enemyShipSpecial = new EnemyShip();
-				this.enemyShipSpecialCooldown.reset();
-				this.logger.info("A special ship appears");
-			}
-			if (this.enemyShipSpecial != null
-					&& this.enemyShipSpecial.getPositionX() > this.width) {
-				this.enemyShipSpecial = null;
-				this.logger.info("The special ship has escaped");
-			}
-
-			this.ship.update();
-			this.enemyShipFormation.update();
-			this.enemyShipFormation.shoot(this.bullets);
+			manageCollisions();
+			cleanBullets();
 		}
-
-		manageCollisions();
-		cleanBullets();
 		draw();
+		if(!pause){
+			if ((this.enemyShipFormation.isEmpty() || this.lives == 0)
+					&& !this.levelFinished) {
+				this.levelFinished = true;
+				this.screenFinishedCooldown.reset();
+			}
 
-		if ((this.enemyShipFormation.isEmpty() || this.lives == 0)
-				&& !this.levelFinished) {
-			this.levelFinished = true;
-			this.screenFinishedCooldown.reset();
+			if (this.levelFinished && this.screenFinishedCooldown.checkFinished())
+				this.isRunning = false;
 		}
-
-		if (this.levelFinished && this.screenFinishedCooldown.checkFinished())
-			this.isRunning = false;
-
 	}
 
 	/**
@@ -281,7 +309,11 @@ public class GameScreen extends Screen {
 			drawManager.drawHorizontalLine(this, this.height / 2 + this.height
 					/ 12);
 		}
-
+		if(this.pause){
+			drawManager.drawPause(this);
+			drawManager.drawHorizontalLine(this, this.height / 2 - this.height / 12);
+			drawManager.drawHorizontalLine(this, this.height / 2 + this.height / 12);
+		}
 		drawManager.completeDrawing(this);
 	}
 

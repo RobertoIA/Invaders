@@ -450,7 +450,7 @@ public final class DrawManager {
 	 */
 	public void drawHighScoreMenu(final Screen screen) {
 		String highScoreString = "High Scores";
-		String instructionsString = "Press Space to return";
+		String instructionsString = "Space: Back / R: Delete Record"; // 리셋 설명 방법 추가
 
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
@@ -557,5 +557,14 @@ public final class DrawManager {
 		else
 			drawCenteredBigString(screen, "GO!", screen.getHeight() / 2
 					+ fontBigMetrics.getHeight() / 3);
+	}
+
+	public void drawPause(final Screen screen){
+		int rectWidth = screen.getWidth();
+		int rectHeight = screen.getHeight()/6;
+		backBufferGraphics.setColor(Color.BLACK);
+		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2, rectWidth, rectHeight);
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredBigString(screen,"PAUSE",screen.getHeight()/2+fontBigMetrics.getHeight()/3);
 	}
 }
