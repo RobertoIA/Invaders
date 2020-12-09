@@ -211,6 +211,8 @@ public class GameScreen extends Screen {
 			this.ship.update();
 			this.enemyShipFormation.update();
 			this.enemyShipFormation.shoot(this.bullets);
+			manageCollisions();
+			cleanBullets();
 		}
 
 		if (this.isPaused) {
@@ -218,7 +220,7 @@ public class GameScreen extends Screen {
 			if (this.selectionCooldown.checkFinished()
 					&& this.inputDelay.checkFinished()) {
 				while (true) {
-					draw(this.isPaused);
+					draw();
 					if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 						this.selectionCooldown.reset();
 						break;
@@ -241,8 +243,6 @@ public class GameScreen extends Screen {
 			}
 		}
 
-		manageCollisions();
-		cleanBullets();
 		draw();
 
 		if ((this.enemyShipFormation.isEmpty() || this.lives == 0)
