@@ -149,8 +149,8 @@ public class GameScreen extends Screen {
 		super.update();
 
 		// pause button
-		boolean pause_btn = inputManager.isKeyDown(KeyEvent.VK_ESCAPE);
-		if(pause_btn && this.pauseDelay.checkFinished()){
+		boolean pauseBtn = inputManager.isKeyDown(KeyEvent.VK_ESCAPE);
+		if(pauseBtn && this.pauseDelay.checkFinished()){
 			pause = !pause;
 			this.pauseDelay.reset();
 		}
