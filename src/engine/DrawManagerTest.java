@@ -115,8 +115,5 @@ class DrawManagerTest {
         DrawManager.getInstance().setFrame(frame);
         frame.setScreen(screen);
     }
-    @org.junit.jupiter.api.Test
-    void shouldDrawTitle(){
 
-    }
 }
