@@ -1,16 +1,24 @@
 package engine;
 
-import screen.*;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import screen.GameScreen;
+import screen.HighScoreScreen;
+import screen.ScoreScreen;
+import screen.Screen;
+import screen.TitleScreen;
 
 /**
  * Implements core game logic. // 핵심 게임 논리 구현
- *
+ * 
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
-
+ * 
  */
 public final class Core {
 
@@ -27,7 +35,7 @@ public final class Core {
 	private static final int EXTRA_LIFE_FRECUENCY = 3;
 	/** Total number of levels. // 총 레벨 7까지 */
 	private static final int NUM_LEVELS = 7;
-
+	
 	/** Difficulty settings for level 1.  // 레벨 1에 대한 난이도 설정 */
 	private static final GameSettings SETTINGS_LEVEL_1 =
 			new GameSettings(5, 4, 60, 2000);
@@ -49,7 +57,7 @@ public final class Core {
 	/** Difficulty settings for level 7. // 레벨 7에 대한 난이도 설정 */
 	private static final GameSettings SETTINGS_LEVEL_7 =
 			new GameSettings(8, 7, 2, 500);
-
+	
 	/** Frame to draw the screen on. // 화면을 그려주는 프레임 */
 	private static Frame frame;
 	/** Screen currently shown. // 현재 화면이 표시됨 */
@@ -67,7 +75,7 @@ public final class Core {
 
 	/**
 	 * Test implementation. // 구현 테스트
-	 *
+	 * 
 	 * @param args
 	 *            Program args, ignored.
 	 */
@@ -103,7 +111,7 @@ public final class Core {
 		gameSettings.add(SETTINGS_LEVEL_5);
 		gameSettings.add(SETTINGS_LEVEL_6);
 		gameSettings.add(SETTINGS_LEVEL_7);
-
+		
 		GameState gameState;
 
 		int returnCode = 1;
@@ -111,61 +119,61 @@ public final class Core {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
 
 			switch (returnCode) {
-				case 1:
-					// Main menu.
-					currentScreen = new TitleScreen(width, height, FPS);
+			case 1:
+				// Main menu.
+				currentScreen = new TitleScreen(width, height, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " title screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing title screen.");
+				break;
+			case 2:
+				// Game & score.
+				do {
+					// One extra live every few levels.
+					boolean bonusLife = gameState.getLevel()
+							% EXTRA_LIFE_FRECUENCY == 0
+							&& gameState.getLivesRemaining() < MAX_LIVES;
+					
+					currentScreen = new GameScreen(gameState,
+							gameSettings.get(gameState.getLevel() - 1),
+							bonusLife, width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-							+ " title screen at " + FPS + " fps.");
-					returnCode = frame.setScreen(currentScreen);
-					LOGGER.info("Closing title screen.");
-					break;
-				case 2:
-					// Game & score.
-					do {
-						// One extra live every few levels.
-						boolean bonusLife = gameState.getLevel()
-								% EXTRA_LIFE_FRECUENCY == 0
-								&& gameState.getLivesRemaining() < MAX_LIVES;
+							+ " game screen at " + FPS + " fps.");
+					frame.setScreen(currentScreen);
+					LOGGER.info("Closing game screen.");
 
-						currentScreen = new GameScreen(gameState,
-								gameSettings.get(gameState.getLevel() - 1),
-								bonusLife, width, height, FPS);
-						LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-								+ " game screen at " + FPS + " fps.");
-						frame.setScreen(currentScreen);
-						LOGGER.info("Closing game screen.");
+					gameState = ((GameScreen) currentScreen).getGameState();
 
-						gameState = ((GameScreen) currentScreen).getGameState();
+					gameState = new GameState(gameState.getLevel() + 1,
+							gameState.getScore(),
+							gameState.getLivesRemaining(),
+							gameState.getBulletsShot(),
+							gameState.getShipsDestroyed());
 
-						gameState = new GameState(gameState.getLevel() + 1,
-								gameState.getScore(),
-								gameState.getLivesRemaining(),
-								gameState.getBulletsShot(),
-								gameState.getShipsDestroyed());
+				} while (gameState.getLivesRemaining() > 0
+						&& gameState.getLevel() <= NUM_LEVELS);
 
-					} while (gameState.getLivesRemaining() > 0
-							&& gameState.getLevel() <= NUM_LEVELS);
-
-					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-							+ " score screen at " + FPS + " fps, with a score of "
-							+ gameState.getScore() + ", "
-							+ gameState.getLivesRemaining() + " lives remaining, "
-							+ gameState.getBulletsShot() + " bullets shot and "
-							+ gameState.getShipsDestroyed() + " ships destroyed.");
-					currentScreen = new ScoreScreen(width, height, FPS, gameState);
-					returnCode = frame.setScreen(currentScreen);
-					LOGGER.info("Closing score screen.");
-					break;
-				case 3:
-					// High scores.
-					currentScreen = new HighScoreScreen(width, height, FPS);
-					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-							+ " high score screen at " + FPS + " fps.");
-					returnCode = frame.setScreen(currentScreen);
-					LOGGER.info("Closing high score screen.");
-					break;
-				default:
-					break;
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " score screen at " + FPS + " fps, with a score of "
+						+ gameState.getScore() + ", "
+						+ gameState.getLivesRemaining() + " lives remaining, "
+						+ gameState.getBulletsShot() + " bullets shot and "
+						+ gameState.getShipsDestroyed() + " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, FPS, gameState);
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing score screen.");
+				break;
+			case 3:
+				// High scores.
+				currentScreen = new HighScoreScreen(width, height, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " high score screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing high score screen.");
+				break;
+			default:
+				break;
 			}
 
 		} while (returnCode != 0);
@@ -184,7 +192,7 @@ public final class Core {
 
 	/**
 	 * Controls access to the logger. // 로거에 대한 접근 제어
-	 *
+	 * 
 	 * @return Application logger.
 	 */
 	public static Logger getLogger() {
@@ -193,7 +201,7 @@ public final class Core {
 
 	/**
 	 * Controls access to the drawing manager. // 화면에 띄어주는? 관리자에 대한 접근 제어
-	 *
+	 * 
 	 * @return Application draw manager.
 	 */
 	public static DrawManager getDrawManager() {
@@ -202,7 +210,7 @@ public final class Core {
 
 	/**
 	 * Controls access to the input manager. // 입력에 관여하는 관리자에 대한 접근 제어
-	 *
+	 * 
 	 * @return Application input manager.
 	 */
 	public static InputManager getInputManager() {
@@ -211,7 +219,7 @@ public final class Core {
 
 	/**
 	 * Controls access to the file manager. // 파일 관리자에 대한 접근 제어
-	 *
+	 * 
 	 * @return Application file manager.
 	 */
 	public static FileManager getFileManager() {
@@ -220,7 +228,7 @@ public final class Core {
 
 	/**
 	 * Controls creation of new cooldowns. // 새로운 재사용 대기열의 생성 제어
-	 *
+	 * 
 	 * @param milliseconds
 	 *            Duration of the cooldown.
 	 * @return A new cooldown.
@@ -231,7 +239,7 @@ public final class Core {
 
 	/**
 	 * Controls creation of new cooldowns with variance. // 분산된 재사용 대기열의 생성 제어
-	 *
+	 * 
 	 * @param milliseconds
 	 *            Duration of the cooldown.
 	 * @param variance
@@ -239,7 +247,7 @@ public final class Core {
 	 * @return A new cooldown with variance.
 	 */
 	public static Cooldown getVariableCooldown(final int milliseconds,
-											   final int variance) {
+			final int variance) {
 		return new Cooldown(milliseconds, variance);
 	}
 }
