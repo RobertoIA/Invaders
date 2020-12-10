@@ -160,10 +160,6 @@ public class GameScreen extends Screen {
 		this.lives = gameState.getLivesRemaining(); // 1인용 기본 생명
 
 
-		if(gamemode == 1) { // 2인용인 경우 6개로 시작
-			this.lives = gameState.getLivesRemaining() * 2;
-		}
-
 		if (this.bonusLife)
 			this.lives++;
 		this.bulletsShot = gameState.getBulletsShot();
