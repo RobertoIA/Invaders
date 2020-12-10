@@ -48,6 +48,7 @@ public class GameScreen extends Screen {
 	 */
 	private static final int SEPARATION_LINE_HEIGHT = 40;
 
+
 	/**
 	 * Current game difficulty settings.
 	 */
@@ -64,7 +65,8 @@ public class GameScreen extends Screen {
 	 * Player's ship.
 	 */
 	private Ship ship;
-	private Ship ship2; ////////////////////////////////////////////////////////////////////////////
+
+	private Ship ship2; // 2인용인 경우 사용
 	/**
 	 * Bonus enemy ship that appears sometimes.
 	 */
@@ -113,6 +115,10 @@ public class GameScreen extends Screen {
 	 * Checks if a bonus life is received.
 	 */
 	private boolean bonusLife;
+
+	private int gamemode;
+
+
 	/**
 	 * Constructor, establishes the properties of the screen.
 <<<<<<< HEAD
@@ -141,18 +147,29 @@ public class GameScreen extends Screen {
 	 */
 	public GameScreen(GameState gameState,
 					  final GameSettings gameSettings, final boolean bonusLife,
-					  final int width, final int height, final int fps) {
+					  final int width, final int height, final int fps, final int gamemode) {
 		super(width, height, fps);
 
 		this.gameSettings = gameSettings;
 		this.bonusLife = bonusLife;
 		this.level = gameState.getLevel();
 		this.score = gameState.getScore();
-		this.lives = gameState.getLivesRemaining();
+		this.gamemode = gamemode;
+
+
+		this.lives = gameState.getLivesRemaining(); // 1인용 기본 생명
+
+
+		if(gamemode == 1) { // 2인용인 경우 6개로 시작
+			this.lives = gameState.getLivesRemaining() * 2;
+		}
+
 		if (this.bonusLife)
 			this.lives++;
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
+
+
 	}
 
 	/**
@@ -163,8 +180,16 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation = new EnemyShipFormation(this.gameSettings);
 		enemyShipFormation.attach(this);
-		this.ship = new Ship(this.width / 2 - 15, this.height - 30, Color.GREEN);
-		this.ship2 = new Ship(this.width / 2 + 15, this.height - 30, Color.PINK); //////////////////////////////
+
+		if(gamemode == 0){ // 1인용 게임일 경우
+			this.ship = new Ship(this.width / 2, this.height - 30, Color.GREEN);
+		}
+		
+		else if(gamemode == 1){ // 2인용 게임일 경우
+			this.ship = new Ship(this.width / 2 - 15, this.height - 30, Color.GREEN);
+			this.ship2 = new Ship(this.width / 2 + 15, this.height - 30, Color.YELLOW);
+		}
+
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
 				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
@@ -215,49 +240,75 @@ public class GameScreen extends Screen {
 		if(!pause) {
 			if (this.inputDelay.checkFinished() && !this.levelFinished) {
 
-				if (!this.ship.isDestroyed()) {
-					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
+				if(gamemode == 0){ // 1인용 게임인 경우
+					if (!this.ship.isDestroyed()) {
+						boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
 
-					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
+						boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
 
 
-					boolean isRightBorder = this.ship.getPositionX()
-							+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
-					boolean isLeftBorder = this.ship.getPositionX()
-							- this.ship.getSpeed() < 1;
+						boolean isRightBorder = this.ship.getPositionX()
+								+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
+						boolean isLeftBorder = this.ship.getPositionX()
+								- this.ship.getSpeed() < 1;
 
-					if (moveRight && !isRightBorder) {
-						this.ship.moveRight();
+						if (moveRight && !isRightBorder) {
+							this.ship.moveRight();
+						}
+						if (moveLeft && !isLeftBorder) {
+							this.ship.moveLeft();
+						}
+						if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+							if (this.ship.shoot(this.bullets))
+								this.bulletsShot++;
 					}
-					if (moveLeft && !isLeftBorder) {
-						this.ship.moveLeft();
-					}
-					if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
-						if (this.ship.shoot(this.bullets))
-							this.bulletsShot++;
+
 				}
 
-				if (!this.ship2.isDestroyed()) {
-					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_D);
+				else if(gamemode == 1){ // 2인용 게임인 경우
+					if (!this.ship.isDestroyed()) {
+						boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
 
-					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_A);
+						boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
 
-					boolean isRightBorder = this.ship2.getPositionX()
-							+ this.ship2.getWidth() + this.ship2.getSpeed() > this.width - 1;
-					boolean isLeftBorder = this.ship2.getPositionX()
-							- this.ship2.getSpeed() < 1;
 
-					if (moveRight && !isRightBorder) {
-						this.ship2.moveRight();
+						boolean isRightBorder = this.ship.getPositionX()
+								+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
+						boolean isLeftBorder = this.ship.getPositionX()
+								- this.ship.getSpeed() < 1;
+
+						if (moveRight && !isRightBorder) {
+							this.ship.moveRight();
+						}
+						if (moveLeft && !isLeftBorder) {
+							this.ship.moveLeft();
+						}
+						if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+							if (this.ship.shoot(this.bullets))
+								this.bulletsShot++;
 					}
-					if (moveLeft && !isLeftBorder) {
-						this.ship2.moveLeft();
+
+					if (!this.ship2.isDestroyed()) {
+						boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_D);
+
+						boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_A);
+
+						boolean isRightBorder = this.ship2.getPositionX()
+								+ this.ship2.getWidth() + this.ship2.getSpeed() > this.width - 1;
+						boolean isLeftBorder = this.ship2.getPositionX()
+								- this.ship2.getSpeed() < 1;
+
+						if (moveRight && !isRightBorder) {
+							this.ship2.moveRight();
+						}
+						if (moveLeft && !isLeftBorder) {
+							this.ship2.moveLeft();
+						}
+						if (inputManager.isKeyDown(KeyEvent.VK_W))
+							if (this.ship2.shoot(this.bullets))
+								this.bulletsShot++;
 					}
-					if (inputManager.isKeyDown(KeyEvent.VK_W))
-						if (this.ship2.shoot(this.bullets))
-							this.bulletsShot++;
 				}
-
 
 
 				if (this.enemyShipSpecial != null) {
@@ -280,7 +331,11 @@ public class GameScreen extends Screen {
 				}
 
 				this.ship.update();
-				this.ship2.update();
+
+				if(gamemode == 1){
+					this.ship2.update();
+				}
+
 				this.enemyShipFormation.update();
 				this.enemyShipFormation.shoot(this.bullets);
 			}
@@ -291,6 +346,7 @@ public class GameScreen extends Screen {
 		if(!pause){
 			if ((this.enemyShipFormation.isEmpty() || this.lives <= 0)
 					&& !this.levelFinished) {
+				this.lives = 0;
 				this.levelFinished = true;
 				this.screenFinishedCooldown.reset();
 			}
@@ -306,11 +362,18 @@ public class GameScreen extends Screen {
 	private void draw() {
 		drawManager.initDrawing(this);
 
-		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
-				this.ship.getPositionY());
+		if(gamemode == 0){ // 1인용 게임인 경우
+			drawManager.drawEntity(this.ship, this.ship.getPositionX(),
+					this.ship.getPositionY());
+		}
 
-		drawManager.drawEntity(this.ship2, this.ship2.getPositionX(),
-				this.ship2.getPositionY()); /////////////////////////////////////////////
+		else if(gamemode == 1){ // 2인용 게임인 경우
+			drawManager.drawEntity(this.ship, this.ship.getPositionX(),
+					this.ship.getPositionY());
+			drawManager.drawEntity(this.ship2, this.ship2.getPositionX(),
+					this.ship2.getPositionY()); /////////////////////////////////////////////
+		}
+
 
 		if (this.enemyShipSpecial != null)
 			drawManager.drawEntity(this.enemyShipSpecial,
@@ -370,24 +433,44 @@ public class GameScreen extends Screen {
 		Set<Bullet> recyclable = new HashSet<Bullet>();
 		for (Bullet bullet : this.bullets)
 			if (bullet.getSpeed() > 0) {
-				if (checkCollision(bullet, this.ship) && !this.levelFinished) {
-					recyclable.add(bullet);
-					if (!this.ship.isDestroyed()) {
-						this.ship.destroy();
-						this.lives--;
-						this.logger.info("Hit on player ship, " + this.lives
-								+ " lives remaining.");
+
+				if(gamemode == 0){ // 1인용 게임인 경우
+					if (checkCollision(bullet, this.ship) && !this.levelFinished) {
+						recyclable.add(bullet);
+						if (!this.ship.isDestroyed()) {
+							this.ship.destroy();
+							this.lives--;
+							this.logger.info("Hit on player ship, " + this.lives
+									+ " lives remaining.");
+						}
 					}
 				}
-				if (checkCollision(bullet, this.ship2) && !this.levelFinished) {
-					recyclable.add(bullet);
-					if (!this.ship2.isDestroyed()) {
-						this.ship2.destroy();
-						this.lives--;
-						this.logger.info("Hit on player ship2, " + this.lives
-								+ " lives remaining.");
+
+				if(gamemode == 1){ // 2인용 게임인 경우
+					if (checkCollision(bullet, this.ship) && !this.levelFinished) {
+						recyclable.add(bullet);
+						if (!this.ship.isDestroyed()) {
+							this.ship.destroy();
+							this.lives--;
+							this.logger.info("Hit on player ship, " + this.lives
+									+ " lives remaining.");
+						}
 					}
+
+					if (checkCollision(bullet, this.ship2) && !this.levelFinished) {
+						recyclable.add(bullet);
+						if (!this.ship2.isDestroyed()) {
+							this.ship2.destroy();
+							this.lives--;
+							this.logger.info("Hit on player ship2, " + this.lives
+									+ " lives remaining.");
+						}
+					}
+
 				}
+
+
+
 			} else {
 				for (EnemyShip enemyShip : this.enemyShipFormation)
 					if (!enemyShip.isDestroyed()

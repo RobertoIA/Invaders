@@ -2,7 +2,6 @@ package engine;
 
 import screen.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,7 @@ public final class Core {
 	private static int PLAYERMODE = 0; // 0:single 1:double
 
 	/** Max lives. //최대 생명 개수 */
-	private static final int MAX_LIVES = 6;
+	private static final int MAX_LIVES = 3; // (1인용) 기본 생명 개수 설정
 	/** Levels between extra life. 추가로 주어지는 생명 개수 // */
 	private static final int EXTRA_LIFE_FRECUENCY = 3;
 	/** Total number of levels. // 총 레벨 7까지 */
@@ -158,7 +157,7 @@ public final class Core {
 
 						currentScreen = new GameScreen(gameState,
 								gameSettings.get(gameState.getLevel() - 1),
-								bonusLife, width, height, FPS);
+								bonusLife, width, height, FPS, PLAYERMODE);
 						LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 								+ " game screen at " + FPS + " fps.");
 						frame.setScreen(currentScreen);
