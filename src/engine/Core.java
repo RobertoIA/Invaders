@@ -184,13 +184,13 @@ public final class Core {
 							+ gameState.getLivesRemaining() + " lives remaining, "
 							+ gameState.getBulletsShot() + " bullets shot and "
 							+ gameState.getShipsDestroyed() + " ships destroyed.");
-					currentScreen = new ScoreScreen(width, height, FPS, gameState);
+					currentScreen = new ScoreScreen(width, height, FPS, gameState, PLAYERMODE, DIFFICULTY);
 					returnCode = frame.setScreen(currentScreen);
 					LOGGER.info("Closing score screen.");
 					break;
 				case 3:
 					// High scores.
-					currentScreen = new HighScoreScreen(width, height, FPS);
+					currentScreen = new HighScoreScreen(width, height, FPS,PLAYERMODE,DIFFICULTY);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " high score screen at " + FPS + " fps.");
 					returnCode = frame.setScreen(currentScreen);

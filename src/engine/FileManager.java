@@ -136,14 +136,14 @@ public final class FileManager {
 	 * @throws IOException
 	 *             In case of loading problems.
 	 */
-	private List<Score> loadDefaultHighScores() throws IOException {
+	private List<Score> loadDefaultHighScores(int gamemode) throws IOException {
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader reader = null;
 
 		try {
 			inputStream = FileManager.class.getClassLoader()
-					.getResourceAsStream("scores");
+					.getResourceAsStream("scoreDir/scores"+gamemode);
 			reader = new BufferedReader(new InputStreamReader(inputStream));
 
 			Score highScore = null;
@@ -172,25 +172,32 @@ public final class FileManager {
 	 * @throws IOException
 	 *             In case of loading problems.
 	 */
-	public List<Score> loadHighScores() throws IOException {
+	public List<Score> loadHighScores(int gamemode) throws IOException {
 
 		List<Score> highScores = new ArrayList<Score>();
 		InputStream inputStream = null;
 		BufferedReader bufferedReader = null;
 
 		try {
-			String jarPath = FileManager.class.getProtectionDomain()
-					.getCodeSource().getLocation().getPath();
+			String jarPath = FileManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 			jarPath = URLDecoder.decode(jarPath, "UTF-8");
 
 			String scoresPath = new File(jarPath).getParent();
 			scoresPath += File.separator;
-			scoresPath += "scores";
-
+			scoresPath += "scoreDir";
 			File scoresFile = new File(scoresPath);
+			if(!scoresFile.exists()){
+				scoresFile.mkdir();
+			}
+
+			scoresPath += File.separator;
+			scoresPath += "scores"+gamemode;
+			scoresFile = new File(scoresPath);
+			if(!scoresFile.exists()){
+				scoresFile.createNewFile();
+			}
 			inputStream = new FileInputStream(scoresFile);
-			bufferedReader = new BufferedReader(new InputStreamReader(
-					inputStream, Charset.forName("UTF-8")));
+			bufferedReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
 
 			logger.info("Loading user high scores.");
 
@@ -208,7 +215,7 @@ public final class FileManager {
 		} catch (FileNotFoundException e) {
 			// loads default if there's no user scores.
 			logger.info("Loading default high scores.");
-			highScores = loadDefaultHighScores();
+			highScores = loadDefaultHighScores(gamemode);
 		} finally {
 			if (bufferedReader != null)
 				bufferedReader.close();
@@ -226,21 +233,26 @@ public final class FileManager {
 	 * @throws IOException
 	 *             In case of loading problems.
 	 */
-	public void saveHighScores(final List<Score> highScores) 
+	public void saveHighScores(final List<Score> highScores, final int gamemode)
 			throws IOException {
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;
 
 		try {
-			String jarPath = FileManager.class.getProtectionDomain()
-					.getCodeSource().getLocation().getPath();
+			String jarPath = FileManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 			jarPath = URLDecoder.decode(jarPath, "UTF-8");
 
 			String scoresPath = new File(jarPath).getParent();
 			scoresPath += File.separator;
-			scoresPath += "scores";
-
+			scoresPath += "scoreDir";
 			File scoresFile = new File(scoresPath);
+			if(!scoresFile.exists()){
+				scoresFile.mkdir();
+			}
+
+			scoresPath += File.separator;
+			scoresPath += "scores"+gamemode;
+			scoresFile = new File(scoresPath);
 
 			if (!scoresFile.exists())
 				scoresFile.createNewFile();

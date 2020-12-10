@@ -473,16 +473,23 @@ public final class DrawManager {
 	 * @param screen
 	 *            Screen to draw on.
 	 */
-	public void drawHighScoreMenu(final Screen screen) {
+	public void drawHighScoreMenu(final Screen screen,int select, int playermode, int difficulty) {
+		String[] difficult = {"easy","normal","hard","extra hard"};
+		String[] players = {"single player","two players"};
 		String highScoreString = "High Scores";
-		String instructionsString = "Space: Back / R: Delete Record"; // 리셋 설명 방법 추가(길게 쓰려면 창이 넘어감)
-
+		String instructionsString = "Space|ESC: Back / ARROWKEY: move";
+		String instructionsString2 = "R: Delete Record"; // 리셋 설명 방법 추가
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
-
 		backBufferGraphics.setColor(Color.GRAY);
-		drawCenteredRegularString(screen, instructionsString,
-				screen.getHeight() / 5);
+		drawCenteredRegularString(screen, instructionsString, screen.getHeight() / 5);
+		drawCenteredRegularString(screen, instructionsString2, screen.getHeight() / 6 + fontRegularMetrics.getHeight()*2);
+		if(select == 0) backBufferGraphics.setColor(Color.GREEN);
+		else backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, players[playermode], screen.getHeight() / 5 + fontRegularMetrics.getHeight()*3);
+		if(select == 1) backBufferGraphics.setColor(Color.GREEN);
+		else backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, difficult[difficulty], screen.getHeight() / 5 + fontRegularMetrics.getHeight()*4);
 	}
 
 	/**
@@ -504,8 +511,7 @@ public final class DrawManager {
 			for (Score score : highScores) {
 				scoreString = String.format("%s        %04d", score.getName(),
 						score.getScore());
-				drawCenteredRegularString(screen, scoreString, screen.getHeight()
-						/ 4 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+				drawCenteredRegularString(screen, scoreString, screen.getHeight() / 5 + fontRegularMetrics.getHeight()*6+ fontRegularMetrics.getHeight() * (i + 1) * 2);
 				i++;
 			}
 		}
