@@ -2,18 +2,6 @@
 ## Eclipse
 #################
 
-.idea
-out
-graphics
-scores
-Invaders
-font.ttf
-log
-src/font.ttf
-src/graphics
-src/scores
-
-
 *.pydevproject
 .project
 .metadata

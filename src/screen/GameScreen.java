@@ -113,7 +113,6 @@ public class GameScreen extends Screen {
 	 * Checks if a bonus life is received.
 	 */
 	private boolean bonusLife;
-
 	/**
 	 * Constructor, establishes the properties of the screen.
 <<<<<<< HEAD
@@ -140,7 +139,7 @@ public class GameScreen extends Screen {
 	 *            Frames per second, frame rate at which the game is run.
 >>>>>>> develop
 	 */
-	public GameScreen(final GameState gameState,
+	public GameScreen(GameState gameState,
 					  final GameSettings gameSettings, final boolean bonusLife,
 					  final int width, final int height, final int fps) {
 		super(width, height, fps);
@@ -205,6 +204,11 @@ public class GameScreen extends Screen {
 		boolean pauseBtn = inputManager.isKeyDown(KeyEvent.VK_ESCAPE);
 		if(pauseBtn && this.pauseDelay.checkFinished()){
 			pause = !pause;
+			this.pauseDelay.reset();
+		}
+		if(pause && inputManager.isKeyDown(KeyEvent.VK_Q) && this.pauseDelay.checkFinished()){
+			pause = !pause;
+			lives = 0;
 			this.pauseDelay.reset();
 		}
 
@@ -285,7 +289,7 @@ public class GameScreen extends Screen {
 		}
 		draw();
 		if(!pause){
-			if ((this.enemyShipFormation.isEmpty() || this.lives == 0)
+			if ((this.enemyShipFormation.isEmpty() || this.lives <= 0)
 					&& !this.levelFinished) {
 				this.levelFinished = true;
 				this.screenFinishedCooldown.reset();
