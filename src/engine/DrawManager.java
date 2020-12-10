@@ -570,7 +570,8 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics.fillRect(0, screen.getHeight() / 2 - rectHeight / 2, rectWidth, rectHeight);
 		backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredBigString(screen,"PAUSE",screen.getHeight()/2+fontBigMetrics.getHeight()/3);
+		drawCenteredBigString(screen,"PAUSE",screen.getHeight()/2+fontBigMetrics.getHeight()/5);
+		drawCenteredRegularString(screen,"Esc:continue / Q: exit",screen.getHeight()/2+fontBigMetrics.getHeight()/4*4);
 	}
 
 	public void drawSetting(final Screen screen){
