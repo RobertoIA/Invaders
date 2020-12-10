@@ -41,37 +41,37 @@ public final class Core {
 			{new GameSettings(5, 4, 60, 3000),
 					new GameSettings(5, 4, 60, 2500),
 					new GameSettings(5, 4, 60, 1500),
-					new GameSettings(5, 4, 80,300)};
+					new GameSettings(5, 4, 80,80)};
 	/** Difficulty settings for level 2. // 레벨 2에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_2 =
 			{new GameSettings(5, 5, 50, 2500),
 					new GameSettings(5, 5, 50, 2000),
 					new GameSettings(5, 5, 50, 1200),
-					new GameSettings(5, 5, 70, 200)};
+					new GameSettings(5, 5, 70, 80)};
 	/** Difficulty settings for level 3. // 레벨 3에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_3 =
 			{new GameSettings(6, 5, 40, 1500),
 					new GameSettings(6, 5, 40, 1000),
 					new GameSettings(6, 5, 40, 900),
-					new GameSettings(6, 5, 60, 200)};
+					new GameSettings(6, 5, 60, 80)};
 	/** Difficulty settings for level 4. // 레벨 4에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_4 =
 			{new GameSettings(6, 6, 30, 1500),
 					new GameSettings(6, 6, 30, 1000),
 					new GameSettings(6, 6, 30, 700),
-					new GameSettings(6, 6, 50, 100)};
+					new GameSettings(6, 6, 50, 80)};
 	/** Difficulty settings for level 5. // 레벨 5에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_5 =
 			{new GameSettings(7, 6, 20, 1000),
 					new GameSettings(7, 6, 20, 700),
 					new GameSettings(7, 6, 20, 500),
-					new GameSettings(7, 6, 40, 100)};
+					new GameSettings(7, 6, 40, 80)};
 	/** Difficulty settings for level 6. // 레벨 6에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_6 =
 			{new GameSettings(7, 7, 10, 1000),
 					new GameSettings(7, 7, 10, 500),
 					new GameSettings(7, 7, 10, 300),
-					new GameSettings(7, 7, 30, 50)};
+					new GameSettings(7, 7, 30, 80)};
 	/** Difficulty settings for level 7. // 레벨 7에 대한 난이도 설정 */
 	private static final GameSettings[] SETTINGS_LEVEL_7 =
 			{new GameSettings(8, 7, 2, 500),
@@ -201,6 +201,14 @@ public final class Core {
 					returnCode = frame.setScreen(currentScreen);
 					DIFFICULTY = setDic.get("DIFFICULTY");
 					PLAYERMODE = setDic.get("PLAYERMODE");
+					gameSettings.clear();
+					gameSettings.add(SETTINGS_LEVEL_1[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_2[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_3[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_4[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_5[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_6[DIFFICULTY]);
+					gameSettings.add(SETTINGS_LEVEL_7[DIFFICULTY]);
 				default:
 					break;
 			}

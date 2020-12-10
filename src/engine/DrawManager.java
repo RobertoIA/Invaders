@@ -575,7 +575,7 @@ public final class DrawManager {
 
 	public void drawSetting(final Screen screen){
 		String highScoreString = "Setting";
-		String instructionsString = "Space: Back / ArrowKey: Setting";
+		String instructionsString = "Space/Esc: Back / ArrowKey: Setting";
 
 		backBufferGraphics.setColor(Color.GREEN);
 		drawCenteredBigString(screen, highScoreString, screen.getHeight() / 8);
@@ -584,20 +584,24 @@ public final class DrawManager {
 		drawCenteredRegularString(screen, instructionsString,
 				screen.getHeight() / 5);
 	}
-	public void drawSettingMenu(final Screen screen, int select){
+	public void drawSettingMenu(final Screen screen, int select,int difficult, int playermode){
+		String[] difficulty = {"easy","normal","hard","extra hard"};
+		String[] players = {"single player","two players"};
 		if(select == 0){
 			backBufferGraphics.setColor(Color.GREEN);
 		}
 		else{
 			backBufferGraphics.setColor(Color.WHITE);
 		}
-		drawCenteredRegularString(screen, "defficult", screen.getHeight() / 4 * 2 + screen.getHeight()/9);
+		drawCenteredBigString(screen, "Difficulty", screen.getHeight() / 7 * 2 + screen.getHeight()/9);
+		drawCenteredRegularString(screen, difficulty[difficult], screen.getHeight() / 7 * 2 + screen.getHeight()/9 + fontRegularMetrics.getHeight()*2);
 		if(select == 1){
 			backBufferGraphics.setColor(Color.GREEN);
 		}
 		else{
 			backBufferGraphics.setColor(Color.WHITE);
 		}
-		drawCenteredRegularString(screen, "two player", screen.getHeight() / 4 * 2 + screen.getHeight()/9+ fontRegularMetrics.getHeight() * 2);
+		drawCenteredBigString(screen, "PlayerMode", screen.getHeight() / 7 * 2 + screen.getHeight()/9+ fontRegularMetrics.getHeight() * 6);
+		drawCenteredRegularString(screen, players[playermode], screen.getHeight() / 7 * 2 + screen.getHeight()/9+ fontRegularMetrics.getHeight() * 8);
 	}
 }
