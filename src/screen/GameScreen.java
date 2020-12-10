@@ -1,15 +1,12 @@
 package screen;
 
-import java.awt.event.KeyEvent;
-import java.security.Key;
-import java.util.HashSet;
-import java.util.Set;
 import engine.Cooldown;
 import engine.Core;
 import engine.GameSettings;
 import engine.GameState;
 import entity.*;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,6 +64,7 @@ public class GameScreen extends Screen {
 	 * Player's ship.
 	 */
 	private Ship ship;
+	private Ship ship2; ////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Bonus enemy ship that appears sometimes.
 	 */
@@ -166,7 +164,8 @@ public class GameScreen extends Screen {
 
 		enemyShipFormation = new EnemyShipFormation(this.gameSettings);
 		enemyShipFormation.attach(this);
-		this.ship = new Ship(this.width / 2, this.height - 30);
+		this.ship = new Ship(this.width / 2 - 15, this.height - 30, Color.GREEN);
+		this.ship2 = new Ship(this.width / 2 + 15, this.height - 30, Color.PINK); //////////////////////////////
 		// Appears each 10-30 seconds.
 		this.enemyShipSpecialCooldown = Core.getVariableCooldown(
 				BONUS_SHIP_INTERVAL, BONUS_SHIP_VARIANCE);
@@ -213,10 +212,10 @@ public class GameScreen extends Screen {
 			if (this.inputDelay.checkFinished() && !this.levelFinished) {
 
 				if (!this.ship.isDestroyed()) {
-					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT)
-							|| inputManager.isKeyDown(KeyEvent.VK_D);
-					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT)
-							|| inputManager.isKeyDown(KeyEvent.VK_A);
+					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_RIGHT);
+
+					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_LEFT);
+
 
 					boolean isRightBorder = this.ship.getPositionX()
 							+ this.ship.getWidth() + this.ship.getSpeed() > this.width - 1;
@@ -233,6 +232,29 @@ public class GameScreen extends Screen {
 						if (this.ship.shoot(this.bullets))
 							this.bulletsShot++;
 				}
+
+				if (!this.ship2.isDestroyed()) {
+					boolean moveRight = inputManager.isKeyDown(KeyEvent.VK_D);
+
+					boolean moveLeft = inputManager.isKeyDown(KeyEvent.VK_A);
+
+					boolean isRightBorder = this.ship2.getPositionX()
+							+ this.ship2.getWidth() + this.ship2.getSpeed() > this.width - 1;
+					boolean isLeftBorder = this.ship2.getPositionX()
+							- this.ship2.getSpeed() < 1;
+
+					if (moveRight && !isRightBorder) {
+						this.ship2.moveRight();
+					}
+					if (moveLeft && !isLeftBorder) {
+						this.ship2.moveLeft();
+					}
+					if (inputManager.isKeyDown(KeyEvent.VK_W))
+						if (this.ship2.shoot(this.bullets))
+							this.bulletsShot++;
+				}
+
+
 
 				if (this.enemyShipSpecial != null) {
 					if (!this.enemyShipSpecial.isDestroyed())
@@ -254,6 +276,7 @@ public class GameScreen extends Screen {
 				}
 
 				this.ship.update();
+				this.ship2.update();
 				this.enemyShipFormation.update();
 				this.enemyShipFormation.shoot(this.bullets);
 			}
@@ -281,6 +304,10 @@ public class GameScreen extends Screen {
 
 		drawManager.drawEntity(this.ship, this.ship.getPositionX(),
 				this.ship.getPositionY());
+
+		drawManager.drawEntity(this.ship2, this.ship2.getPositionX(),
+				this.ship2.getPositionY()); /////////////////////////////////////////////
+
 		if (this.enemyShipSpecial != null)
 			drawManager.drawEntity(this.enemyShipSpecial,
 					this.enemyShipSpecial.getPositionX(),
@@ -345,6 +372,15 @@ public class GameScreen extends Screen {
 						this.ship.destroy();
 						this.lives--;
 						this.logger.info("Hit on player ship, " + this.lives
+								+ " lives remaining.");
+					}
+				}
+				if (checkCollision(bullet, this.ship2) && !this.levelFinished) {
+					recyclable.add(bullet);
+					if (!this.ship2.isDestroyed()) {
+						this.ship2.destroy();
+						this.lives--;
+						this.logger.info("Hit on player ship2, " + this.lives
 								+ " lives remaining.");
 					}
 				}

@@ -1,11 +1,11 @@
 package entity;
 
-import java.awt.Color;
-import java.util.Set;
-
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
+
+import java.awt.*;
+import java.util.Set;
 
 /**
  * Implements a ship, to be controlled by the player.
@@ -35,8 +35,8 @@ public class Ship extends Entity {
 	 * @param positionY
 	 *            Initial position of the ship in the Y axis.
 	 */
-	public Ship(final int positionX, final int positionY) {
-		super(positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
+	public Ship(final int positionX, final int positionY, Color col) {
+		super(positionX, positionY, 13 * 2, 8 * 2, col);
 
 		this.spriteType = SpriteType.Ship;
 		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);

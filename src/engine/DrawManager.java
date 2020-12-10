@@ -45,11 +45,13 @@ public final class DrawManager {
 
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
+	private static Map<SpriteType, boolean[][]> spriteMap2;
 
 	/** Sprite types. */
 	public static enum SpriteType {
 		/** Player ship. */
 		Ship,
+
 		/** Destroyed player ship. */
 		ShipDestroyed,
 		/** Player bullet. */
@@ -86,6 +88,7 @@ public final class DrawManager {
 			spriteMap = new LinkedHashMap<SpriteType, boolean[][]>();
 
 			spriteMap.put(SpriteType.Ship, new boolean[13][8]);
+
 			spriteMap.put(SpriteType.ShipDestroyed, new boolean[13][8]);
 			spriteMap.put(SpriteType.Bullet, new boolean[3][5]);
 			spriteMap.put(SpriteType.EnemyBullet, new boolean[3][5]);
@@ -98,7 +101,24 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
 
+//			spriteMap2 = new LinkedHashMap<SpriteType, boolean[][]>();
+//
+//			spriteMap2.put(SpriteType.Ship, new boolean[13][8]);
+//
+//			spriteMap2.put(SpriteType.ShipDestroyed, new boolean[13][8]);
+//			spriteMap2.put(SpriteType.Bullet, new boolean[3][5]);
+//			spriteMap2.put(SpriteType.EnemyBullet, new boolean[3][5]);
+//			spriteMap2.put(SpriteType.EnemyShipA1, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipA2, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipB1, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipB2, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipC1, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipC2, new boolean[12][8]);
+//			spriteMap2.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
+//			spriteMap2.put(SpriteType.Explosion, new boolean[13][7]);
+
 			fileManager.loadSprite(spriteMap);
+			// fileManager.loadSprite(spriteMap2);
 			logger.info("Finished loading the sprites.");
 
 			// Font loading.
@@ -251,7 +271,7 @@ public final class DrawManager {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
-		Ship dummyShip = new Ship(0, 0);
+		Ship dummyShip = new Ship(0, 0, Color.GRAY);
 		for (int i = 0; i < lives; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
 	}
