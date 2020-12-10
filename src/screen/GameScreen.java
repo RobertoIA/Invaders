@@ -346,7 +346,9 @@ public class GameScreen extends Screen {
 		if(!pause){
 			if ((this.enemyShipFormation.isEmpty() || this.lives <= 0)
 					&& !this.levelFinished) {
-				this.lives = 0;
+				if(this.lives <= 0){
+					this.lives = 0;
+				}
 				this.levelFinished = true;
 				this.screenFinishedCooldown.reset();
 			}
