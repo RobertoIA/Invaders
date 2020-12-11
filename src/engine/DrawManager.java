@@ -456,6 +456,30 @@ public final class DrawManager {
 		}
 	}
 
+	public void drawPause (Screen screen){
+		String titleString = "Pause";
+
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, titleString, screen.getHeight()/2+5);
+	}
+
+	public void drawPauseMenu(Screen screen, int menuSelected){
+		String ResumeString = "Resume";
+		String QuitString = "Quit";
+
+		if (GameScreen.RESUME == menuSelected)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, ResumeString, screen.getHeight() / 3 * 2);
+		if (GameScreen.QUIT == menuSelected)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, QuitString,
+				screen.getHeight() / 3 * 2 + fontRegularMetrics.getHeight() * 2);
+	}
+
 	/**
 	 * Draws basic content of game over screen.
 	 * 
