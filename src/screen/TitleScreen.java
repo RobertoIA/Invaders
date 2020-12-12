@@ -84,7 +84,7 @@ public class TitleScreen extends Screen {
 			this.selected = 0;
 		else 
 			this.selected++;
-		this.logger.info(selected+" selected");
+		this.logger.info("Difficulty: "+selected);
 		this.returnCode = selections[this.selected];
 	}
 
@@ -96,7 +96,7 @@ public class TitleScreen extends Screen {
 			this.selected = 3;
 		else 
 			this.selected--;
-		this.logger.info(selected+" selected");
+		this.logger.info("Difficulty: "+selected);
 		this.returnCode = selections[this.selected];
 	}
 

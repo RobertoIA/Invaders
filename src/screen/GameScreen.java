@@ -116,20 +116,22 @@ public class GameScreen extends Screen {
 			final int width, final int height, final int fps) {
 		super(width, height, fps);
 
-		
+		this.logger.info("Difficulty: "+gameState.getDifficulty());
 		int w = gameSettings.getFormationWidth();
 		int h = gameSettings.getFormationHeight();
 		int s = gameSettings.getBaseSpeed();
 		int f = gameSettings.getShootingFrecuency();
 		
-		w += (gameState.getDifficulty()-Core.EASY);
-		h += (gameState.getDifficulty()-Core.EASY)/2;
-		s -= (gameState.getDifficulty()-Core.EASY)*20;
-		f -= (gameState.getDifficulty()-Core.EASY)*500;
+		w += (gameState.getDifficulty()-Core.EASY)-2;
+		h += (gameState.getDifficulty()-Core.EASY)/2-2;
+		s = s*10*Core.HARD/9*gameState.getDifficulty();
+		f = f*10*Core.HARD/9*gameState.getDifficulty();
 		
 		this.gameSettings = new GameSettings(w, h, s, f);
 		
-		
+//		if (gameState.getDifficulty() == Core.HARD && gameState.getLevel() == 7) {
+//			this.gameSettings = new GameSettings(1, 1, 30, 100);
+//		}
 		
 		
 		this.bonusLife = bonusLife;
@@ -293,6 +295,14 @@ public class GameScreen extends Screen {
 						this.selectionCooldown.reset();
 					}
 				}
+//				for (int i = '1'; i <= '7'; i++) {
+//					if (inputManager.isKeyDown(i)) {
+//						this.level = i-'1';
+//						isPaused = false;
+//						this.isRunning = false;
+//						this.selectionCooldown.reset();
+//					}
+//				}
 			}
 		}
 
