@@ -185,6 +185,7 @@ public class GameScreen extends Screen {
 						&& this.selectionCooldown.checkFinished()) {
 					// Escape!
 					this.isPaused = true;
+					this.menuNum = 1;
 					this.selectionCooldown.reset();
 				}
 			}
@@ -216,30 +217,23 @@ public class GameScreen extends Screen {
 		}
 
 		if (this.isPaused) {
-			this.menuNum = 1;
 			if (this.selectionCooldown.checkFinished()
 					&& this.inputDelay.checkFinished()) {
-				while (true) {
-					draw();
-					if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
-						this.selectionCooldown.reset();
-						break;
-					} else if (inputManager.isKeyDown(KeyEvent.VK_UP)) {
-						if (menuNum != 1) menuNum--;
-						this.selectionCooldown.reset();
-					} else if (inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
-						if (menuNum != 2) menuNum++;
-						this.selectionCooldown.reset();
-					} else if (inputManager.isKeyDown(KeyEvent.VK_ENTER)) {
-						if (menuNum == 2) {
-							this.level = 7;
-							this.isRunning = false;
-						}
-						break;
+				draw();
+				if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+					isPaused = false;
+					this.isRunning = false;
+				} else if (inputManager.isKeyDown(KeyEvent.VK_UP) || inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
+					menuNum = menuNum%2+1;
+					this.selectionCooldown.reset();
+				} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+					if (menuNum == 2) {
+						this.level = 7;
+						isPaused = false;
+						this.isRunning = false;
 					}
-					System.out.println(menuNum);
 				}
-				isPaused = false;
+//				System.out.println(menuNum);
 			}
 		}
 
@@ -268,8 +262,8 @@ public class GameScreen extends Screen {
 			drawManager.completeDrawing(this);
 
 			// Replace above with this code.
-			drawManager.drawPause(this);
-			drawManager.drawPauseMenu(this, this.menuNum);
+//			drawManager.drawPause(this);
+//			drawManager.drawPauseMenu(this, this.menuNum);
 
 			return;
 		}
