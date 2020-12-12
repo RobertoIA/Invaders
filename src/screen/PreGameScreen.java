@@ -80,7 +80,7 @@ public class PreGameScreen extends Screen {
 	 * Shifts the focus to the next menu item.
 	 */
 	private void nextMenuItem() {
-		this.returnCode = this.returnCode == 1 ? 3 : 1;
+		this.returnCode = this.returnCode == 2 ? 3 : 2;
 	}
 
 	/**
