@@ -21,6 +21,10 @@ import screen.TitleScreen;
  * 
  */
 public final class Core {
+	
+	public static final int EASY = 4;
+	public static final int NORMAL = 5;
+	public static final int HARD = 6;
 
 	/** Width of current screen. */
 	private static final int WIDTH = 448;
