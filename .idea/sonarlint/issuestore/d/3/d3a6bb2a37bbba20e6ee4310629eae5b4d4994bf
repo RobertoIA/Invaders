@@ -1,0 +1,24 @@
+
+c
+java:S1192’"GDefine a constant instead of duplicating this literal "scores" 3 times.(İ”ŞÉÿÿÿÿÿ
+b
+java:S1192¸"FDefine a constant instead of duplicating this literal "UTF-8" 4 times.(áÅ´Öûÿÿÿÿ
+9
+java:S3010-"#Remove this assignment of "logger".(“»ÂÀ
+m
+java:S3776D"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(§ËºÛıÿÿÿÿ
+u
+java:S2293Œ"YReplace the type specification in this constructor call with the diamond operator ("<>").(úÚˆøıÿÿÿÿ
+F
+java:S2093"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+u
+java:S2293±"YReplace the type specification in this constructor call with the diamond operator ("<>").(úÚˆøıÿÿÿÿ
+V
+java:S4719Á":Replace Charset.forName() call with StandardCharsets.UTF_8(üë‡¬ùÿÿÿÿ
+F
+java:S2093µ"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ
+]	java:S899ö"BDo something with the "boolean" value returned by "createNewFile".(¡œ¨ºıÿÿÿÿ
+Q
+java:S4719ú":Replace Charset.forName() call with StandardCharsets.UTF_8( ÆÖ½
+F
+java:S2093ê"*Change this "try" to a try-with-resources.(¡»¢üùÿÿÿÿ

@@ -1,0 +1,50 @@
+
+>
+java:S3010m"(Remove this assignment of "fontRegular".(ŠĞ…
+M
+java:S2696Ÿ"6Make the enclosing method "static" or remove this set.(›·ŞÜ
+t	java:S115D"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(œåùèûÿÿÿÿ
+o	java:S115<"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(µ­ƒÅ
+7
+java:S1116O"Remove this empty statement.(ôŸìúÿÿÿÿ
+t	java:S115N"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¼®®‡ıÿÿÿÿ
+H
+java:S5261ç"1Add explicit curly braces to avoid dangling else.(å¥‡
+o	java:S1158"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ÖãÔÙ
+l	java:S117Õ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğ¼®àıÿÿÿÿ
+t	java:S115L"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ùÅô¹úÿÿÿÿ
+t	java:S115F"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(…Ï¤’úÿÿÿÿ
+D
+java:S27866")Remove this redundant "static" qualifier.(‘’éÌùÿÿÿÿ
+D
+java:S1172¬"-Remove this unused method parameter "screen".(Áşò™
+R
+java:S2696•"6Make the enclosing method "static" or remove this set.(ÿÓ¶†úÿÿÿÿ
+n	java:S115J"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(´¶ªQ
+g	java:S117Ö"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾ƒúÒ
+M
+java:S2696 "6Make the enclosing method "static" or remove this set.(£ïà
+R
+java:S2696˜"6Make the enclosing method "static" or remove this set.(™ÚªÔûÿÿÿÿ
+M
+java:S2696™"6Make the enclosing method "static" or remove this set.(ºåÃî
+t
+java:S2293Z"YReplace the type specification in this constructor call with the diamond operator ("<>").(şû‘‘ÿÿÿÿÿ
+C
+java:S3010U"(Remove this assignment of "fileManager".(ö¥›Ëıÿÿÿÿ
+t	java:S115:"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(³Ó†‹ÿÿÿÿÿ
+t	java:S115>"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(æ‚©œûÿÿÿÿ
+t	java:S115@"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Òá££ıÿÿÿÿ
+I
+java:S1172ü"-Remove this unused method parameter "screen".(ëıÙüÿÿÿÿ
+o	java:S115B"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(£ß´¼
+9
+java:S3010V"#Remove this assignment of "logger".(“»ÂÀ
+t	java:S115H"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(ş©Èêüÿÿÿÿ
+A
+java:S3010Z"&Remove this assignment of "spriteMap".(şû‘‘ÿÿÿÿÿ
+W	java:S125¢"<This block of commented-out lines of code should be removed.(Óü†«ÿÿÿÿÿ
+R
+java:S2696Š"6Make the enclosing method "static" or remove this set.(•¹—êşÿÿÿÿ
+9
+java:S3010n"$Remove this assignment of "fontBig".(”À¹b

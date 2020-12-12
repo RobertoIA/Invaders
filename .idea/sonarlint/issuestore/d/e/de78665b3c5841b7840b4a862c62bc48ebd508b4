@@ -1,0 +1,12 @@
+
+V	java:S110"<This class has 6 parents which is greater than 5 authorized.(Ìã›şÿÿÿÿ
+w
+java:S1450"\Remove the "currentScreen" field and declare it as a local variable in the relevant methods.(“¶…ÿÿÿÿÿ
+I
+java:S2387"."width" is the name of a field in "Component".(•õ¦òùÿÿÿÿ
+E
+java:S2387"/"height" is the name of a field in "Component".(ÅœÔ˜
+P
+java:S1161C":Add the "@Override" annotation above this method signature(ÄæÎ÷
+P
+java:S1161M":Add the "@Override" annotation above this method signature(Õ–ôË
