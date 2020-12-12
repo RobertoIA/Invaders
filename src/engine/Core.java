@@ -171,13 +171,16 @@ public final class Core {
 						+ gameState.getLivesRemainingP1() + " lives remaining, "
 						+ gameState.getBulletsShotP1() + " bullets shot and "
 						+ gameState.getShipsDestroyedP1() + " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, FPS, gameState, true);
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing score screen.");
 				LOGGER.info("PLAYER 2 " + WIDTH + "x" + HEIGHT
 						+ " score screen at " + FPS + " fps, with a score of "
 						+ gameState.getScoreP2() + ", "
 						+ gameState.getLivesRemainingP2() + " lives remaining, "
 						+ gameState.getBulletsShotP2() + " bullets shot and "
 						+ gameState.getShipsDestroyedP2() + " ships destroyed.");
-				currentScreen = new ScoreScreen(width, height, FPS, gameState);
+				currentScreen = new ScoreScreen(width, height, FPS, gameState, false);
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing score screen.");
 				break;
