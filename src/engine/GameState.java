@@ -121,4 +121,8 @@ public class GameState {
 	public final int getShipsDestroyedP2() {
 		return shipsDestroyed_p2;
 	}
+	
+	public final int getDifficulty() {
+		return difficulty;
+	}
 }
