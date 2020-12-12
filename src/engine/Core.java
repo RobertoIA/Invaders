@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import screen.GameScreen;
 import screen.HighScoreScreen;
+import screen.PreGameScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
@@ -119,6 +120,7 @@ public final class Core {
 		GameState gameState;
 
 		int returnCode = 1;
+		int difficulty = 0;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0, 0, MAX_LIVES, 0, 0);
 
@@ -186,6 +188,28 @@ public final class Core {
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing high score screen.");
 				break;
+			case 4:
+				difficulty = EASY; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : EASY");
+				break;
+			case 5:
+				difficulty = NORMAL; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : NORMAL");
+				break;
+			case 6:
+				difficulty = HARD; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : HARD");
+				break;
+			case 7:
+				// pre-game menu
+				currentScreen = new PreGameScreen(width, height, FPS, difficulty);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " pre-game screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing pre-game screen.");
 			default:
 				break;
 			}
