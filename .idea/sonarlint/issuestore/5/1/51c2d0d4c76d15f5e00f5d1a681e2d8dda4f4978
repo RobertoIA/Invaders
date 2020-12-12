@@ -1,0 +1,27 @@
+
+N
+java:S2629„"7Use the built-in formatting to construct this argument.(·Ö»ó
+S
+java:S2629²"7Use the built-in formatting to construct this argument.(Šùåûÿÿÿÿ
+7
+java:S1116j"Remove this empty statement.(ôŸìúÿÿÿÿ
+t
+java:S2293u"YReplace the type specification in this constructor call with the diamond operator ("<>").(µáûÓÿÿÿÿÿ
+u
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(± ÙÍıÿÿÿÿ
+i
+java:S3776À"RRefactor this method to reduce its Cognitive Complexity from 49 to the 15 allowed.(€§ÿæ
+H
+java:S5261á"1Add explicit curly braces to avoid dangling else.(å¥‡
+H
+java:S5261ë"1Add explicit curly braces to avoid dangling else.(å¥‡
+H
+java:S5261õ"1Add explicit curly braces to avoid dangling else.(å¥‡
+o
+java:S2293ˆ"YReplace the type specification in this constructor call with the diamond operator ("<>").(ç½›N
+p
+java:S2293 "YReplace the type specification in this constructor call with the diamond operator ("<>").(™ÜË£
+@
+java:S2140Ï")Use "java.util.Random.nextInt()" instead.(úß˜Ë
+p
+java:S2293œ"YReplace the type specification in this constructor call with the diamond operator ("<>").(øÄ‡ö

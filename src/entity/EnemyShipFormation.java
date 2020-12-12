@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import screen.GameScreen;
 import screen.Screen;
 import engine.Cooldown;
 import engine.Core;
@@ -25,7 +26,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/** Initial position in the x-axis. */
 	private static final int INIT_POS_X = 20;
 	/** Initial position in the x-axis. */
-	private static final int INIT_POS_Y = 100;
+	private static final int INIT_POS_Y = 100 + GameScreen.SEPARATION_LINE_HEIGHT;
 	/** Distance between ships. */
 	private static final int SEPARATION_DISTANCE = 40;
 	/** Proportion of C-type ships. */
