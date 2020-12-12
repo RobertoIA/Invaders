@@ -19,8 +19,8 @@ public class TitleScreen extends Screen {
 	/** Time between changes in user selection. */
 	private Cooldown selectionCooldown;
 
-	private int selections[] = {Core.EASY, Core.NORMAL, Core.HARD, 0};
-	private int selected = 0;
+	private final int selections[] = {Core.EASY, Core.NORMAL, Core.HARD, 0};
+	private int selected;
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -35,7 +35,8 @@ public class TitleScreen extends Screen {
 		super(width, height, fps);
 
 		// Defaults to play.
-		this.returnCode = 2;
+		this.selected = 0;
+		this.returnCode = Core.EASY;
 		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
 		this.selectionCooldown.reset();
 	}
