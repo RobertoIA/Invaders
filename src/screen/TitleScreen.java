@@ -73,7 +73,6 @@ public class TitleScreen extends Screen {
 			if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 				this.isRunning = false;
 		}
-		this.logger.info(selected+" selected");
 	}
 
 	/**
@@ -84,6 +83,7 @@ public class TitleScreen extends Screen {
 			this.selected = 0;
 		else 
 			this.selected++;
+		this.logger.info(selected+" selected");
 		this.returnCode = selections[this.selected];
 	}
 
@@ -95,6 +95,7 @@ public class TitleScreen extends Screen {
 			this.selected = 3;
 		else 
 			this.selected--;
+		this.logger.info(selected+" selected");
 		this.returnCode = selections[this.selected];
 	}
 

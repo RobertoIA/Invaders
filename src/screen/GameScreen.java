@@ -283,6 +283,7 @@ public class GameScreen extends Screen {
 					this.selectionCooldown.reset();
 				} else if (inputManager.isKeyDown(KeyEvent.VK_UP) || inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
 					menuNum = menuNum%2+1;
+					this.logger.info("Selected menu: "+menuNum);
 					this.selectionCooldown.reset();
 				} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
 					if (menuNum == 2) {
@@ -292,7 +293,6 @@ public class GameScreen extends Screen {
 						this.selectionCooldown.reset();
 					}
 				}
-				this.logger.info("Selected menu: "+menuNum);
 			}
 		}
 
