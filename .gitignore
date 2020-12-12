@@ -2,6 +2,10 @@
 ## Eclipse
 #################
 
+.idea
+Invaders.iml
+scores
+
 *.pydevproject
 .project
 .metadata

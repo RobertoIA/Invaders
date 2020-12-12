@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import screen.GameScreen;
 import screen.Screen;
 import entity.Entity;
 import entity.Ship;
@@ -238,6 +239,7 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.WHITE);
 		String scoreString = String.format("%04d", player1);
 		String scoreString2 = String.format("%04d", player2);
+
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 55);
 	}
@@ -251,9 +253,11 @@ public final class DrawManager {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(player1), 20, 25);
+
 		backBufferGraphics.drawString(Integer.toString(player1), 20, 55);
 		Ship dummyShip = new Ship(0, 0, true);
 		Ship dummyShip2 = new Ship(0, 0, true);
+
 		for (int i = 0; i < player1; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
 		for (int i = 0; i < player2; i++)
@@ -418,7 +422,7 @@ public final class DrawManager {
 	 *            Current character selected for modification.
 	 */
 	public void drawNameInput(final Screen screen, final char[] name,
-			final int nameCharSelected) {
+			final int nameCharSelected, final boolean isPlayer1) {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
 
@@ -467,12 +471,12 @@ public final class DrawManager {
 		String ResumeString = "Resume";
 		String QuitString = "Quit";
 
-		if (GameScreen.RESUME == menuSelected)
+		if (GameScreen.getResume() == menuSelected)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, ResumeString, screen.getHeight() / 3 * 2);
-		if (GameScreen.QUIT == menuSelected)
+		if (GameScreen.getQuit() == menuSelected)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
@@ -491,7 +495,7 @@ public final class DrawManager {
 	 *            If the score is a new high score.
 	 */
 	public void drawGameOver(final Screen screen, final boolean acceptsInput,
-			final boolean isNewRecord) {
+			final boolean isNewRecord, boolean isPlayer1) {
 		String gameOverString = "Game Over";
 		String continueOrExitString =
 				"Press Space to play again, Escape to exit";
