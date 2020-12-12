@@ -236,10 +236,10 @@ public final class DrawManager {
 	 * @param score
 	 *            Current score.
 	 */
-	public void drawScore(final Screen screen, final int score) {
+	public void drawScore(Screen screen, int player1, int player2) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
-		String scoreString = String.format("%04d", score);
+		String scoreString = String.format("%04d", player1);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
 	}
 
@@ -251,12 +251,12 @@ public final class DrawManager {
 	 * @param lives
 	 *            Current lives.
 	 */
-	public void drawLives(final Screen screen, final int lives) {
+	public void drawLives(Screen screen, int player1, int player2) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
-		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
-		Ship dummyShip = new Ship(0, 0);
-		for (int i = 0; i < lives; i++)
+		backBufferGraphics.drawString(Integer.toString(player1), 20, 25);
+		Ship dummyShip = new Ship(0, 0, true);
+		for (int i = 0; i < player1; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
 	}
 

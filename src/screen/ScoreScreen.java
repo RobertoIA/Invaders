@@ -62,10 +62,10 @@ public class ScoreScreen extends Screen {
 			final GameState gameState) {
 		super(width, height, fps);
 
-		this.score = gameState.getScore();
-		this.livesRemaining = gameState.getLivesRemaining();
-		this.bulletsShot = gameState.getBulletsShot();
-		this.shipsDestroyed = gameState.getShipsDestroyed();
+		this.score = gameState.getScoreP1();
+		this.livesRemaining = gameState.getLivesRemainingP1();
+		this.bulletsShot = gameState.getBulletsShotP1();
+		this.shipsDestroyed = gameState.getShipsDestroyedP1();
 		this.isNewRecord = false;
 		this.name = "AAA".toCharArray();
 		this.nameCharSelected = 0;
