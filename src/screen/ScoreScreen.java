@@ -142,6 +142,13 @@ public class ScoreScreen extends Screen {
 							: this.name[this.nameCharSelected] - 1);
 					this.selectionCooldown.reset();
 				}
+
+				for (int i = 'A'; i <= 'Z'; i++) {
+					if (inputManager.isKeyDown(i)) {
+						this.name[this.nameCharSelected] = (char)i;
+						this.selectionCooldown.reset();
+					}
+				}
 			}
 		}
 
