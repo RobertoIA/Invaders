@@ -230,17 +230,16 @@ public final class DrawManager {
 
 	/**
 	 * Draws current score on screen.
-	 * 
-	 * @param screen
-	 *            Screen to draw on.
-	 * @param score
-	 *            Current score.
+	 *
+	 * @param screen Screen to draw on.
 	 */
-	public void drawScore(final Screen screen, final int score) {
+	public void drawScore(Screen screen, int player1, int player2) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
-		String scoreString = String.format("%04d", score);
+		String scoreString = String.format("%04d", player1);
+		String scoreString2 = String.format("%04d", player2);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
+		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 55);
 	}
 
 	/**
