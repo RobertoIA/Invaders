@@ -122,7 +122,7 @@ public final class Core {
 		int returnCode = 1;
 		int difficulty = 0;
 		do {
-			gameState = new GameState(1, 0, MAX_LIVES, 0, 0, 0, MAX_LIVES, 0, 0);
+			gameState = new GameState(1, 0, MAX_LIVES, 0, 0, 0, MAX_LIVES, 0, 0, difficulty);
 
 			switch (returnCode) {
 			case 1:
@@ -159,7 +159,8 @@ public final class Core {
 							gameState.getScoreP2(),
 							gameState.getLivesRemainingP2(),
 							gameState.getBulletsShotP2(),
-							gameState.getShipsDestroyedP2());
+							gameState.getShipsDestroyedP2(),
+							difficulty);
 
 				} while (gameState.getLivesRemainingP1() > 0 // will remove
 						&& gameState.getLevel() <= NUM_LEVELS);

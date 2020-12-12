@@ -26,6 +26,7 @@ public class GameState {
 	private int bulletsShot_p2;
 	/** Ships destroyed until now by p2. */
 	private int shipsDestroyed_p2;
+	private int difficulty;
 	
 	/**
 	 * Constructor.
@@ -45,7 +46,7 @@ public class GameState {
 			final int livesRemaining_p1, final int bulletsShot_p1,
 			final int shipsDestroyed_p1,final int score_p2,
 			final int livesRemaining_p2, final int bulletsShot_p2,
-			final int shipsDestroyed_p2) {
+			final int shipsDestroyed_p2, final int difficulty) {
 		this.level = level;
 		this.score_p1 = score_p1;
 		this.livesRemaining_p1 = livesRemaining_p1;
@@ -55,6 +56,7 @@ public class GameState {
 		this.livesRemaining_p2 = livesRemaining_p2;
 		this.bulletsShot_p2 = bulletsShot_p2;
 		this.shipsDestroyed_p2 = shipsDestroyed_p2;
+		this.difficulty = difficulty;
 	}
 
 	/**
