@@ -116,7 +116,22 @@ public class GameScreen extends Screen {
 			final int width, final int height, final int fps) {
 		super(width, height, fps);
 
-		this.gameSettings = gameSettings;
+		
+		int w = gameSettings.getFormationWidth();
+		int h = gameSettings.getFormationHeight();
+		int s = gameSettings.getBaseSpeed();
+		int f = gameSettings.getShootingFrecuency();
+		
+		w += (gameState.getDifficulty()-Core.EASY);
+		h += (gameState.getDifficulty()-Core.EASY)/2;
+		s -= (gameState.getDifficulty()-Core.EASY)*20;
+		f -= (gameState.getDifficulty()-Core.EASY)*500;
+		
+		this.gameSettings = new GameSettings(w, h, s, f);
+		
+		
+		
+		
 		this.bonusLife = bonusLife;
 		this.level = gameState.getLevel();
 		this.score_p1 = gameState.getScoreP1();
@@ -268,6 +283,7 @@ public class GameScreen extends Screen {
 					this.selectionCooldown.reset();
 				} else if (inputManager.isKeyDown(KeyEvent.VK_UP) || inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
 					menuNum = menuNum%2+1;
+					this.logger.info("Selected menu: "+menuNum);
 					this.selectionCooldown.reset();
 				} else if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
 					if (menuNum == 2) {
@@ -277,7 +293,6 @@ public class GameScreen extends Screen {
 						this.selectionCooldown.reset();
 					}
 				}
-				this.logger.info("Selected menu: "+menuNum);
 			}
 		}
 
