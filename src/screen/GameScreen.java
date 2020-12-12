@@ -84,9 +84,11 @@ public class GameScreen extends Screen {
 	private boolean levelFinished;
 	/** Checks if a bonus life is received. */
 	private boolean bonusLife;
-
+	
 	private boolean isPaused = false;
 
+	private int difficulty;
+	
 	private static final int RESUME = 1;
 	private static final int QUIT = 2;
 	private int menuNum;
@@ -503,6 +505,7 @@ public class GameScreen extends Screen {
 		return new GameState(this.level, this.score_p1, this.lives_p1,
 				this.bulletsShot_p1, this.shipsDestroyed_p1,
 				this.score_p2, this.lives_p2,
-				this.bulletsShot_p2, this.shipsDestroyed_p2);
+				this.bulletsShot_p2, this.shipsDestroyed_p2, 
+				this.difficulty);
 	}
 }
