@@ -253,7 +253,6 @@ public final class DrawManager {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(player1), 20, 25);
-
 		backBufferGraphics.drawString(Integer.toString(player2), 20, 55);
 		Ship dummyShip = new Ship(0, 0, true);
 		Ship dummyShip2 = new Ship(0, 0, false);
@@ -263,7 +262,6 @@ public final class DrawManager {
 		for (int i = 0; i < player2; i++)
 			drawEntity(dummyShip2, 40 + 35 * i, 40);
 	}
-
 	/**
 	 * Draws a thick line from side to side of the screen.
 	 * 
