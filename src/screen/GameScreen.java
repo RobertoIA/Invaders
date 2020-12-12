@@ -111,15 +111,11 @@ public class GameScreen extends Screen {
 		this.level = gameState.getLevel();
 		this.score_p1 = gameState.getScoreP1();
 		this.lives_p1 = gameState.getLivesRemainingP1();
-		if (this.bonusLife)
-			this.lives_p1++; // will remove
 		this.bulletsShot_p1 = gameState.getBulletsShotP1();
 		this.shipsDestroyed_p1 = gameState.getShipsDestroyedP1();
 		
 		this.score_p2 = gameState.getScoreP2();
 		this.lives_p2 = gameState.getLivesRemainingP2();
-		if (this.bonusLife)
-			this.lives_p2++; // will remove
 		this.bulletsShot_p2 = gameState.getBulletsShotP2();
 		this.shipsDestroyed_p2 = gameState.getShipsDestroyedP2();
 	}
@@ -159,9 +155,7 @@ public class GameScreen extends Screen {
 	public final int run() {
 		super.run();
 
-		this.score_p1 += LIFE_SCORE * (this.lives_p1 - 1); // will remove?
 		this.logger.info("Screen cleared with a score of " + this.score_p1);
-		this.score_p2 += LIFE_SCORE * (this.lives_p2 - 1); // will remove?
 		this.logger.info("Screen cleared with a score of " + this.score_p2);
 
 		return this.returnCode;
@@ -353,7 +347,7 @@ public class GameScreen extends Screen {
 				recyclable.add(bullet);
 				if (!this.ship_1.isDestroyed()) {
 					this.ship_1.destroy();
-					this.lives_p1--;
+					this.score_p1 -= Math.min(50,score_p1);
 					this.logger.info("Hit on player1 ship, " + this.lives_p1
 							+ " lives remaining.");
 				}
@@ -362,7 +356,7 @@ public class GameScreen extends Screen {
 				recyclable.add(bullet);
 				if (!this.ship_2.isDestroyed()) {
 					this.ship_2.destroy();
-					this.lives_p2--;
+					this.score_p2 -= Math.min(50,score_p2);
 					this.logger.info("Hit on player2 ship, " + this.lives_p2
 							+ " lives remaining.");
 				}
