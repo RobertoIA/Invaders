@@ -222,7 +222,7 @@ public class GameScreen extends Screen {
 				draw();
 				if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
 					isPaused = false;
-					this.isRunning = false;
+					this.selectionCooldown.reset();
 				} else if (inputManager.isKeyDown(KeyEvent.VK_UP) || inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
 					menuNum = menuNum%2+1;
 					this.selectionCooldown.reset();
@@ -231,9 +231,10 @@ public class GameScreen extends Screen {
 						this.level = 7;
 						isPaused = false;
 						this.isRunning = false;
+						this.selectionCooldown.reset();
 					}
 				}
-//				System.out.println(menuNum);
+				System.out.println(menuNum);
 			}
 		}
 
