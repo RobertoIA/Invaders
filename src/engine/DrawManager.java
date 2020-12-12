@@ -241,7 +241,7 @@ public final class DrawManager {
 		String scoreString2 = String.format("%04d", player2);
 
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
-		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 55);
+		backBufferGraphics.drawString(scoreString2, screen.getWidth() - 60, 55);
 	}
 	/**
 	 * Draws number of remaining lives on screen.
@@ -254,9 +254,9 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(Integer.toString(player1), 20, 25);
 
-		backBufferGraphics.drawString(Integer.toString(player1), 20, 55);
+		backBufferGraphics.drawString(Integer.toString(player2), 20, 55);
 		Ship dummyShip = new Ship(0, 0, true);
-		Ship dummyShip2 = new Ship(0, 0, true);
+		Ship dummyShip2 = new Ship(0, 0, false);
 
 		for (int i = 0; i < player1; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
