@@ -128,6 +128,10 @@ public class GameScreen extends Screen {
 		this.lives_p2 = gameState.getLivesRemainingP2();
 		this.bulletsShot_p2 = gameState.getBulletsShotP2();
 		this.shipsDestroyed_p2 = gameState.getShipsDestroyedP2();
+		
+		
+		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
+		this.selectionCooldown.reset();
 	}
 
 	/**
@@ -273,7 +277,7 @@ public class GameScreen extends Screen {
 						this.selectionCooldown.reset();
 					}
 				}
-				System.out.println(menuNum);
+				this.logger.info("Selected menu: "+menuNum);
 			}
 		}
 
