@@ -159,9 +159,6 @@ public final class DrawManager {
 
 		fontRegularMetrics = backBufferGraphics.getFontMetrics(fontRegular);
 		fontBigMetrics = backBufferGraphics.getFontMetrics(fontBig);
-
-		// drawBorders(screen);
-		// drawGrid(screen);
 	}
 
 	/**
@@ -615,7 +612,7 @@ public final class DrawManager {
 				drawCenteredBigString(screen, "Level " + level,
 						screen.getHeight() / 2
 						+ fontBigMetrics.getHeight() / 3);
-			} else {
+			}else {
 				drawCenteredBigString(screen, "Level " + level
 						+ " - Bonus life!",
 						screen.getHeight() / 2

@@ -1,9 +1,0 @@
-
-/
-java:S1700"Rename field "score"(µ¼æÿÿÿÿÿ
-}
-java:S14889"bImmediately return this expression instead of assigning it to the temporary variable "comparison".(Éİáùÿÿÿÿ
-o
-java:S12108"YOverride "equals(Object obj)" to comply with the contract of the "compareTo(T o)" method.(úõóô
-_
-java:S33589"DExtract this nested ternary operation into an independent statement.(Éİáùÿÿÿÿ
