@@ -36,7 +36,7 @@ public class Ship extends Entity {
 	 *            Initial position of the ship in the Y axis.
 	 */
 	public Ship(final int positionX, final int positionY, final boolean isPlayer1) {
-		super(positionX, positionY, 13 * 2, 8 * 2, (isPlayer1 ? Color.GREEN : Color.YELLOW));
+		super(positionX, positionY, 13 * 2, 8 * 2, (isPlayer1 ? Color.PINK: Color.YELLOW));
 
 		this.spriteType = SpriteType.Ship;
 		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);

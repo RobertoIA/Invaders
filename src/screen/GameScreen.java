@@ -154,6 +154,7 @@ public class GameScreen extends Screen {
 	/**
 	 * Initializes basic screen properties, and adds necessary elements.
 	 */
+	@Override
 	public final void initialize() {
 		super.initialize();
 
@@ -178,11 +179,20 @@ public class GameScreen extends Screen {
 		this.inputDelay.reset();
 	}
 
+	public static int getQuit(){
+		return QUIT;
+	}
+
+	public static int getResume(){
+		return RESUME;
+	}
+
 	/**
 	 * Starts the action.
 	 * 
 	 * @return Next screen code.
 	 */
+	@Override
 	public final int run() {
 		super.run();
 
@@ -195,6 +205,7 @@ public class GameScreen extends Screen {
 	/**
 	 * Updates the elements on screen and checks for events.
 	 */
+	@Override
 	protected final void update() {
 		super.update();
 
