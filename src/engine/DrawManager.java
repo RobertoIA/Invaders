@@ -538,8 +538,8 @@ public final class DrawManager {
 	 * @param highScores
 	 *            List of high scores.
 	 */
-	public void drawHighScores(final Screen screen,
-			final List<Score> highScores) {
+	public void drawHighScores(final Screen screen,final List<Score> highScores) {
+
 		backBufferGraphics.setColor(Color.WHITE);
 		int i = 0;
 		String scoreString = "";
@@ -550,7 +550,9 @@ public final class DrawManager {
 			drawCenteredRegularString(screen, scoreString, screen.getHeight()
 					/ 4 + fontRegularMetrics.getHeight() * (i + 1) * 2);
 			i++;
+			if(i==5) break;
 		}
+
 	}
 
 	/**
