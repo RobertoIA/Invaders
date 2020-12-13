@@ -6,21 +6,19 @@ import engine.Cooldown;
 import engine.Core;
 
 /**
- * Implements the title screen.
+ * Implements the pre game screen.
  * 
- * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class TitleScreen extends Screen {
+public class PreGameScreen extends Screen {
 
 	/** Milliseconds between changes in user selection. */
 	private static final int SELECTION_TIME = 200;
 	
 	/** Time between changes in user selection. */
 	private Cooldown selectionCooldown;
+	private int difficulty;
 
-	private final int selections[] = {Core.EASY, Core.NORMAL, Core.HARD, 0};
-	private int selected;
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -31,14 +29,14 @@ public class TitleScreen extends Screen {
 	 * @param fps
 	 *            Frames per second, frame rate at which the game is run.
 	 */
-	public TitleScreen(final int width, final int height, final int fps) {
+	public PreGameScreen(final int width, final int height, final int fps, final int difficulty) {
 		super(width, height, fps);
 
 		// Defaults to play.
-		this.selected = 0;
-		this.returnCode = Core.EASY;
+		this.returnCode = 2;
 		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
 		this.selectionCooldown.reset();
+		this.difficulty = difficulty;
 	}
 
 	/**
@@ -62,43 +60,32 @@ public class TitleScreen extends Screen {
 		if (this.selectionCooldown.checkFinished()
 				&& this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_UP)
-					|| inputManager.isKeyDown(KeyEvent.VK_W)) {
-				previousMenuItem();
-				this.selectionCooldown.reset();
-			}
-			if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
+					|| inputManager.isKeyDown(KeyEvent.VK_W)
+					|| inputManager.isKeyDown(KeyEvent.VK_DOWN)
 					|| inputManager.isKeyDown(KeyEvent.VK_S)) {
 				nextMenuItem();
 				this.selectionCooldown.reset();
 			}
 			if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
 				this.isRunning = false;
+			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)) {
+				this.returnCode = 1;
+				this.isRunning = false;
+			}
 		}
+		System.out.println(this.returnCode);
 	}
 
 	/**
 	 * Shifts the focus to the next menu item.
 	 */
 	private void nextMenuItem() {
-		if (this.selected == 3)
-			this.selected = 0;
-		else 
-			this.selected++;
-		this.logger.info("Difficulty: "+selected);
-		this.returnCode = selections[this.selected];
+		this.returnCode = this.returnCode == 2 ? 3 : 2;
 	}
 
 	/**
 	 * Shifts the focus to the previous menu item.
 	 */
-	private void previousMenuItem() {
-		if (this.selected == 0)
-			this.selected = 3;
-		else 
-			this.selected--;
-		this.logger.info("Difficulty: "+selected);
-		this.returnCode = selections[this.selected];
-	}
 
 	/**
 	 * Draws the elements associated with the screen.
@@ -107,8 +94,16 @@ public class TitleScreen extends Screen {
 		drawManager.initDrawing(this);
 
 		drawManager.drawTitle(this);
-		drawManager.drawMenu(this, this.returnCode);
 
 		drawManager.completeDrawing(this);
+		
+		/* Replace above with this code.
+		drawManager.initDrawing(this);
+
+		drawManager.drawPreGame(this, this.difficulty);
+		drawManager.drawPreGameMenu(this, this.returnCode);
+		
+		drawManager.completeDrawing(this);
+		*/
 	}
 }

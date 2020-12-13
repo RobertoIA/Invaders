@@ -236,10 +236,10 @@ public final class DrawManager {
 	 * @param score
 	 *            Current score.
 	 */
-	public void drawScore(final Screen screen, final int score) {
+	public void drawScore(Screen screen, int player1, int player2) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
-		String scoreString = String.format("%04d", score);
+		String scoreString = String.format("%04d", player1);
 		backBufferGraphics.drawString(scoreString, screen.getWidth() - 60, 25);
 	}
 
@@ -251,12 +251,12 @@ public final class DrawManager {
 	 * @param lives
 	 *            Current lives.
 	 */
-	public void drawLives(final Screen screen, final int lives) {
+	public void drawLives(Screen screen, int player1, int player2) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(Color.WHITE);
-		backBufferGraphics.drawString(Integer.toString(lives), 20, 25);
-		Ship dummyShip = new Ship(0, 0);
-		for (int i = 0; i < lives; i++)
+		backBufferGraphics.drawString(Integer.toString(player1), 20, 25);
+		Ship dummyShip = new Ship(0, 0, true);
+		for (int i = 0; i < player1; i++)
 			drawEntity(dummyShip, 40 + 35 * i, 10);
 	}
 
@@ -378,7 +378,7 @@ public final class DrawManager {
 	 *            Current character selected for modification.
 	 */
 	public void drawNameInput(final Screen screen, final char[] name,
-			final int nameCharSelected) {
+			final int nameCharSelected, final boolean isPlayer1) {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
 
@@ -427,7 +427,7 @@ public final class DrawManager {
 	 *            If the score is a new high score.
 	 */
 	public void drawGameOver(final Screen screen, final boolean acceptsInput,
-			final boolean isNewRecord) {
+			final boolean isNewRecord, boolean isPlayer1) {
 		String gameOverString = "Game Over";
 		String continueOrExitString =
 				"Press Space to play again, Escape to exit";

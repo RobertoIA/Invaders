@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import screen.GameScreen;
 import screen.HighScoreScreen;
+import screen.PreGameScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
@@ -21,6 +22,10 @@ import screen.TitleScreen;
  * 
  */
 public final class Core {
+	
+	public static final int EASY = 4;
+	public static final int NORMAL = 5;
+	public static final int HARD = 6;
 
 	/** Width of current screen. */
 	private static final int WIDTH = 448;
@@ -30,7 +35,7 @@ public final class Core {
 	private static final int FPS = 60;
 
 	/** Max lives. */
-	private static final int MAX_LIVES = 3;
+	private static final int MAX_LIVES = 1;
 	/** Levels between extra life. */
 	private static final int EXTRA_LIFE_FRECUENCY = 3;
 	/** Total number of levels. */
@@ -115,8 +120,9 @@ public final class Core {
 		GameState gameState;
 
 		int returnCode = 1;
+		int difficulty = 0;
 		do {
-			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
+			gameState = new GameState(1, 0, MAX_LIVES, 0, 0, 0, MAX_LIVES, 0, 0, difficulty);
 
 			switch (returnCode) {
 			case 1:
@@ -133,7 +139,7 @@ public final class Core {
 					// One extra live every few levels.
 					boolean bonusLife = gameState.getLevel()
 							% EXTRA_LIFE_FRECUENCY == 0
-							&& gameState.getLivesRemaining() < MAX_LIVES;
+							&& gameState.getLivesRemainingP1() < MAX_LIVES;
 					
 					currentScreen = new GameScreen(gameState,
 							gameSettings.get(gameState.getLevel() - 1),
@@ -146,21 +152,35 @@ public final class Core {
 					gameState = ((GameScreen) currentScreen).getGameState();
 
 					gameState = new GameState(gameState.getLevel() + 1,
-							gameState.getScore(),
-							gameState.getLivesRemaining(),
-							gameState.getBulletsShot(),
-							gameState.getShipsDestroyed());
+							gameState.getScoreP1(),
+							gameState.getLivesRemainingP1(),
+							gameState.getBulletsShotP1(),
+							gameState.getShipsDestroyedP1(),
+							gameState.getScoreP2(),
+							gameState.getLivesRemainingP2(),
+							gameState.getBulletsShotP2(),
+							gameState.getShipsDestroyedP2(),
+							difficulty);
 
-				} while (gameState.getLivesRemaining() > 0
+				} while (gameState.getLivesRemainingP1() > 0 // will remove
 						&& gameState.getLevel() <= NUM_LEVELS);
 
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " score screen at " + FPS + " fps, with a score of "
-						+ gameState.getScore() + ", "
-						+ gameState.getLivesRemaining() + " lives remaining, "
-						+ gameState.getBulletsShot() + " bullets shot and "
-						+ gameState.getShipsDestroyed() + " ships destroyed.");
-				currentScreen = new ScoreScreen(width, height, FPS, gameState);
+						+ gameState.getScoreP1() + ", "
+						+ gameState.getLivesRemainingP1() + " lives remaining, "
+						+ gameState.getBulletsShotP1() + " bullets shot and "
+						+ gameState.getShipsDestroyedP1() + " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, FPS, gameState, true);
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing score screen.");
+				LOGGER.info("PLAYER 2 " + WIDTH + "x" + HEIGHT
+						+ " score screen at " + FPS + " fps, with a score of "
+						+ gameState.getScoreP2() + ", "
+						+ gameState.getLivesRemainingP2() + " lives remaining, "
+						+ gameState.getBulletsShotP2() + " bullets shot and "
+						+ gameState.getShipsDestroyedP2() + " ships destroyed.");
+				currentScreen = new ScoreScreen(width, height, FPS, gameState, false);
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing score screen.");
 				break;
@@ -172,6 +192,28 @@ public final class Core {
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing high score screen.");
 				break;
+			case 4:
+				difficulty = EASY; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : EASY");
+				break;
+			case 5:
+				difficulty = NORMAL; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : NORMAL");
+				break;
+			case 6:
+				difficulty = HARD; 
+				returnCode = 7;
+				LOGGER.info("DIFFICULTY : HARD");
+				break;
+			case 7:
+				// pre-game menu
+				currentScreen = new PreGameScreen(width, height, FPS, difficulty);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " pre-game screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing pre-game screen.");
 			default:
 				break;
 			}
