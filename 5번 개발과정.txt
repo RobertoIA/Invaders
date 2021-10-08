@@ -1,0 +1,70 @@
+Optionscore의 리턴코드는 4
+
+drawmenu에 optionscreen 메뉴 추가
+
+TitleScreen에 nextMenuitem, previousMenuItem 고침 (Option 고를수 있게)
+
+Core에 returncode가 4일때 case 추가
+
+DrawManager에 drawOptionMenu 메소드 추가
+
+DrawManager에 drawSelectSetting 메소드 추가
+
+Screen에 OptionScreen에 쓸 인자 selResolution, selspeed추가
+selResolution과 selSpeed를 다른 파일에서 쓸 수 있도록 public 인자 reframe, respeed 추가
+
+Titlescreen에 returnCode 케이스가 늘어남에 따라 코드 조금 수정
+
+Screen에 OptionScreen에 쓸 인자 chk_setting 추가
+
+해상도(화면 크기 만드는 과정) : core 106~109까지
+
+Core에 반복문에서 인자에 따라 화면크기 고치도록 수정(126~162)
+
+Frame에 setframesize, setWidth, setHeight 메소드 추가
+
+OptionScreen에서 사용자가 선택한 설정을 reframe, respeed에 저장
+
+Ship에 있는 인자 Bullet_speed와 speed를 private으로 변환
+
+Core에 speedCode 인자를 만들어 Optionscreen에서 값이 바뀌면 respeed를 받아와 반환하는 함수
+getspeedCode 추가
+
+EnemyShipFormation과 Ship에 각각 convertbulletspeed(), convertminimumspeed()
+			와 converspeed(), convertbulletspeed() 추가
+
+각 속도인자에 함수 대입
+
+해상도 해결
+=========================================
+속도 인자
+Bullet - 인자 speed, bullet_speed 가지고 있음
+
+Bulletpool - Bullet을 모아놓은 Hashset 가지고 있음
+             - getBullet 메소드 : bullet의 speed를 지정해줌
+
+EnemyShipFormation의 Bullet_speed = 적 총알 속도
+Minimum speed = 적 최소 속도
+movementspeed = 적 실제 속도
+
+ship의 bullet_speed = 내 총알 속도
+speed = 내 속도
+
+===========================================
+속도 인자 변환 값
+speed  : 1 (int) (1.5) 2
+bullet_speed : 1 (int) (1.5) 2
+
+Minimumspeed : 10 5 3
+bullet_speed : 1 (int) (1.2) (int) (1.5)
+
+해야할 것
+
+해상도와 속도 인터페이스 만들기 (해결)
+내부값 (해상도, 속도 찾기) (해결)
+내부값 바꾸는 방법 찾기 (해결)
+해상도 속도 선택하는 기능 만들기 (해결)
+
+추가 구현
+해상도나 속도가 바뀌면 "CHECKED!"라는 1초간 문자 띄우기
+core에 추가된 코드 줄이기
