@@ -18,13 +18,15 @@ import entity.Ship;
 
 /**
  * Manages screen drawing.
- * 
+ * 화면 그리기를 관리합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public final class DrawManager {
 
-	/** Singleton instance of the class. */
+	/** Singleton instance of the class.
+	 * 클래스의 싱글톤 인스턴스입니다. */
 	private static DrawManager instance;
 	/** Current frame. */
 	private static Frame frame;
@@ -47,7 +49,8 @@ public final class DrawManager {
 	/** Big sized font properties. */
 	private static FontMetrics fontBigMetrics;
 
-	/** Sprite types mapped to their images. */
+	/** Sprite types mapped to their images.
+	 * 이미지에 매핑된 스프라이트 유형입니다. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
 	/** Sprite types. */
@@ -80,6 +83,7 @@ public final class DrawManager {
 
 	/**
 	 * Private constructor.
+	 * private 생성자
 	 */
 	private DrawManager() {
 		fileManager = Core.getFileManager();
@@ -119,7 +123,8 @@ public final class DrawManager {
 
 	/**
 	 * Returns shared instance of DrawManager.
-	 * 
+	 * DrawManager의 공유된 인스턴스를 반환합니다.
+	 *
 	 * @return Shared instance of DrawManager.
 	 */
 	protected static DrawManager getInstance() {
@@ -130,7 +135,8 @@ public final class DrawManager {
 
 	/**
 	 * Sets the frame to draw the image on.
-	 * 
+	 * 이미지를 그릴 프레임을 설정합니다.
+	 *
 	 * @param currentFrame
 	 *            Frame to draw on.
 	 */
@@ -139,11 +145,13 @@ public final class DrawManager {
 	}
 
 	/**
-	 * First part of the drawing process. Initialices buffers, draws the
+	 * First part of the drawing process. Initializes buffers, draws the
 	 * background and prepares the images.
-	 * 
+	 * 드로잉 프로세스의 첫 번째 부분입니다. 버퍼를 초기화하고 배경을 그리고 이미지를 준비합니다.
+	 *
 	 * @param screen
 	 *            Screen to draw in.
+	 *            그릴 수 있는 화면입니다.
 	 */
 	public void initDrawing(final Screen screen) {
 		backBuffer = new BufferedImage(screen.getWidth(), screen.getHeight(),
@@ -165,9 +173,11 @@ public final class DrawManager {
 
 	/**
 	 * Draws the completed drawing on screen.
-	 * 
+	 * 완성된 그림을 화면에 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 */
 	public void completeDrawing(final Screen screen) {
 		graphics.drawImage(backBuffer, frame.getInsets().left,
@@ -175,17 +185,21 @@ public final class DrawManager {
 	}
 
 	/**
-	 * Draws an entity, using the apropiate image.
-	 * 
+	 * Draws an entity, using the appropriate image.
+	 * 적절한 이미지를 사용하여 entity를 그립니다.
+	 *
 	 * @param entity
 	 *            Entity to be drawn.
+	 *            그려질 entity 입니다.
 	 * @param positionX
 	 *            Coordinates for the left side of the image.
+	 *            이미지의 왼쪽에 대한 좌표입니다.
 	 * @param positionY
 	 *            Coordinates for the upper side of the image.
+	 *            이미지의 위쪽에 대한 좌표입니다.
 	 */
 	public void drawEntity(final Entity entity, final int positionX,
-			final int positionY) {
+						   final int positionY) {
 		boolean[][] image = spriteMap.get(entity.getSpriteType());
 
 		backBufferGraphics.setColor(entity.getColor());
@@ -197,10 +211,12 @@ public final class DrawManager {
 	}
 
 	/**
-	 * For debugging purpouses, draws the canvas borders.
-	 * 
+	 * For debugging purposes, draws the canvas borders.
+	 * 디버깅을 위해 캔버스 테두리를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw in.
+	 *            그릴 수 있는 화면입니다.
 	 */
 	@SuppressWarnings("unused")
 	private void drawBorders(final Screen screen) {
@@ -214,10 +230,12 @@ public final class DrawManager {
 	}
 
 	/**
-	 * For debugging purpouses, draws a grid over the canvas.
-	 * 
+	 * For debugging purposes, draws a grid over the canvas.
+	 * 디버깅을 위해 캔버스 위에 그리드를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw in.
+	 *            그릴 수 있는 화면입니다.
 	 */
 	@SuppressWarnings("unused")
 	private void drawGrid(final Screen screen) {
@@ -230,11 +248,14 @@ public final class DrawManager {
 
 	/**
 	 * Draws current score on screen.
-	 * 
+	 * 화면에 현재 점수를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 수 있는 화면입니다.
 	 * @param score
 	 *            Current score.
+	 *            현재 점수.
 	 */
 	public void drawScore(final Screen screen, final int score) {
 		backBufferGraphics.setFont(fontRegular);
@@ -245,11 +266,14 @@ public final class DrawManager {
 
 	/**
 	 * Draws number of remaining lives on screen.
-	 * 
+	 * 화면에 남은 목숨 수를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 수 있는 화면입니다.
 	 * @param lives
 	 *            Current lives.
+	 *            현재 목숨.
 	 */
 	public void drawLives(final Screen screen, final int lives) {
 		backBufferGraphics.setFont(fontRegular);
@@ -262,11 +286,14 @@ public final class DrawManager {
 
 	/**
 	 * Draws a thick line from side to side of the screen.
-	 * 
+	 * 화면의 좌우로 굵은 선을 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 수 있는 화면입니다.
 	 * @param positionY
 	 *            Y coordinate of the line.
+	 *            선의 Y 좌표입니다.
 	 */
 	public void drawHorizontalLine(final Screen screen, final int positionY) {
 		backBufferGraphics.setColor(Color.GREEN);
@@ -277,9 +304,11 @@ public final class DrawManager {
 
 	/**
 	 * Draws game title.
-	 * 
+	 * 게임 제목을 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 수 있는 화면입니다.
 	 */
 	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
@@ -296,11 +325,14 @@ public final class DrawManager {
 
 	/**
 	 * Draws main menu.
-	 * 
+	 * 메인 메뉴를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param option
 	 *            Option selected.
+	 *            선택된 옵션.
 	 */
 	public void drawMenu(final Screen screen, final int option) {
 		String playString = "Play";
@@ -329,23 +361,30 @@ public final class DrawManager {
 
 	/**
 	 * Draws game results.
-	 * 
+	 * 게임 결과를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param score
 	 *            Score obtained.
+	 *            획득한 점수입니다.
 	 * @param livesRemaining
 	 *            Lives remaining when finished.
+	 *            끝났을 때 남아있는 목숨 수.
 	 * @param shipsDestroyed
 	 *            Total ships destroyed.
+	 *            파괴된 총 ships.
 	 * @param accuracy
 	 *            Total accuracy.
+	 *            전체 총 정확도.
 	 * @param isNewRecord
 	 *            If the score is a new high score.
+	 *            점수가 새로운 최고 점수인 경우.
 	 */
 	public void drawResults(final Screen screen, final int score,
-			final int livesRemaining, final int shipsDestroyed,
-			final float accuracy, final boolean isNewRecord) {
+							final int livesRemaining, final int shipsDestroyed,
+							final float accuracy, final boolean isNewRecord) {
 		String scoreString = String.format("score %04d", score);
 		String livesRemainingString = "lives remaining " + livesRemaining;
 		String shipsDestroyedString = "enemies destroyed " + shipsDestroyed;
@@ -369,16 +408,20 @@ public final class DrawManager {
 
 	/**
 	 * Draws interactive characters for name input.
-	 * 
+	 * 이름 입력을 위한 interactive characters를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param name
 	 *            Current name selected.
+	 *            현재 선택된 이름.
 	 * @param nameCharSelected
 	 *            Current character selected for modification.
+	 *            수정을 위해 선택된 현재 character입니다.
 	 */
 	public void drawNameInput(final Screen screen, final char[] name,
-			final int nameCharSelected) {
+							  final int nameCharSelected) {
 		String newRecordString = "New Record!";
 		String introduceNameString = "Introduce name:";
 
@@ -393,9 +436,9 @@ public final class DrawManager {
 		int positionX = screen.getWidth()
 				/ 2
 				- (fontRegularMetrics.getWidths()[name[0]]
-						+ fontRegularMetrics.getWidths()[name[1]]
-						+ fontRegularMetrics.getWidths()[name[2]]
-								+ fontRegularMetrics.getWidths()[' ']) / 2;
+				+ fontRegularMetrics.getWidths()[name[1]]
+				+ fontRegularMetrics.getWidths()[name[2]]
+				+ fontRegularMetrics.getWidths()[' ']) / 2;
 
 		for (int i = 0; i < 3; i++) {
 			if (i == nameCharSelected)
@@ -406,8 +449,8 @@ public final class DrawManager {
 			positionX += fontRegularMetrics.getWidths()[name[i]] / 2;
 			positionX = i == 0 ? positionX
 					: positionX
-							+ (fontRegularMetrics.getWidths()[name[i - 1]]
-									+ fontRegularMetrics.getWidths()[' ']) / 2;
+					+ (fontRegularMetrics.getWidths()[name[i - 1]]
+					+ fontRegularMetrics.getWidths()[' ']) / 2;
 
 			backBufferGraphics.drawString(Character.toString(name[i]),
 					positionX,
@@ -418,16 +461,20 @@ public final class DrawManager {
 
 	/**
 	 * Draws basic content of game over screen.
-	 * 
+	 * 게임의 기본 콘텐츠를 화면 위에 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param acceptsInput
 	 *            If the screen accepts input.
+	 *            화면이 입력을 수락하는 경우.
 	 * @param isNewRecord
 	 *            If the score is a new high score.
+	 *            점수가 새로운 최고 점수인 경우.
 	 */
 	public void drawGameOver(final Screen screen, final boolean acceptsInput,
-			final boolean isNewRecord) {
+							 final boolean isNewRecord) {
 		String gameOverString = "Game Over";
 		String continueOrExitString =
 				"Press Space to play again, Escape to exit";
@@ -448,9 +495,11 @@ public final class DrawManager {
 
 	/**
 	 * Draws high score screen title and instructions.
-	 * 
+	 * 고득점 화면 제목과 지침을 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 */
 	public void drawHighScoreMenu(final Screen screen) {
 		String highScoreString = "High Scores";
@@ -466,14 +515,17 @@ public final class DrawManager {
 
 	/**
 	 * Draws high scores.
-	 * 
+	 * 높은 점수를 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param highScores
 	 *            List of high scores.
+	 *            높은 점수 목록입니다.
 	 */
 	public void drawHighScores(final Screen screen,
-			final List<Score> highScores) {
+							   final List<Score> highScores) {
 		backBufferGraphics.setColor(Color.WHITE);
 		int i = 0;
 		String scoreString = "";
@@ -489,16 +541,20 @@ public final class DrawManager {
 
 	/**
 	 * Draws a centered string on regular font.
-	 * 
+	 * regular font로 centered string을 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param string
 	 *            String to draw.
+	 *            그릴 문자열입니다.
 	 * @param height
 	 *            Height of the drawing.
+	 *            그림의 높이입니다.
 	 */
 	public void drawCenteredRegularString(final Screen screen,
-			final String string, final int height) {
+										  final String string, final int height) {
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.drawString(string, screen.getWidth() / 2
 				- fontRegularMetrics.stringWidth(string) / 2, height);
@@ -506,16 +562,20 @@ public final class DrawManager {
 
 	/**
 	 * Draws a centered string on big font.
-	 * 
+	 * big font로 centered string을 그립니다.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param string
 	 *            String to draw.
+	 *            그릴 문자열입니다.
 	 * @param height
 	 *            Height of the drawing.
+	 *            그림의 높이입니다.
 	 */
 	public void drawCenteredBigString(final Screen screen, final String string,
-			final int height) {
+									  final int height) {
 		backBufferGraphics.setFont(fontBig);
 		backBufferGraphics.drawString(string, screen.getWidth() / 2
 				- fontBigMetrics.stringWidth(string) / 2, height);
@@ -523,18 +583,23 @@ public final class DrawManager {
 
 	/**
 	 * Countdown to game start.
-	 * 
+	 * 게임 시작 카운트다운.
+	 *
 	 * @param screen
 	 *            Screen to draw on.
+	 *            그릴 화면입니다.
 	 * @param level
 	 *            Game difficulty level.
+	 *            게임 난이도.
 	 * @param number
 	 *            Countdown number.
+	 *            카운트다운 번호입니다.
 	 * @param bonusLife
 	 *            Checks if a bonus life is received.
+	 *            보너스 목숨을 받았는지 확인합니다.
 	 */
 	public void drawCountDown(final Screen screen, final int level,
-			final int number, final boolean bonusLife) {
+							  final int number, final boolean bonusLife) {
 		int rectWidth = screen.getWidth();
 		int rectHeight = screen.getHeight() / 6;
 		backBufferGraphics.setColor(Color.BLACK);
@@ -545,12 +610,12 @@ public final class DrawManager {
 			if (!bonusLife) {
 				drawCenteredBigString(screen, "Level " + level,
 						screen.getHeight() / 2
-						+ fontBigMetrics.getHeight() / 3);
+								+ fontBigMetrics.getHeight() / 3);
 			} else {
 				drawCenteredBigString(screen, "Level " + level
-						+ " - Bonus life!",
+								+ " - Bonus life!",
 						screen.getHeight() / 2
-						+ fontBigMetrics.getHeight() / 3);
+								+ fontBigMetrics.getHeight() / 3);
 			}
 		else if (number != 0)
 			drawCenteredBigString(screen, Integer.toString(number),

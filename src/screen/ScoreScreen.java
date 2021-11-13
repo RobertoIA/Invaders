@@ -12,43 +12,58 @@ import engine.Score;
 
 /**
  * Implements the score screen.
- * 
+ * 점수 화면을 구현합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class ScoreScreen extends Screen {
 
-	/** Milliseconds between changes in user selection. */
+	/** Milliseconds between changes in user selection.
+	 * 사용자 선택 변경 사이의 밀리초입니다. */
 	private static final int SELECTION_TIME = 200;
-	/** Maximum number of high scores. */
+	/** Maximum number of high scores.
+	 * 최고 점수의 최대 수입니다. */
 	private static final int MAX_HIGH_SCORE_NUM = 7;
-	/** Code of first mayus character. */
+	/** Code of first mayus character.
+	 * 첫 번째 Mayus 문자의 코드입니다. */
 	private static final int FIRST_CHAR = 65;
-	/** Code of last mayus character. */
+	/** Code of last mayus character.
+	 * 마지막 Mayus 문자의 코드입니다. */
 	private static final int LAST_CHAR = 90;
 
-	/** Current score. */
+	/** Current score.
+	 * 현재 점수. */
 	private int score;
-	/** Player lives left. */
+	/** Player lives left.
+	 * 플레이어의 남은 목숨. */
 	private int livesRemaining;
-	/** Total bullets shot by the player. */
+	/** Total bullets shot by the player.
+	 * 플레이어가 쏜 전체 총알입니다. */
 	private int bulletsShot;
-	/** Total ships destroyed by the player. */
+	/** Total ships destroyed by the player.
+	 * 플레이어가 파괴한 총 선박입니다. */
 	private int shipsDestroyed;
-	/** List of past high scores. */
+	/** List of past high scores.
+	 * 과거 최고 점수 List입니다. */
 	private List<Score> highScores;
-	/** Checks if current score is a new high score. */
+	/** Checks if current score is a new high score.
+	 * 현재 점수가 새로운 최고 점수인지 확인합니다. */
 	private boolean isNewRecord;
-	/** Player name for record input. */
+	/** Player name for record input.
+	 * 레코드 입력을 위한 플레이어 이름입니다. */
 	private char[] name;
-	/** Character of players name selected for change. */
+	/** Character of players name selected for change.
+	 * 변경을 위해 선택된 플레이어 이름의 캐릭터. */
 	private int nameCharSelected;
-	/** Time between changes in user selection. */
+	/** Time between changes in user selection.
+	 * 사용자 선택 변경 사이의 시간입니다. */
 	private Cooldown selectionCooldown;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
-	 * 
+	 * 생성자, 화면의 속성을 설정합니다.
+	 *
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -59,7 +74,7 @@ public class ScoreScreen extends Screen {
 	 *            Current game state.
 	 */
 	public ScoreScreen(final int width, final int height, final int fps,
-			final GameState gameState) {
+					   final GameState gameState) {
 		super(width, height, fps);
 
 		this.score = gameState.getScore();
@@ -86,7 +101,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Starts the action.
-	 * 
+	 *
 	 * @return Next screen code.
 	 */
 	public final int run() {
@@ -97,6 +112,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Updates the elements on screen and checks for events.
+	 * 화면의 요소를 업데이트하고 이벤트를 확인합니다.
 	 */
 	protected final void update() {
 		super.update();
@@ -132,14 +148,14 @@ public class ScoreScreen extends Screen {
 					this.name[this.nameCharSelected] =
 							(char) (this.name[this.nameCharSelected]
 									== LAST_CHAR ? FIRST_CHAR
-							: this.name[this.nameCharSelected] + 1);
+									: this.name[this.nameCharSelected] + 1);
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
 					this.name[this.nameCharSelected] =
 							(char) (this.name[this.nameCharSelected]
 									== FIRST_CHAR ? LAST_CHAR
-							: this.name[this.nameCharSelected] - 1);
+									: this.name[this.nameCharSelected] - 1);
 					this.selectionCooldown.reset();
 				}
 			}
@@ -149,6 +165,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Saves the score as a high score.
+	 * 점수를 높은 점수로 저장합니다.
 	 */
 	private void saveScore() {
 		highScores.add(new Score(new String(this.name), score));
@@ -165,6 +182,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Draws the elements associated with the screen.
+	 * 화면과 관련된 요소를 그립니다.
 	 */
 	private void draw() {
 		drawManager.initDrawing(this);

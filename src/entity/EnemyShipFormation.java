@@ -16,37 +16,51 @@ import engine.GameSettings;
 
 /**
  * Groups enemy ships into a formation that moves together.
- * 
+ * 적 함선을 함께 이동하는 대형으로 그룹화합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class EnemyShipFormation implements Iterable<EnemyShip> {
 
-	/** Initial position in the x-axis. */
+	/** Initial position in the x-axis.
+	 * x축의 초기 위치입니다. */
 	private static final int INIT_POS_X = 20;
-	/** Initial position in the y-axis. */
+	/** Initial position in the y-axis.
+	 * y축의 초기 위치입니다. */
 	private static final int INIT_POS_Y = 100;
-	/** Distance between ships. */
+	/** Distance between ships.
+	 * 선박 사이의 거리. */
 	private static final int SEPARATION_DISTANCE = 40;
-	/** Proportion of C-type ships. */
+	/** Proportion of C-type ships.
+	 * C형 함선의 비율. */
 	private static final double PROPORTION_C = 0.2;
-	/** Proportion of B-type ships. */
+	/** Proportion of B-type ships.
+	 * B형 함선의 비율. */
 	private static final double PROPORTION_B = 0.4;
-	/** Lateral speed of the formation. */
+	/** Lateral speed of the formation.
+	 * 포메이션의 측면 속도. */
 	private static final int X_SPEED = 8;
-	/** Downwards speed of the formation. */
+	/** Downwards speed of the formation.
+	 * 포메이션의 하향 속도. */
 	private static final int Y_SPEED = 4;
-	/** Speed of the bullets shot by the members. */
+	/** Speed of the bullets shot by the members.
+	 * 멤버들이 쏘는 총알의 속도. */
 	private static final int BULLET_SPEED = 4;
-	/** Proportion of differences between shooting times. */
+	/** Proportion of differences between shooting times.
+	 * 쏘는 시간의 사이의 비율. */
 	private static final double SHOOTING_VARIANCE = .2;
-	/** Margin on the sides of the screen. */
+	/** Margin on the sides of the screen.
+	 * 화면 측면의 Margin. */
 	private static final int SIDE_MARGIN = 20;
-	/** Margin on the bottom of the screen. */
+	/** Margin on the bottom of the screen.
+	 * 화면 하단의 Margin. */
 	private static final int BOTTOM_MARGIN = 80;
-	/** Distance to go down each pass. */
+	/** Distance to go down each pass.
+	 * 각 패스를 내려가는 거리입니다. */
 	private static final int DESCENT_DISTANCE = 20;
-	/** Minimum speed allowed. */
+	/** Minimum speed allowed.
+	 * 허용되는 최소 속도. */
 	private static final int MINIMUM_SPEED = 10;
 
 	/** DrawManager instance. */
@@ -56,60 +70,85 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	/** Screen to draw ships on. */
 	private Screen screen;
 
-	/** List of enemy ships forming the formation. */
+	/** List of enemy ships forming the formation.
+	 * 포메이션을 형성하는 적 함선의 List. */
 	private List<List<EnemyShip>> enemyShips;
-	/** Minimum time between shots. */
+	/** Minimum time between shots.
+	 * 총 쏘기 사이의 최소 시간 */
 	private Cooldown shootingCooldown;
-	/** Number of ships in the formation - horizontally. */
+	/** Number of ships in the formation - horizontally.
+	 * 대형 선박의 수 - 수평. */
 	private int nShipsWide;
-	/** Number of ships in the formation - vertically. */
+	/** Number of ships in the formation - vertically.
+	 * 대형 선박의 수 - 수직. */
 	private int nShipsHigh;
-	/** Time between shots. */
+	/** Time between shots.
+	 * 총 쏘기 사이의 시간입니다. */
 	private int shootingInterval;
-	/** Variance in the time between shots. */
+	/** Variance in the time between shots.
+	 * 총 쏘기 사이의 시간 Variance. */
 	private int shootingVariance;
-	/** Initial ship speed. */
+	/** Initial ship speed.
+	 * 초기 함선 속도. */
 	private int baseSpeed;
-	/** Speed of the ships. */
+	/** Speed of the ships.
+	 * 함선의 속도. */
 	private int movementSpeed;
-	/** Current direction the formation is moving on. */
+	/** Current direction the formation is moving on.
+	 * 포메이션이 진행되고 있는 현재 방향. */
 	private Direction currentDirection;
-	/** Direction the formation was moving previously. */
+	/** Direction the formation was moving previously.
+	 * 포메이션이 이전에 움직이는 방향. */
 	private Direction previousDirection;
-	/** Interval between movements, in frames. */
+	/** Interval between movements, in frames.
+	 * 프레임 단위의 움직임 사이의 간격입니다. */
 	private int movementInterval;
-	/** Total width of the formation. */
+	/** Total width of the formation.
+	 * 포메이션의 총 너비. */
 	private int width;
-	/** Total height of the formation. */
+	/** Total height of the formation.
+	 * 포메이션의 총 높이. */
 	private int height;
-	/** Position in the x-axis of the upper left corner of the formation. */
+	/** Position in the x-axis of the upper left corner of the formation.
+	 * 포메이션의 왼쪽 상단 모서리의 x축 위치입니다. */
 	private int positionX;
-	/** Position in the y-axis of the upper left corner of the formation. */
+	/** Position in the y-axis of the upper left corner of the formation.
+	 * 포메이션의 왼쪽 상단 모서리의 y축 위치입니다. */
 	private int positionY;
-	/** Width of one ship. */
+	/** Width of one ship.
+	 * 한 선박의 너비입니다. */
 	private int shipWidth;
-	/** Height of one ship. */
+	/** Height of one ship.
+	 * 한 선박의 높이입니다. */
 	private int shipHeight;
-	/** List of ships that are able to shoot. */
+	/** List of ships that are able to shoot.
+	 * 쏠 수 있는 함선 목록입니다. */
 	private List<EnemyShip> shooters;
-	/** Number of not destroyed ships. */
+	/** Number of not destroyed ships.
+	 * 파괴되지 않은 선박의 수. */
 	private int shipCount;
 
-	/** Directions the formation can move. */
+	/** Directions the formation can move.
+	 * 포메이션이 움직일 수 있는 방향. */
 	private enum Direction {
-		/** Movement to the right side of the screen. */
+		/** Movement to the right side of the screen.
+		 * 화면 오른쪽으로 이동합니다. */
 		RIGHT,
-		/** Movement to the left side of the screen. */
+		/** Movement to the left side of the screen.
+		 * 화면 왼쪽으로 이동합니다. */
 		LEFT,
-		/** Movement to the bottom of the screen. */
+		/** Movement to the bottom of the screen.
+		 * 화면 하단으로 이동합니다. */
 		DOWN
 	};
 
 	/**
 	 * Constructor, sets the initial conditions.
-	 * 
+	 * 생성자, 초기 조건을 설정합니다.
+	 *
 	 * @param gameSettings
 	 *            Current game settings.
+	 *            현재 게임 설정.
 	 */
 	public EnemyShipFormation(final GameSettings gameSettings) {
 		this.drawManager = Core.getDrawManager();
@@ -146,10 +185,10 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				else
 					spriteType = SpriteType.EnemyShipA1;
 
-				column.add(new EnemyShip((SEPARATION_DISTANCE 
+				column.add(new EnemyShip((SEPARATION_DISTANCE
 						* this.enemyShips.indexOf(column))
-								+ positionX, (SEPARATION_DISTANCE * i)
-								+ positionY, spriteType));
+						+ positionX, (SEPARATION_DISTANCE * i)
+						+ positionY, spriteType));
 				this.shipCount++;
 			}
 		}
@@ -168,9 +207,11 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Associates the formation to a given screen.
-	 * 
+	 * 포메이션을 주어진 화면에 연결합니다.
+	 *
 	 * @param newScreen
 	 *            Screen to attach.
+	 *            첨부할 화면입니다.
 	 */
 	public final void attach(final Screen newScreen) {
 		screen = newScreen;
@@ -178,6 +219,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Draws every individual component of the formation.
+	 * 포메이션의 모든 개별 구성 요소를 그립니다.
 	 */
 	public final void draw() {
 		for (List<EnemyShip> column : this.enemyShips)
@@ -188,6 +230,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Updates the position of the ships.
+	 * 선박의 위치를 업데이트합니다.
 	 */
 	public final void update() {
 		if(this.shootingCooldown == null) {
@@ -195,7 +238,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 					shootingVariance);
 			this.shootingCooldown.reset();
 		}
-		
+
 		cleanUp();
 
 		int movementX = 0;
@@ -205,7 +248,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.movementSpeed = (int) (Math.pow(remainingProportion, 2)
 				* this.baseSpeed);
 		this.movementSpeed += MINIMUM_SPEED;
-		
+
 		movementInterval++;
 		if (movementInterval >= this.movementSpeed) {
 			movementInterval = 0;
@@ -283,6 +326,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Cleans empty columns, adjusts the width and height of the formation.
+	 * 빈 열들을 정리하고 포메이션의 너비와 높이를 조정합니다.
 	 */
 	private void cleanUp() {
 		Set<Integer> emptyColumns = new HashSet<Integer>();
@@ -308,7 +352,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		int leftMostPoint = 0;
 		int rightMostPoint = 0;
-		
+
 		for (List<EnemyShip> column : this.enemyShips) {
 			if (!column.isEmpty()) {
 				if (leftMostPoint == 0)
@@ -326,7 +370,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Shoots a bullet downwards.
-	 * 
+	 * 총알을 아래로 쏩니다.
+	 *
 	 * @param bullets
 	 *            Bullets set to add the bullet being shot.
 	 */
@@ -344,7 +389,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Destroys a ship.
-	 * 
+	 * 선박을 파괴합니다.
+	 *
 	 * @param destroyedShip
 	 *            Ship to be destroyed.
 	 */
@@ -385,9 +431,11 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Gets the ship on a given column that will be in charge of shooting.
-	 * 
+	 * 사격을 담당할 지정된 열에 배를 가져옵니다.
+	 *
 	 * @param column
 	 *            Column to search.
+	 *            검색할 열입니다.
 	 * @return New shooter ship.
 	 */
 	public final EnemyShip getNextShooter(final List<EnemyShip> column) {
@@ -404,7 +452,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Returns an iterator over the ships in the formation.
-	 * 
+	 * 포메이션의 함선에 대한 iterator를 반환합니다.
+	 *
 	 * @return Iterator over the enemy ships.
 	 */
 	@Override
@@ -420,8 +469,10 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Checks if there are any ships remaining.
-	 * 
+	 * 남은 함선이 있는지 확인합니다.
+	 *
 	 * @return True when all ships have been destroyed.
+	 * 			모든 함선이 파괴되었을 때 참입니다.
 	 */
 	public final boolean isEmpty() {
 		return this.shipCount <= 0;

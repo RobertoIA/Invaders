@@ -2,9 +2,10 @@ package engine;
 
 /**
  * Implements a high score record.
- * 
+ * 높은 점수 기록을 구현합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class Score implements Comparable<Score> {
 
@@ -15,7 +16,7 @@ public class Score implements Comparable<Score> {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 *            Player name, three letters.
 	 * @param score
@@ -28,7 +29,7 @@ public class Score implements Comparable<Score> {
 
 	/**
 	 * Getter for the player's name.
-	 * 
+	 *
 	 * @return Name of the player.
 	 */
 	public final String getName() {
@@ -37,7 +38,7 @@ public class Score implements Comparable<Score> {
 
 	/**
 	 * Getter for the player's score.
-	 * 
+	 *
 	 * @return High score.
 	 */
 	public final int getScore() {
@@ -46,7 +47,7 @@ public class Score implements Comparable<Score> {
 
 	/**
 	 * Orders the scores descending by score.
-	 * 
+	 *
 	 * @param score
 	 *            Score to compare the current one with.
 	 * @return Comparison between the two scores. Positive if the current one is
