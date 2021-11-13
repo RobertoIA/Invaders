@@ -25,21 +25,25 @@ import engine.DrawManager.SpriteType;
 
 /**
  * Manages files used in the application.
- * 
+ * 애플리케이션에서 사용되는 파일을 관리합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public final class FileManager {
 
-	/** Singleton instance of the class. */
+	/** Singleton instance of the class.
+	 * 클래스의 싱글톤 인스턴스입니다. */
 	private static FileManager instance;
 	/** Application logger. */
 	private static Logger logger;
-	/** Max number of high scores. */
+	/** Max number of high scores.
+	 * 최고 점수의 최대 수입니다. */
 	private static final int MAX_SCORES = 7;
 
 	/**
 	 * private constructor.
+	 * private 생성자.
 	 */
 	private FileManager() {
 		logger = Core.getLogger();
@@ -47,7 +51,8 @@ public final class FileManager {
 
 	/**
 	 * Returns shared instance of FileManager.
-	 * 
+	 * FileManager의 공유된 인스턴스를 반환합니다.
+	 *
 	 * @return Shared instance of FileManager.
 	 */
 	protected static FileManager getInstance() {
@@ -58,12 +63,15 @@ public final class FileManager {
 
 	/**
 	 * Loads sprites from disk.
-	 * 
+	 * 디스크에서 스프라이트를 로드합니다.
+	 *
 	 * @param spriteMap
 	 *            Mapping of sprite type and empty boolean matrix that will
 	 *            contain the image.
+	 *            이미지를 포함할 스프라이트 타입과 빈 부울 matrix의 매핑.
 	 * @throws IOException
 	 *             In case of loading problems.
+	 *             로딩 문제의 경우.
 	 */
 	public void loadSprite(final Map<SpriteType, boolean[][]> spriteMap)
 			throws IOException {
@@ -100,14 +108,18 @@ public final class FileManager {
 
 	/**
 	 * Loads a font of a given size.
-	 * 
+	 * 주어진 크기의 글꼴을 로드합니다.
+	 *
 	 * @param size
 	 *            Point size of the font.
+	 *            글꼴의 포인트 크기입니다.
 	 * @return New font.
 	 * @throws IOException
 	 *             In case of loading problems.
+	 *             로딩 문제의 경우.
 	 * @throws FontFormatException
 	 *             In case of incorrect font format.
+	 *             잘못된 글꼴 형식의 경우.
 	 */
 	public Font loadFont(final float size) throws IOException,
 			FontFormatException {
@@ -131,10 +143,12 @@ public final class FileManager {
 	/**
 	 * Returns the application default scores if there is no user high scores
 	 * file.
-	 * 
+	 * 사용자 최고 점수 파일이 없는 경우 애플리케이션 기본 점수를 반환합니다.
+	 *
 	 * @return Default high scores.
 	 * @throws IOException
 	 *             In case of loading problems.
+	 *             로딩 문제의 경우.
 	 */
 	private List<Score> loadDefaultHighScores() throws IOException {
 		List<Score> highScores = new ArrayList<Score>();
@@ -167,10 +181,13 @@ public final class FileManager {
 	/**
 	 * Loads high scores from file, and returns a sorted list of pairs score -
 	 * value.
-	 * 
+	 * 파일에서 최고 점수를 로드하고 점수-값 쌍의 정렬된 목록을 반환합니다.
+	 *
 	 * @return Sorted list of scores - players.
+	 * 			점수의 정렬된 목록 - 플레이어.
 	 * @throws IOException
 	 *             In case of loading problems.
+	 *             로딩 문제의 경우.
 	 */
 	public List<Score> loadHighScores() throws IOException {
 
@@ -220,13 +237,16 @@ public final class FileManager {
 
 	/**
 	 * Saves user high scores to disk.
-	 * 
+	 * 사용자의 최고 점수를 디스크에 저장합니다.
+	 *
 	 * @param highScores
 	 *            High scores to save.
+	 *            저장할 높은 점수.
 	 * @throws IOException
 	 *             In case of loading problems.
+	 *             로딩 문제의 경우.
 	 */
-	public void saveHighScores(final List<Score> highScores) 
+	public void saveHighScores(final List<Score> highScores)
 			throws IOException {
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;

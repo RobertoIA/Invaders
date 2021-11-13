@@ -7,21 +7,25 @@ import engine.Core;
 
 /**
  * Implements the title screen.
- * 
+ * 타이틀 화면을 구현합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class TitleScreen extends Screen {
 
-	/** Milliseconds between changes in user selection. */
+	/** Milliseconds between changes in user selection.
+	 * 사용자 선택 변경 사이의 밀리초입니다. */
 	private static final int SELECTION_TIME = 200;
-	
-	/** Time between changes in user selection. */
+
+	/** Time between changes in user selection.
+	 * 사용자 선택 변경 사이의 시간입니다. */
 	private Cooldown selectionCooldown;
 
 	/**
 	 * Constructor, establishes the properties of the screen.
-	 * 
+	 * 생성자, 화면의 속성을 설정합니다.
+	 *
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -40,7 +44,7 @@ public class TitleScreen extends Screen {
 
 	/**
 	 * Starts the action.
-	 * 
+	 *
 	 * @return Next screen code.
 	 */
 	public final int run() {
@@ -51,6 +55,7 @@ public class TitleScreen extends Screen {
 
 	/**
 	 * Updates the elements on screen and checks for events.
+	 * 화면의 요소를 업데이트하고 이벤트를 확인합니다.
 	 */
 	protected final void update() {
 		super.update();
@@ -75,6 +80,7 @@ public class TitleScreen extends Screen {
 
 	/**
 	 * Shifts the focus to the next menu item.
+	 * 포커스를 다음 메뉴 항목으로 이동합니다.
 	 */
 	private void nextMenuItem() {
 		if (this.returnCode == 3)
@@ -87,6 +93,7 @@ public class TitleScreen extends Screen {
 
 	/**
 	 * Shifts the focus to the previous menu item.
+	 * 포커스를 이전 메뉴 항목으로 이동합니다.
 	 */
 	private void previousMenuItem() {
 		if (this.returnCode == 0)
@@ -99,6 +106,7 @@ public class TitleScreen extends Screen {
 
 	/**
 	 * Draws the elements associated with the screen.
+	 * 화면과 관련된 요소를 그립니다.
 	 */
 	private void draw() {
 		drawManager.initDrawing(this);

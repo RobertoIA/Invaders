@@ -8,15 +8,18 @@ import java.util.logging.LogRecord;
 
 /**
  * Implements a simple logging format.
- * 
+ * 간단한 로깅 형식을 구현합니다.
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class MinimalFormatter extends Formatter {
 
-	/** Format for the date. */
+	/** Format for the date.
+	 * 날짜 형식입니다. */
 	private static final DateFormat FORMAT = new SimpleDateFormat("h:mm:ss");
-	/** System line separator. */
+	/** System line separator.
+	 * 시스템 줄 구분자. */
 	private static final String LINE_SEPARATOR = System
 			.getProperty("line.separator");
 
