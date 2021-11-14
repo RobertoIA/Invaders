@@ -304,27 +304,48 @@ public final class DrawManager {
 	 */
 	public void drawMenu(final Screen screen, final int option) {
 		String playString = "Play";
+		String ruleString = "Rule";
+		String manualString = "Manual";
 		String highScoresString = "High scores";
 		String exitString = "exit";
 
-		if (option == 2)
+		if (option == 2) //play
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, playString,
-				screen.getHeight() / 3 * 2);
+		drawCenteredRegularString(screen, playString, screen.getHeight()
+				/ 3 * 2 - fontRegularMetrics.getHeight() * 2);
+
+		//rule 추가
 		if (option == 3)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
+		drawCenteredRegularString(screen, ruleString, screen.getHeight()
+				/ 3 * 2);
+
+		//manual 추가
+		if (option == 4)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, manualString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+
+		//3-->4로
+		if (option == 5)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 4);
+
 		if (option == 0)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
-				* 2 + fontRegularMetrics.getHeight() * 4);
+				* 2 + fontRegularMetrics.getHeight() * 6);
 	}
 
 	/**
