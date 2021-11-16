@@ -1,2 +1,3 @@
-package screen;public class CreditScreen {
+package screen;
+public class CreditScreen {
 }

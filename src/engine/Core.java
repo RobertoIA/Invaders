@@ -8,7 +8,15 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 import screen.*;
+import screen.GameScreen;
+import screen.HighScoreScreen;
+import screen.ManualScreen;
+import screen.ScoreScreen;
+import screen.Screen;
+import screen.TitleScreen;
+
 
 /**
  * Implements core game logic.
@@ -161,6 +169,7 @@ public final class Core {
 				LOGGER.info("Closing score screen.");
 				break;
 
+
 			case 3:
 				//rule screen
 				currentScreen = new RuleScreen(width, height, FPS);
@@ -169,12 +178,21 @@ public final class Core {
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing rule screen.");
 				break;
-			case 4,5://3,4,5:
-				// High scores.
-				currentScreen = new HighScoreScreen(width, height, FPS);
+
+			case 4:
+				// manual.
+				currentScreen = new ManualScreen(width, height, FPS); //페이지 이동
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-						+ " high score screen at " + FPS + " fps.");
-				returnCode = frame.setScreen(currentScreen);
+						+ " manual screen at " + FPS + " fps."); //메세지 띄우기
+				returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+				LOGGER.info("Closing manual screen.");
+				break;
+			case 5:
+				// High scores.
+				currentScreen = new HighScoreScreen(width, height, FPS); //페이지 이동
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " high score screen at " + FPS + " fps."); //메세지 띄우기
+				returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
 				LOGGER.info("Closing high score screen.");
 				break;
 			default:
