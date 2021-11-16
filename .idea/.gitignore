@@ -2,11 +2,15 @@
 /shelf/
 /workspace.xml
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/credit
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+<<<<<<< HEAD
 =======
 # Editor-based HTTP Client requests
 /httpRequests/
@@ -14,3 +18,5 @@
 /dataSources/
 /dataSources.local.xml
 >>>>>>> origin/firstmanual
+=======
+>>>>>>> origin/credit
