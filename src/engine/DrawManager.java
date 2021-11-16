@@ -486,6 +486,35 @@ public final class DrawManager {
 	}
 
 	/**
+	 * Draws high score screen title and instructions.
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 */
+	public void drawManual(final Screen screen) { //매뉴얼 드로우 추가
+		String manualString = "Manual";
+		String instructionsString = "Press Space to return";
+		String explainManual_1 = "Select with W + S / Arrows";
+		String explainManual_2 = "Confirm / Launch with Space";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, manualString,
+				screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, explainManual_1,
+				screen.getHeight() / 2 - fontRegularMetrics.getHeight() * 1);
+
+		drawCenteredRegularString(screen, explainManual_2,
+				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
+
+	}
+
+	/**
 	 * Draws high scores.
 	 * 
 	 * @param screen

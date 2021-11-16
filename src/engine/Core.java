@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import screen.GameScreen;
 import screen.HighScoreScreen;
+import screen.ManualScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
@@ -164,14 +165,25 @@ public final class Core {
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing score screen.");
 				break;
-			case 3,4,5:
+
+			case 3,5:
 				// High scores.
-				currentScreen = new HighScoreScreen(width, height, FPS);
+				currentScreen = new HighScoreScreen(width, height, FPS); //페이지 이동
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-						+ " high score screen at " + FPS + " fps.");
-				returnCode = frame.setScreen(currentScreen);
+						+ " high score screen at " + FPS + " fps."); //메세지 띄우기
+				returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
 				LOGGER.info("Closing high score screen.");
 				break;
+
+			case 4:
+				// manual.
+				currentScreen = new ManualScreen(width, height, FPS); //페이지 이동
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " manual screen at " + FPS + " fps."); //메세지 띄우기
+				returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+				LOGGER.info("Closing manual screen.");
+				break;
+
 			default:
 				break;
 			}
