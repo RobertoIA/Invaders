@@ -332,7 +332,6 @@ public final class DrawManager {
 		drawCenteredRegularString(screen, manualString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
 
-		//3-->4로
 		if (option == 5)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
@@ -467,6 +466,33 @@ public final class DrawManager {
 				screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 10);
 	}
 
+	//Draws rule screen title and instructions.
+	public void ruleMenu(final Screen screen) {
+		String ruleString = "Rule";
+		String instructionsString = "Press Space to return";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, ruleString, screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+	}
+
+	//draw rules
+	public void drawRule(final Screen screen,
+							   final String[] ruleList) {
+		backBufferGraphics.setColor(Color.WHITE);
+		int i = 0;
+		String scoreString = "";
+		for (String rule : ruleList) {
+			scoreString = String.format("%s", rule);
+			drawCenteredRegularString(screen, scoreString, screen.getHeight()
+					/ 4 + fontRegularMetrics.getHeight() * (i + 1) * 2);
+			i++;
+		}
+	}
+
 	/**
 	 * Draws high score screen title and instructions.
 	 * 
@@ -483,6 +509,7 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.GRAY);
 		drawCenteredRegularString(screen, instructionsString,
 				screen.getHeight() / 5);
+
 	}
 
 	/**
