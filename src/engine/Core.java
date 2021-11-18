@@ -262,14 +262,6 @@ public final class Core {
 				returnCode=frame.setScreen(currentScreen);
 				break;
 
-			case 5:
-				//checking
-				currentScreen = new CheckOutScreen(width, height, FPS);
-				LOGGER.info("Starting" + WIDTH + "x" + HEIGHT
-						+ " checkout screen at " + FPS + " fps.");
-				returnCode = frame.setScreen(currentScreen);
-				LOGGER.info("Closing checkout screen.");
-				break;
 			}
 
 		} while (returnCode != 0);
