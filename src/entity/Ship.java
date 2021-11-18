@@ -43,6 +43,10 @@ public class Ship extends Entity {
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
 
+	public Ship() {
+		super();
+	}
+
 	/**
 	 * Moves the ship speed uni ts right, or until the right screen border is
 	 * reached.

@@ -8,6 +8,7 @@ import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
+import entity.Entity;
 
 /**
  * Implements a generic screen.
@@ -42,6 +43,9 @@ public class Screen {
 	protected boolean isRunning;
 	/** What kind of screen goes next. */
 	protected int returnCode;
+
+	/** 세팅 코드*/
+	protected int settingCode;
 
 	/**
 	 * Constructor, establishes the properties of the screen.

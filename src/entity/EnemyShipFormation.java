@@ -166,6 +166,59 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			this.shooters.add(column.get(column.size() - 1));
 	}
 
+	public void ReshowEnemyShipFormation(final GameSettings gameSettings) {
+		this.drawManager = Core.getDrawManager();
+		this.logger = Core.getLogger();
+		this.enemyShips = new ArrayList<List<EnemyShip>>();
+		this.currentDirection = Direction.RIGHT;
+		this.movementInterval = 0;
+		this.nShipsWide = gameSettings.getFormationWidth();
+		this.nShipsHigh = gameSettings.getFormationHeight();
+		this.shootingInterval = gameSettings.getShootingFrecuency();
+		this.shootingVariance = (int) (gameSettings.getShootingFrecuency()
+				* SHOOTING_VARIANCE);
+		this.baseSpeed = gameSettings.getBaseSpeed();
+		this.movementSpeed = this.baseSpeed;
+		this.positionX = INIT_POS_X;
+		this.positionY = INIT_POS_Y;
+		this.shooters = new ArrayList<EnemyShip>();
+		SpriteType spriteType;
+
+		this.logger.info("Initializing " + nShipsWide + "x" + nShipsHigh
+				+ " ship formation in (" + positionX + "," + positionY + ")");
+
+		// Each sub-list is a column on the formation.
+
+		for (List<EnemyShip> column : this.enemyShips) {
+			for (int i = 0; i < this.nShipsHigh; i++) {
+				if (i / (float) this.nShipsHigh < PROPORTION_C)
+					spriteType = SpriteType.EnemyShipC1;
+				else if (i / (float) this.nShipsHigh < PROPORTION_B
+						+ PROPORTION_C)
+					spriteType = SpriteType.EnemyShipB1;
+				else
+					spriteType = SpriteType.EnemyShipA1;
+
+				column.add(new EnemyShip((SEPARATION_DISTANCE
+						* this.enemyShips.indexOf(column))
+						+ positionX, (SEPARATION_DISTANCE * i)
+						+ positionY, spriteType));
+				this.shipCount++;
+			}
+		}
+
+		this.shipWidth = this.enemyShips.get(0).get(0).getWidth();
+		this.shipHeight = this.enemyShips.get(0).get(0).getHeight();
+
+		this.width = (this.nShipsWide - 1) * SEPARATION_DISTANCE
+				+ this.shipWidth;
+		this.height = (this.nShipsHigh - 1) * SEPARATION_DISTANCE
+				+ this.shipHeight;
+
+		for (List<EnemyShip> column : this.enemyShips)
+			this.shooters.add(column.get(column.size() - 1));
+	}
+
 	/**
 	 * Associates the formation to a given screen.
 	 * 

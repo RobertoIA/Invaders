@@ -19,6 +19,7 @@ public class GameState {
 	/** Ships destroyed until now. */
 	private int shipsDestroyed;
 
+
 	/**
 	 * Constructor.
 	 * 
@@ -41,6 +42,10 @@ public class GameState {
 		this.livesRemaining = livesRemaining;
 		this.bulletsShot = bulletsShot;
 		this.shipsDestroyed = shipsDestroyed;
+	}
+
+	public GameState() {
+
 	}
 
 	/**
@@ -77,5 +82,10 @@ public class GameState {
 	public final int getShipsDestroyed() {
 		return shipsDestroyed;
 	}
+
+
+	/**
+	 * @return the isPause;
+	 */
 
 }
