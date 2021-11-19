@@ -1,4 +1,0 @@
-Dies ist ein deutscher Text von Luca.
-Don't mind the German stuff :)
-
-This is luca.txt from the testBranch
