@@ -1,8 +1,8 @@
 package entity;
 
-import java.awt.Graphics;
+import java.awt.Color;
 
-import screen.Screen;
+import engine.DrawManager.SpriteType;
 
 /**
  * Implements a bullet that moves vertically up or down.
@@ -12,13 +12,15 @@ import screen.Screen;
  */
 public class Bullet extends Entity {
 
+	/**
+	 * Speed of the bullet, positive or negative depending on direction -
+	 * positive is down.
+	 */
 	private int speed;
 
 	/**
 	 * Constructor, establishes the bullet's properties.
 	 * 
-	 * @param screen
-	 *            Screen where the bullet will be drawn.
 	 * @param positionX
 	 *            Initial position of the bullet in the X axis.
 	 * @param positionY
@@ -27,28 +29,27 @@ public class Bullet extends Entity {
 	 *            Speed of the bullet, positive or negative depending on
 	 *            direction - positive is down.
 	 */
-	public Bullet(Screen screen, int positionX, int positionY, int speed) {
-		super(screen, positionX, positionY, 5, 10);
-		this.positionX -= this.width / 2;
-		this.positionY -= this.height / 2;
+	public Bullet(final int positionX, final int positionY, final int speed) {
+		super(positionX, positionY, 3 * 2, 5 * 2, Color.WHITE);
+
 		this.speed = speed;
+		setSprite();
 	}
 
 	/**
-	 * Draws the bullet on the screen in its new position.
+	 * Sets correct sprite for the bullet, based on speed.
 	 */
-	public void draw(Graphics backBufferGraphics) {
-		super.draw(backBufferGraphics);
-
-		update();
-		backBufferGraphics.fillRect(this.positionX, this.positionY, this.width,
-				this.height);
+	public final void setSprite() {
+		if (speed < 0)
+			this.spriteType = SpriteType.Bullet;
+		else
+			this.spriteType = SpriteType.EnemyBullet;
 	}
 
 	/**
 	 * Updates the bullet's position.
 	 */
-	private void update() {
+	public final void update() {
 		this.positionY += this.speed;
 	}
 
@@ -58,14 +59,16 @@ public class Bullet extends Entity {
 	 * @param speed
 	 *            New speed of the bullet.
 	 */
-	public void setSpeed(int speed) {
+	public final void setSpeed(final int speed) {
 		this.speed = speed;
 	}
 
 	/**
-	 * Getter for the Y axis position of the bullet.
+	 * Getter for the speed of the bullet.
+	 * 
+	 * @return Speed of the bullet.
 	 */
-	public int getPositionY() {
-		return this.positionY;
+	public final int getSpeed() {
+		return this.speed;
 	}
 }
