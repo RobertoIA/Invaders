@@ -3,26 +3,37 @@ package engine;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import screen.Screen;
-
 /**
  * Manages keyboard input for the provided screen.
  * 
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
  * 
  */
-public class InputManager implements KeyListener {
+public final class InputManager implements KeyListener {
 
-	private static boolean[] keys = new boolean[256];
+	/** Number of recognised keys. */
+	private static final int NUM_KEYS = 256;
+	/** Array with the jeys marked as pressed or not. */
+	private static boolean[] keys;
+	/** Singleton instance of the class. */
+	private static InputManager instance;
 
 	/**
-	 * Constructor, associates the manager to the screen.
-	 * 
-	 * @param screen
-	 *            Screen to attach.
+	 * Private constructor.
 	 */
-	public InputManager(Screen screen) {
-		screen.addKeyListener(this);
+	private InputManager() {
+		keys = new boolean[NUM_KEYS];
+	}
+
+	/**
+	 * Returns shared instance of InputManager.
+	 * 
+	 * @return Shared instance of InputManager.
+	 */
+	protected static InputManager getInstance() {
+		if (instance == null)
+			instance = new InputManager();
+		return instance;
 	}
 
 	/**
@@ -32,31 +43,42 @@ public class InputManager implements KeyListener {
 	 *            Key number to check.
 	 * @return Key state.
 	 */
-	public boolean isKeyDown(int keyCode) {
+	public boolean isKeyDown(final int keyCode) {
 		return keys[keyCode];
 	}
 
 	/**
 	 * Changes the state of the key to pressed.
+	 * 
+	 * @param key
+	 *            Key pressed.
 	 */
 	@Override
-	public void keyPressed(KeyEvent key) {
-		keys[key.getKeyCode()] = true;
+	public void keyPressed(final KeyEvent key) {
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
+			keys[key.getKeyCode()] = true;
 	}
 
 	/**
 	 * Changes the state of the key to not pressed.
+	 * 
+	 * @param key
+	 *            Key released.
 	 */
 	@Override
-	public void keyReleased(KeyEvent key) {
-		keys[key.getKeyCode()] = false;
+	public void keyReleased(final KeyEvent key) {
+		if (key.getKeyCode() >= 0 && key.getKeyCode() < NUM_KEYS)
+			keys[key.getKeyCode()] = false;
 	}
 
 	/**
 	 * Does nothing.
+	 * 
+	 * @param key
+	 *            Key typed.
 	 */
 	@Override
-	public void keyTyped(KeyEvent key) {
+	public void keyTyped(final KeyEvent key) {
 
 	}
 }
