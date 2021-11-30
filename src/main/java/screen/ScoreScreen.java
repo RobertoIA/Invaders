@@ -1,14 +1,14 @@
 package screen;
 
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import engine.Cooldown;
 import engine.Core;
 import engine.GameState;
 import engine.Score;
+
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Implements the score screen.

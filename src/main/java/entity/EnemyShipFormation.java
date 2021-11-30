@@ -1,18 +1,14 @@
 package entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
-
-import screen.Screen;
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
 import engine.GameSettings;
+import screen.Screen;
+
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Groups enemy ships into a formation that moves together.
