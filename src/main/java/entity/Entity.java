@@ -1,8 +1,8 @@
 package entity;
 
-import java.awt.Color;
-
 import engine.DrawManager.SpriteType;
+
+import java.awt.*;
 
 /**
  * Implements a generic game entity.
