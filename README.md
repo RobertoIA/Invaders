@@ -1,6 +1,5 @@
-Invaders
+Invaders  ![image](https://user-images.githubusercontent.com/50670389/144034379-96943a38-5104-4b69-9cfa-8ee2dd275da9.png)
 =
-![image](https://user-images.githubusercontent.com/50670389/144034316-dbe72999-deb8-47f2-b7f7-4b51abb36faa.png)
 [Space Invaders](http://en.wikipedia.org/wiki/Space_Invaders) clone, written in Java.
 
 ### Screenshots
