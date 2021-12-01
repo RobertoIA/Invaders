@@ -1,19 +1,30 @@
 package screen;
 
+<<<<<<< HEAD
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+=======
+>>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.GameSettings;
 import engine.GameState;
+<<<<<<< HEAD
 import entity.Bullet;
 import entity.BulletPool;
 import entity.EnemyShip;
 import entity.EnemyShipFormation;
 import entity.Entity;
 import entity.Ship;
+=======
+import entity.*;
+
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
+>>>>>>> develop
 
 /**
  * Implements the game screen, where the action happens.
@@ -23,8 +34,11 @@ import entity.Ship;
  */
 public class GameScreen extends Screen {
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> develop
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 6000;
 	/** Bonus score for each life remaining at the end of the level. */
@@ -46,10 +60,13 @@ public class GameScreen extends Screen {
 	private int level;
 	/** Formation of enemy ships. */
 	private EnemyShipFormation enemyShipFormation;
+<<<<<<< HEAD
 
 	/** 있던 대로 보여주기 */
 	private EnemyShipFormation ReshowEnemyShipFormation;
 
+=======
+>>>>>>> develop
 	/** Player's ship. */
 	private Ship ship;
 	/** Bonus enemy ship that appears sometimes. */
@@ -77,6 +94,7 @@ public class GameScreen extends Screen {
 	/** Checks if a bonus life is received. */
 	private boolean bonusLife;
 
+<<<<<<< HEAD
 	/** pause 버튼 누른 건지 확인하기*/
 	private boolean isPause;
 	/** Check if the game will restart */
@@ -90,6 +108,8 @@ public class GameScreen extends Screen {
 
 
 
+=======
+>>>>>>> develop
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
@@ -97,7 +117,11 @@ public class GameScreen extends Screen {
 	 *            Current game state.
 	 * @param gameSettings
 	 *            Current game settings.
+<<<<<<< HEAD
 	 * @param bonusLife
+=======
+	 * @param bonnusLife
+>>>>>>> develop
 	 *            Checks if a bonus life is awarded this level.
 	 * @param width
 	 *            Screen width.
@@ -107,8 +131,13 @@ public class GameScreen extends Screen {
 	 *            Frames per second, frame rate at which the game is run.
 	 */
 	public GameScreen(final GameState gameState,
+<<<<<<< HEAD
 					  final GameSettings gameSettings, final boolean bonusLife,
 					  final int width, final int height, final int fps) {
+=======
+			final GameSettings gameSettings, final boolean bonusLife,
+			final int width, final int height, final int fps) {
+>>>>>>> develop
 		super(width, height, fps);
 
 		this.gameSettings = gameSettings;
@@ -120,10 +149,13 @@ public class GameScreen extends Screen {
 			this.lives++;
 		this.bulletsShot = gameState.getBulletsShot();
 		this.shipsDestroyed = gameState.getShipsDestroyed();
+<<<<<<< HEAD
 		this.selectionCooldown = Core.getCooldown(SELECTION_TIME);
 		this.selectionCooldown.reset();
 
 
+=======
+>>>>>>> develop
 	}
 
 	/**
@@ -159,7 +191,10 @@ public class GameScreen extends Screen {
 		super.run();
 
 		this.score += LIFE_SCORE * (this.lives - 1);
+<<<<<<< HEAD
 		this.isPause = false;
+=======
+>>>>>>> develop
 		this.logger.info("Screen cleared with a score of " + this.score);
 
 		return this.returnCode;
@@ -214,6 +249,7 @@ public class GameScreen extends Screen {
 				this.logger.info("The special ship has escaped");
 			}
 
+<<<<<<< HEAD
 			if (inputManager.isKeyDown(KeyEvent.VK_ESCAPE)
 					|| inputManager.isKeyDown(KeyEvent.VK_P))
 				isPause = true;
@@ -265,6 +301,8 @@ public class GameScreen extends Screen {
 				drawPause(this.returnCode);
 			}
 
+=======
+>>>>>>> develop
 			this.ship.update();
 			this.enemyShipFormation.update();
 			this.enemyShipFormation.shoot(this.bullets);
@@ -282,6 +320,7 @@ public class GameScreen extends Screen {
 
 		if (this.levelFinished && this.screenFinishedCooldown.checkFinished())
 			this.isRunning = false;
+<<<<<<< HEAD
 	}
 	/**
 	 * Shifts the focus to the next menu item.
@@ -319,6 +358,11 @@ public class GameScreen extends Screen {
 
 
 
+=======
+
+	}
+
+>>>>>>> develop
 	/**
 	 * Draws the elements associated with the screen.
 	 */
@@ -347,7 +391,11 @@ public class GameScreen extends Screen {
 		if (!this.inputDelay.checkFinished()) {
 			int countdown = (int) ((INPUT_DELAY
 					- (System.currentTimeMillis()
+<<<<<<< HEAD
 					- this.gameStartTime)) / 1000);
+=======
+							- this.gameStartTime)) / 1000);
+>>>>>>> develop
 			drawManager.drawCountDown(this, this.level, countdown,
 					this.bonusLife);
 			drawManager.drawHorizontalLine(this, this.height / 2 - this.height

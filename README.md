@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 Invaders
+=======
+Invaders  
+=
+![image](https://user-images.githubusercontent.com/50670389/144034379-96943a38-5104-4b69-9cfa-8ee2dd275da9.png)
+>>>>>>> develop
 =
 [Space Invaders](http://en.wikipedia.org/wiki/Space_Invaders) clone, written in Java.
 
@@ -28,4 +34,8 @@ If the Java path is not set correctly, you can also navigate to the directory fr
 Requires Java 7 or better.
 
 ### Resources
+<<<<<<< HEAD
 [Space Invaders Regular (font)](http://www.fonts2u.com/space-invaders-regular.font) - &copy; kylemaoin 2010
+=======
+[Space Invaders Regular (font)](http://www.fonts2u.com/space-invaders-regular.font) - &copy; kylemaoin 2010
+>>>>>>> develop

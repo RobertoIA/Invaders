@@ -1,11 +1,19 @@
 package engine;
 
+<<<<<<< HEAD
 import java.awt.Insets;
 
 import javax.swing.JFrame;
 
 import screen.Screen;
 
+=======
+import screen.Screen;
+
+import javax.swing.*;
+import java.awt.*;
+
+>>>>>>> develop
 /**
  * Implements a frame to show screens on.
  * 

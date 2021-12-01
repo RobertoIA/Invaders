@@ -1,10 +1,18 @@
 package engine;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+=======
+import entity.Entity;
+import entity.Ship;
+import screen.Screen;
+
+import java.awt.*;
+>>>>>>> develop
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -12,10 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+<<<<<<< HEAD
 import screen.Screen;
 import entity.Entity;
 import entity.Ship;
 
+=======
+>>>>>>> develop
 /**
  * Manages screen drawing.
  * 
@@ -50,11 +61,15 @@ public final class DrawManager {
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
+<<<<<<< HEAD
 
 
 
 
     /** Sprite types. */
+=======
+	/** Sprite types. */
+>>>>>>> develop
 	public static enum SpriteType {
 		/** Player ship. */
 		Ship,
@@ -331,6 +346,7 @@ public final class DrawManager {
 				* 2 + fontRegularMetrics.getHeight() * 4);
 	}
 
+<<<<<<< HEAD
 	/**세팅 메뉴*/
 	public void drawSettingmenu(final Screen screen, final int option){
 		if (option==1)
@@ -443,6 +459,8 @@ public final class DrawManager {
 	}
 
 
+=======
+>>>>>>> develop
 	/**
 	 * Draws game results.
 	 * 
@@ -580,6 +598,7 @@ public final class DrawManager {
 				screen.getHeight() / 5);
 	}
 
+<<<<<<< HEAD
 	/**Draw setting screen */
 	public void drawSettingScreen(final Screen screen){
 		backBufferGraphics.setColor(Color.WHITE);
@@ -592,6 +611,8 @@ public final class DrawManager {
 				screen.getHeight() / 10);
 	}
 
+=======
+>>>>>>> develop
 	/**
 	 * Draws high scores.
 	 * 
@@ -633,6 +654,7 @@ public final class DrawManager {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Draws a split of width string on regular font.
 	 *
 	 * @param screen
@@ -654,6 +676,8 @@ public final class DrawManager {
 	}
 
 	/**
+=======
+>>>>>>> develop
 	 * Draws a centered string on big font.
 	 * 
 	 * @param screen
@@ -671,6 +695,7 @@ public final class DrawManager {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Draws a split of width string on regular font.
 	 *
 	 * @param screen
@@ -692,6 +717,8 @@ public final class DrawManager {
 	}
 
 	/**
+=======
+>>>>>>> develop
 	 * Countdown to game start.
 	 * 
 	 * @param screen

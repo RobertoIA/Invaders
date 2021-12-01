@@ -1,9 +1,16 @@
 package entity;
 
+<<<<<<< HEAD
 import java.awt.Color;
 
 import engine.DrawManager.SpriteType;
 
+=======
+import engine.DrawManager.SpriteType;
+
+import java.awt.*;
+
+>>>>>>> develop
 /**
  * Implements a generic game entity.
  * 
@@ -48,10 +55,13 @@ public class Entity {
 		this.color = color;
 	}
 
+<<<<<<< HEAD
 	public Entity() {
 
 	}
 
+=======
+>>>>>>> develop
 	/**
 	 * Getter for the color of the entity.
 	 * 

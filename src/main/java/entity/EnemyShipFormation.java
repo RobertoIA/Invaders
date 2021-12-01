@@ -1,5 +1,6 @@
 package entity;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,11 +9,20 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import screen.Screen;
+=======
+>>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.DrawManager.SpriteType;
 import engine.GameSettings;
+<<<<<<< HEAD
+=======
+import screen.Screen;
+
+import java.util.*;
+import java.util.logging.Logger;
+>>>>>>> develop
 
 /**
  * Groups enemy ships into a formation that moves together.
@@ -166,6 +176,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			this.shooters.add(column.get(column.size() - 1));
 	}
 
+<<<<<<< HEAD
 	public void ReshowEnemyShipFormation(final GameSettings gameSettings) {
 		this.drawManager = Core.getDrawManager();
 		this.logger = Core.getLogger();
@@ -219,6 +230,8 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			this.shooters.add(column.get(column.size() - 1));
 	}
 
+=======
+>>>>>>> develop
 	/**
 	 * Associates the formation to a given screen.
 	 * 

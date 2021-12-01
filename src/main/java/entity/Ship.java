@@ -1,12 +1,21 @@
 package entity;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import java.util.Set;
 
+=======
+>>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
 
+<<<<<<< HEAD
+=======
+import java.awt.*;
+import java.util.Set;
+
+>>>>>>> develop
 /**
  * Implements a ship, to be controlled by the player.
  * 
@@ -43,10 +52,13 @@ public class Ship extends Entity {
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
 
+<<<<<<< HEAD
 	public Ship() {
 		super();
 	}
 
+=======
+>>>>>>> develop
 	/**
 	 * Moves the ship speed uni ts right, or until the right screen border is
 	 * reached.

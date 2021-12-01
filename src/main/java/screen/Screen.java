@@ -1,14 +1,24 @@
 package screen;
 
+<<<<<<< HEAD
 import java.awt.Insets;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+=======
+>>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager;
 import engine.InputManager;
+<<<<<<< HEAD
 import entity.Entity;
+=======
+
+import java.awt.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+>>>>>>> develop
 
 /**
  * Implements a generic screen.
@@ -44,9 +54,12 @@ public class Screen {
 	/** What kind of screen goes next. */
 	protected int returnCode;
 
+<<<<<<< HEAD
 	/** 세팅 코드*/
 	protected int settingCode;
 
+=======
+>>>>>>> develop
 	/**
 	 * Constructor, establishes the properties of the screen.
 	 * 
