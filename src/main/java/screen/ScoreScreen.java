@@ -1,26 +1,16 @@
 package screen;
 
-<<<<<<< HEAD
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
-=======
->>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.GameState;
 import engine.Score;
 
-<<<<<<< HEAD
-=======
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
->>>>>>> develop
 /**
  * Implements the score screen.
  * 

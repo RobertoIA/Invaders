@@ -1,25 +1,10 @@
 package engine;
 
-<<<<<<< HEAD
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-=======
+
 import engine.DrawManager.SpriteType;
 
 import java.awt.*;
 import java.io.*;
->>>>>>> develop
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -28,21 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-<<<<<<< HEAD
-import engine.DrawManager.SpriteType;
 
 /**
  * Manages files used in the application.
- *
- * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- *
-=======
-/**
- * Manages files used in the application.
  * 
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
->>>>>>> develop
+ *
  */
 public final class FileManager {
 
@@ -62,11 +38,6 @@ public final class FileManager {
 
 	/**
 	 * Returns shared instance of FileManager.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @return Shared instance of FileManager.
 	 */
 	protected static FileManager getInstance() {
@@ -77,11 +48,6 @@ public final class FileManager {
 
 	/**
 	 * Loads sprites from disk.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @param spriteMap
 	 *            Mapping of sprite type and empty boolean matrix that will
 	 *            contain the image.
@@ -123,11 +89,6 @@ public final class FileManager {
 
 	/**
 	 * Loads a font of a given size.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @param size
 	 *            Point size of the font.
 	 * @return New font.
@@ -158,11 +119,6 @@ public final class FileManager {
 	/**
 	 * Returns the application default scores if there is no user high scores
 	 * file.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @return Default high scores.
 	 * @throws IOException
 	 *             In case of loading problems.
@@ -198,11 +154,6 @@ public final class FileManager {
 	/**
 	 * Loads high scores from file, and returns a sorted list of pairs score -
 	 * value.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @return Sorted list of scores - players.
 	 * @throws IOException
 	 *             In case of loading problems.
@@ -255,21 +206,12 @@ public final class FileManager {
 
 	/**
 	 * Saves user high scores to disk.
-<<<<<<< HEAD
-	 *
-=======
-	 * 
->>>>>>> develop
 	 * @param highScores
 	 *            High scores to save.
 	 * @throws IOException
 	 *             In case of loading problems.
 	 */
-<<<<<<< HEAD
 	public void saveHighScores(final List<Score> highScores)
-=======
-	public void saveHighScores(final List<Score> highScores) 
->>>>>>> develop
 			throws IOException {
 		OutputStream outputStream = null;
 		BufferedWriter bufferedWriter = null;
@@ -311,8 +253,5 @@ public final class FileManager {
 				bufferedWriter.close();
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> develop
+

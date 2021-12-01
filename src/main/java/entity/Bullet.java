@@ -1,14 +1,10 @@
 package entity;
 
-<<<<<<< HEAD:src/main/java/entity/Bullet.java
-import java.awt.Color;
 
-import engine.DrawManager.SpriteType;
-=======
 import engine.DrawManager.SpriteType;
 
 import java.awt.*;
->>>>>>> develop:src/entity/Bullet.java
+
 
 /**
  * Implements a bullet that moves vertically up or down.

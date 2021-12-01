@@ -1,19 +1,12 @@
 package entity;
 
-<<<<<<< HEAD
-import java.awt.Color;
-
-=======
->>>>>>> develop
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
 
-<<<<<<< HEAD
-=======
 import java.awt.*;
 
->>>>>>> develop
+
 /**
  * Implements a enemy ship, to be destroyed by the player.
  * 

@@ -1,18 +1,12 @@
 package engine;
 
-<<<<<<< HEAD
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-=======
+
 import entity.Entity;
 import entity.Ship;
 import screen.Screen;
 
 import java.awt.*;
->>>>>>> develop
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -20,13 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-<<<<<<< HEAD
+
 import screen.Screen;
 import entity.Entity;
 import entity.Ship;
 
-=======
->>>>>>> develop
+
 /**
  * Manages screen drawing.
  * 
@@ -61,15 +54,7 @@ public final class DrawManager {
 	/** Sprite types mapped to their images. */
 	private static Map<SpriteType, boolean[][]> spriteMap;
 
-<<<<<<< HEAD
-
-
-
-
-    /** Sprite types. */
-=======
 	/** Sprite types. */
->>>>>>> develop
 	public static enum SpriteType {
 		/** Player ship. */
 		Ship,
@@ -346,29 +331,7 @@ public final class DrawManager {
 				* 2 + fontRegularMetrics.getHeight() * 4);
 	}
 
-<<<<<<< HEAD
-	/**세팅 메뉴*/
-	public void drawSettingmenu(final Screen screen, final int option){
-		if (option==1)
-			backBufferGraphics.setColor(Color.GREEN);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, "Default",
-				screen.getHeight()*3/10);
-		if (option == 2)
-			backBufferGraphics.setColor(Color.GREEN);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, "Hard",
-				screen.getHeight()*3/10+25);
-		if (option == 3)
-			backBufferGraphics.setColor(Color.GREEN);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, "Expert",
-				screen.getHeight()*3/10+50);
 
-	}
 
 	/**
 	 * Draws pause menu.
@@ -458,9 +421,6 @@ public final class DrawManager {
 				screen.getHeight() / 3 * 2);
 	}
 
-
-=======
->>>>>>> develop
 	/**
 	 * Draws game results.
 	 * 
@@ -598,21 +558,6 @@ public final class DrawManager {
 				screen.getHeight() / 5);
 	}
 
-<<<<<<< HEAD
-	/**Draw setting screen */
-	public void drawSettingScreen(final Screen screen){
-		backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, "level selection", screen.getHeight()/4);
-		drawCenteredRegularString(screen, "Screen size", screen.getHeight()/2);
-
-
-		backBufferGraphics.setColor(Color.GRAY);
-		drawCenteredRegularString(screen, "Press esc to go back",
-				screen.getHeight() / 10);
-	}
-
-=======
->>>>>>> develop
 	/**
 	 * Draws high scores.
 	 * 
@@ -654,7 +599,23 @@ public final class DrawManager {
 	}
 
 	/**
-<<<<<<< HEAD
+	 * Draws a centered string on big font.
+	 * 
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param string
+	 *            String to draw.
+	 * @param height
+	 *            Height of the drawing.
+	 */
+	public void drawCenteredBigString(final Screen screen, final String string,
+			final int height) {
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.drawString(string, screen.getWidth() / 2
+				- fontBigMetrics.stringWidth(string) / 2, height);
+	}
+
+	/**
 	 * Draws a split of width string on regular font.
 	 *
 	 * @param screen
@@ -675,27 +636,8 @@ public final class DrawManager {
 				- fontRegularMetrics.stringWidth(string) / 2, height);
 	}
 
-	/**
-=======
->>>>>>> develop
-	 * Draws a centered string on big font.
-	 * 
-	 * @param screen
-	 *            Screen to draw on.
-	 * @param string
-	 *            String to draw.
-	 * @param height
-	 *            Height of the drawing.
-	 */
-	public void drawCenteredBigString(final Screen screen, final String string,
-			final int height) {
-		backBufferGraphics.setFont(fontBig);
-		backBufferGraphics.drawString(string, screen.getWidth() / 2
-				- fontBigMetrics.stringWidth(string) / 2, height);
-	}
 
 	/**
-<<<<<<< HEAD
 	 * Draws a split of width string on regular font.
 	 *
 	 * @param screen
@@ -716,9 +658,8 @@ public final class DrawManager {
 				- fontBigMetrics.stringWidth(string) / 2, height);
 	}
 
+
 	/**
-=======
->>>>>>> develop
 	 * Countdown to game start.
 	 * 
 	 * @param screen

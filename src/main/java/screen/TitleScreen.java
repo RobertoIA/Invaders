@@ -1,18 +1,11 @@
 package screen;
 
-<<<<<<< HEAD
-import java.awt.event.KeyEvent;
 
-import engine.Cooldown;
-import engine.Core;
-
-=======
 import engine.Cooldown;
 import engine.Core;
 
 import java.awt.event.KeyEvent;
 
->>>>>>> develop
 /**
  * Implements the title screen.
  * 

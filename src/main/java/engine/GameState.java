@@ -19,10 +19,6 @@ public class GameState {
 	/** Ships destroyed until now. */
 	private int shipsDestroyed;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> develop
 	/**
 	 * Constructor.
 	 * 
@@ -47,13 +43,6 @@ public class GameState {
 		this.shipsDestroyed = shipsDestroyed;
 	}
 
-<<<<<<< HEAD
-	public GameState() {
-
-	}
-
-=======
->>>>>>> develop
 	/**
 	 * @return the level
 	 */
@@ -89,12 +78,4 @@ public class GameState {
 		return shipsDestroyed;
 	}
 
-<<<<<<< HEAD
-
-	/**
-	 * @return the isPause;
-	 */
-
-=======
->>>>>>> develop
 }
