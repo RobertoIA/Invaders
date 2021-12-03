@@ -11,12 +11,12 @@ import engine.InputManager;
 
 /**
  * Implements a generic screen.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class Screen {
-	
+
 	/** Milliseconds until the screen accepts user input. */
 	private static final int INPUT_DELAY = 1000;
 
@@ -31,6 +31,10 @@ public class Screen {
 	protected int width;
 	/** Screen height. */
 	protected int height;
+	/** Select frame's width and height */
+	public int reframe;
+	/** Select game speed */
+	public int respeed;
 	/** Frames per second shown on the screen. */
 	protected int fps;
 	/** Screen insets. */
@@ -43,9 +47,16 @@ public class Screen {
 	/** What kind of screen goes next. */
 	protected int returnCode;
 
+	/** idetify resolution or speed */
+	protected boolean chk_setting;
+	/** Choose screen size*/
+	protected int selResolution;
+	/** Choose game speed*/
+	protected int selSpeed;
+
 	/**
 	 * Constructor, establishes the properties of the screen.
-	 * 
+	 *
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -64,6 +75,8 @@ public class Screen {
 		this.inputDelay = Core.getCooldown(INPUT_DELAY);
 		this.inputDelay.reset();
 		this.returnCode = 0;
+
+		reframe = 1;
 	}
 
 	/**
@@ -75,7 +88,7 @@ public class Screen {
 
 	/**
 	 * Activates the screen.
-	 * 
+	 *
 	 * @return Next screen code.
 	 */
 	public int run() {
@@ -107,7 +120,7 @@ public class Screen {
 
 	/**
 	 * Getter for screen width.
-	 * 
+	 *
 	 * @return Screen width.
 	 */
 	public final int getWidth() {
@@ -116,7 +129,7 @@ public class Screen {
 
 	/**
 	 * Getter for screen height.
-	 * 
+	 *
 	 * @return Screen height.
 	 */
 	public final int getHeight() {

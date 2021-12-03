@@ -6,9 +6,9 @@ import engine.DrawManager.SpriteType;
 
 /**
  * Implements a bullet that moves vertically up or down.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class Bullet extends Entity {
 
@@ -20,7 +20,7 @@ public class Bullet extends Entity {
 
 	/**
 	 * Constructor, establishes the bullet's properties.
-	 * 
+	 *
 	 * @param positionX
 	 *            Initial position of the bullet in the X axis.
 	 * @param positionY
@@ -55,7 +55,7 @@ public class Bullet extends Entity {
 
 	/**
 	 * Setter of the speed of the bullet.
-	 * 
+	 *
 	 * @param speed
 	 *            New speed of the bullet.
 	 */
@@ -65,7 +65,7 @@ public class Bullet extends Entity {
 
 	/**
 	 * Getter for the speed of the bullet.
-	 * 
+	 *
 	 * @return Speed of the bullet.
 	 */
 	public final int getSpeed() {

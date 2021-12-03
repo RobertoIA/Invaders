@@ -9,9 +9,9 @@ import engine.DrawManager.SpriteType;
 
 /**
  * Implements a ship, to be controlled by the player.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class Ship extends Entity {
 
@@ -21,7 +21,7 @@ public class Ship extends Entity {
 	private static final int BULLET_SPEED = -6;
 	/** Movement of the ship for each unit of time. */
 	private static final int SPEED = 2;
-	
+
 	/** Minimum time between shots. */
 	private Cooldown shootingCooldown;
 	/** Time spent inactive between hits. */
@@ -29,7 +29,7 @@ public class Ship extends Entity {
 
 	/**
 	 * Constructor, establishes the ship's properties.
-	 * 
+	 *
 	 * @param positionX
 	 *            Initial position of the ship in the X axis.
 	 * @param positionY
@@ -48,7 +48,7 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveRight() {
-		this.positionX += SPEED;
+		this.positionX += convertspeed();
 	}
 
 	/**
@@ -56,12 +56,12 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveLeft() {
-		this.positionX -= SPEED;
+		this.positionX -= convertspeed();
 	}
 
 	/**
 	 * Shoots a bullet upwards.
-	 * 
+	 *
 	 * @param bullets
 	 *            List of bullets on screen, to add the new bullet.
 	 * @return Checks if the bullet was shot correctly.
@@ -70,7 +70,7 @@ public class Ship extends Entity {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(positionX + this.width / 2,
-					positionY, BULLET_SPEED));
+				positionY, convertbulletspeed()));
 			return true;
 		}
 		return false;
@@ -95,7 +95,7 @@ public class Ship extends Entity {
 
 	/**
 	 * Checks if the ship is destroyed.
-	 * 
+	 *
 	 * @return True if the ship is currently destroyed.
 	 */
 	public final boolean isDestroyed() {
@@ -104,10 +104,30 @@ public class Ship extends Entity {
 
 	/**
 	 * Getter for the ship's speed.
-	 * 
+	 *
 	 * @return Speed of the ship.
 	 */
 	public final int getSpeed() {
-		return SPEED;
+		return convertspeed();
+	}
+
+	private int convertspeed() {
+		int set = Core.getspeedCode();
+		if (set == 2)
+			return (int)(SPEED * 1.5);
+		else if (set == 3)
+			return SPEED * 2;
+		else
+			return SPEED;
+	}
+
+	private int convertbulletspeed() {
+		int set = Core.getspeedCode();
+		if (set == 2)
+			return (int)(BULLET_SPEED * 1.5);
+		else if (set == 3)
+			return BULLET_SPEED * 2;
+		else
+			return BULLET_SPEED;
 	}
 }

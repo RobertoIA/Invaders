@@ -6,9 +6,9 @@ import engine.DrawManager.SpriteType;
 
 /**
  * Implements a generic game entity.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class Entity {
 
@@ -27,7 +27,7 @@ public class Entity {
 
 	/**
 	 * Constructor, establishes the entity's generic properties.
-	 * 
+	 *
 	 * @param positionX
 	 *            Initial position of the entity in the X axis.
 	 * @param positionY
@@ -40,7 +40,7 @@ public class Entity {
 	 *            Color of the entity.
 	 */
 	public Entity(final int positionX, final int positionY, final int width,
-			final int height, final Color color) {
+		final int height, final Color color) {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;
@@ -50,7 +50,7 @@ public class Entity {
 
 	/**
 	 * Getter for the color of the entity.
-	 * 
+	 *
 	 * @return Color of the entity, used when drawing it.
 	 */
 	public final Color getColor() {
@@ -59,7 +59,7 @@ public class Entity {
 
 	/**
 	 * Getter for the X axis position of the entity.
-	 * 
+	 *
 	 * @return Position of the entity in the X axis.
 	 */
 	public final int getPositionX() {
@@ -68,7 +68,7 @@ public class Entity {
 
 	/**
 	 * Getter for the Y axis position of the entity.
-	 * 
+	 *
 	 * @return Position of the entity in the Y axis.
 	 */
 	public final int getPositionY() {
@@ -77,7 +77,7 @@ public class Entity {
 
 	/**
 	 * Setter for the X axis position of the entity.
-	 * 
+	 *
 	 * @param positionX
 	 *            New position of the entity in the X axis.
 	 */
@@ -87,7 +87,7 @@ public class Entity {
 
 	/**
 	 * Setter for the Y axis position of the entity.
-	 * 
+	 *
 	 * @param positionY
 	 *            New position of the entity in the Y axis.
 	 */
@@ -97,7 +97,7 @@ public class Entity {
 
 	/**
 	 * Getter for the sprite that the entity will be drawn as.
-	 * 
+	 *
 	 * @return Sprite corresponding to the entity.
 	 */
 	public final SpriteType getSpriteType() {
@@ -106,7 +106,7 @@ public class Entity {
 
 	/**
 	 * Getter for the width of the image associated to the entity.
-	 * 
+	 *
 	 * @return Width of the entity.
 	 */
 	public final int getWidth() {
@@ -115,7 +115,7 @@ public class Entity {
 
 	/**
 	 * Getter for the height of the image associated to the entity.
-	 * 
+	 *
 	 * @return Height of the entity.
 	 */
 	public final int getHeight() {
