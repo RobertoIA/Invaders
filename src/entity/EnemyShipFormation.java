@@ -429,7 +429,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		return this.shipCount <= 0;
 	}
 
-	private int convertminimumspeed() {
+	public int convertminimumspeed() {
 		int set = Core.getspeedCode();
 		if (set == 2)
 			return MINIMUM_SPEED - 3;
@@ -439,7 +439,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			return MINIMUM_SPEED;
 	}
 
-	private int convertbulletspeed() {
+	public int convertbulletspeed() {
 		int set = Core.getspeedCode();
 		if (set == 2)
 			return (int)(BULLET_SPEED * 1.2);

@@ -302,4 +302,6 @@ public final class Core {
 	public static int getspeedCode() {
 		return speedCode;
 	}
+
+	public static void setspeedCode(int set) { speedCode = set; }
 }
