@@ -60,11 +60,21 @@ public class TitleScreen extends Screen {
 				&& this.inputDelay.checkFinished()) {
 			if (inputManager.isKeyDown(KeyEvent.VK_UP)
 					|| inputManager.isKeyDown(KeyEvent.VK_W)) {
-				previousMenuItem();
+				jumpPreviousMenuItem();
 				this.selectionCooldown.reset();
 			}
 			if (inputManager.isKeyDown(KeyEvent.VK_DOWN)
 					|| inputManager.isKeyDown(KeyEvent.VK_S)) {
+				jumpNextMenuItem();
+				this.selectionCooldown.reset();
+			}
+			if (inputManager.isKeyDown(KeyEvent.VK_LEFT)
+					|| inputManager.isKeyDown(KeyEvent.VK_A)) {
+				previousMenuItem();
+				this.selectionCooldown.reset();
+			}
+			if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)
+					|| inputManager.isKeyDown(KeyEvent.VK_D)) {
 				nextMenuItem();
 				this.selectionCooldown.reset();
 			}
@@ -72,12 +82,43 @@ public class TitleScreen extends Screen {
 				this.isRunning = false;
 		}
 	}
+	/**
+	 * Shifts the focus to the next jump menu item.
+	 */
+	private void jumpPreviousMenuItem() {
+		if (this.returnCode == 2) //7
+			this.returnCode = 11;
+		else if (this.returnCode == 3)
+			this.returnCode = 12;
+		else if (this.returnCode == 4)
+			this.returnCode = 0;
+		else if (this.returnCode == 0)
+			this.returnCode = 10;
+		else
+			this.returnCode -= 3;
+	}
+
+	/**
+	 * Shifts the focus to the next jumpmenu item.
+	 */
+	private void jumpNextMenuItem() {
+		if (this.returnCode == 11) //7
+			this.returnCode = 2;
+		else if (this.returnCode == 12)
+			this.returnCode = 3;
+		else if (this.returnCode == 10)
+			this.returnCode = 0;
+		else if (this.returnCode == 0)
+			this.returnCode = 4;
+		else
+			this.returnCode += 3;
+	}
 
 	/**
 	 * Shifts the focus to the next menu item.
 	 */
 	private void nextMenuItem() {
-		if (this.returnCode == 6) //3->4
+		if (this.returnCode == 12) //7
 			this.returnCode = 0;
 		else if (this.returnCode == 0)
 			this.returnCode = 2;
@@ -90,7 +131,7 @@ public class TitleScreen extends Screen {
 	 */
 	private void previousMenuItem() {
 		if (this.returnCode == 0)
-			this.returnCode = 6; //3->4 --> 6
+			this.returnCode = 12; //7
 		else if (this.returnCode == 2)
 			this.returnCode = 0;
 		else

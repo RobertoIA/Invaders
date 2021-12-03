@@ -122,7 +122,7 @@ public final class DrawManager {
 	 *
 	 * @return Shared instance of DrawManager.
 	 */
-	protected static DrawManager getInstance() {
+	public static DrawManager getInstance() {
 		if (instance == null)
 			instance = new DrawManager();
 		return instance;
@@ -283,15 +283,16 @@ public final class DrawManager {
 	 */
 	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
-		String instructionsString =
-				"select with w+s / arrows, confirm with space";
+		String instructionsString1 = "select with w+a+s+d";
+		String instructionsString2 =	"arrows, confirm with space";
 
 		backBufferGraphics.setColor(Color.GRAY);
-		drawCenteredRegularString(screen, instructionsString,
-				screen.getHeight() / 2);
-
+		drawCenteredRegularString(screen, instructionsString1,
+				screen.getHeight() / 2 - fontRegularMetrics.getHeight() * 4);
+		drawCenteredRegularString(screen, instructionsString2,
+				screen.getHeight() / 2 - fontRegularMetrics.getHeight() * 2);
 		backBufferGraphics.setColor(Color.GREEN);
-		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+		drawCenteredBigString(screen, titleString, screen.getHeight() / 4);
 	}
 
 	/**
@@ -306,9 +307,17 @@ public final class DrawManager {
 		String playString = "Play";
 		String ruleString = "Rule";
 		String manualString = "Manual";
+		String wideString = "Wide";
+		String normalString = "Normal";
+		String narrowString = "Narrow";
+		String fastString = "Fast";
+		String standardString = "Standard";
+		String slowString = "Slow";
 		String highScoresString = "High scores";
 		String creditString = "Credit";
 		String exitString = "exit";
+
+		int left = 6;
 
 
 		if (option == 2) //play
@@ -316,7 +325,7 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, playString, screen.getHeight()
-				/ 3 * 2 - fontRegularMetrics.getHeight() * 2);
+				/ 3 * 2 - fontRegularMetrics.getHeight() * 2, screen.getWidth() / left);
 
 		//rule 추가
 		if (option == 3)
@@ -324,7 +333,7 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, ruleString, screen.getHeight()
-				/ 3 * 2);
+				/ 3 * 2 - fontRegularMetrics.getHeight() * 2);
 
 		//manual 추가
 		if (option == 4)
@@ -332,31 +341,81 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, manualString, screen.getHeight()
+				/ 3 * 2 - fontRegularMetrics.getHeight() * 2, screen.getWidth() / 7 * 5);
+
+		//fast
+		if (option == 5)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, fastString, screen.getHeight()
+				/ 3 * 2, (screen.getWidth() / left));
+
+		//standard
+		if (option == 6)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, normalString, screen.getHeight()
+				/ 3 * 2);
+
+
+		if (option == 7)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, slowString, screen.getHeight()
+				/ 3 * 2, (screen.getWidth() / 7) * 5);
+
+		//wide
+		if (option == 8)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, wideString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 2, (screen.getWidth() / left));
+
+		if (option == 9)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, standardString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
 
+		if (option == 10)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, narrowString, screen.getHeight()
+				/ 3 * 2 + fontRegularMetrics.getHeight() * 2, (screen.getWidth() / 7) * 5);
+
+		//draw credit
+		if (option == 11)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, creditString, screen.getHeight() / 3
+				* 2 + fontRegularMetrics.getHeight() * 4,
+				screen.getWidth() / left);
+
 		//draw highscore
-		if (option == 5)
+		if (option == 12)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
 				/ 3 * 2 + fontRegularMetrics.getHeight() * 4);
 
-		//draw credit
-		if (option == 6)
-			backBufferGraphics.setColor(Color.GREEN);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, creditString, screen.getHeight() / 3
-				* 2 + fontRegularMetrics.getHeight() * 6, 350);
-
 		if (option == 0)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
-				* 2 + fontRegularMetrics.getHeight() * 6);
+				* 2 + fontRegularMetrics.getHeight() * 4,
+				(screen.getWidth() / 7) * 5);
 	}
+
+
 
 	/**
 	 * Draws game results.
@@ -524,7 +583,31 @@ public final class DrawManager {
 	}
 
 	/**
-	 * Draws high score screen title and instructions.
+	 * Draws setting screen title and instructions.
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 */
+	public void drawSetting(final Screen screen) { //세팅 드로우
+		String settingString = "Setting";
+		String instructionsString1 = "Press Space to return";
+		String instructionsString2 = "Settng modified";
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, settingString,
+				screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString1,
+				screen.getHeight() / 5);
+
+		backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, instructionsString2,
+				screen.getHeight() / 2);
+	}
+
+	/**
+	 * Draws manual screen title and instructions.
 	 *
 	 * @param screen
 	 *            Screen to draw on.
@@ -532,7 +615,7 @@ public final class DrawManager {
 	public void drawManual(final Screen screen) { //매뉴얼 드로우 추가
 		String manualString = "Manual";
 		String instructionsString = "Press Space to return";
-		String explainManual_1 = "Select with W + S / Arrows";
+		String explainManual_1 = "Select with W + A + S + D / Arrows";
 		String explainManual_2 = "Confirm / Launch with Space";
 
 		backBufferGraphics.setColor(Color.GREEN);

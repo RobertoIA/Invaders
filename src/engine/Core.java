@@ -16,6 +16,7 @@ import screen.ManualScreen;
 import screen.ScoreScreen;
 import screen.Screen;
 import screen.TitleScreen;
+import screen.SettingScreen;
 
 /**
  * Implements core game logic.
@@ -25,12 +26,12 @@ import screen.TitleScreen;
  */
 public final class Core {
 
-	/** Width of current screen. */
-	private static final int WIDTH = 448;
-	/** Height of current screen. */
-	private static final int HEIGHT = 520;
-	/** Max fps of current screen. */
-	private static final int FPS = 60;
+	/** Width of current screen. default = 448*/
+	private static int WIDTH = 448;
+	/** Height of current screen. default = 520*/
+	private static int HEIGHT = 520;
+	/** Max fps of current screen. default = 60*/
+	private static int FPS = 60;
 
 	/** Max lives. */
 	private static final int MAX_LIVES = 3;
@@ -62,7 +63,8 @@ public final class Core {
 			new GameSettings(8, 7, 2, 500);
 
 	/** Frame to draw the screen on. */
-	private static Frame frame;
+	public static Frame frame;
+	public static Frame frame1;
 	/** Screen currently shown. */
 	private static Screen currentScreen;
 	/** Difficulty settings list. */
@@ -106,6 +108,7 @@ public final class Core {
 		int width = frame.getWidth();
 		int height = frame.getHeight();
 
+
 		gameSettings = new ArrayList<GameSettings>();
 		gameSettings.add(SETTINGS_LEVEL_1);
 		gameSettings.add(SETTINGS_LEVEL_2);
@@ -118,6 +121,7 @@ public final class Core {
 		GameState gameState;
 
 		int returnCode = 1;
+
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
 
@@ -185,21 +189,110 @@ public final class Core {
 					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
 					LOGGER.info("Closing manual screen.");
 					break;
+
 				case 5:
-					// High scores.
-					currentScreen = new HighScoreScreen(width, height, FPS); //페이지 이동
+					//setting speed fast
+					FPS = 150;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
-							+ " high score screen at " + FPS + " fps."); //메세지 띄우기
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
 					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
-					LOGGER.info("Closing high score screen.");
+					LOGGER.info("Closing setting screen.");
 					break;
+
 				case 6:
+					//setting speed standard
+					FPS = 100;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing setting screen.");
+					break;
+
+				case 7:
+					//setting speed slow
+					FPS = 60;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing setting screen.");
+					break;
+
+				case 8:
+					//setting screen wide
+					WIDTH = 690;
+					HEIGHT = 800;
+					frame1 = new Frame(WIDTH, HEIGHT);
+					DrawManager.getInstance().setFrame(frame1);
+					width = frame1.getWidth();
+					height = frame1.getHeight();
+					frame.dispose();
+					frame = frame1;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing setting screen.");
+					break;
+
+				case 9:
+					//setting screen normal
+					WIDTH = 550;
+					HEIGHT = 640;
+					frame1 = new Frame(WIDTH, HEIGHT);
+					DrawManager.getInstance().setFrame(frame1);
+					width = frame1.getWidth();
+					height = frame1.getHeight();
+					frame.dispose();
+					frame = frame1;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing setting screen.");
+					break;
+
+				case 10:
+					//setting screen narrow
+					WIDTH = 448;
+					HEIGHT = 520;
+					frame1 = new Frame(WIDTH, HEIGHT);
+					DrawManager.getInstance().setFrame(frame1);
+					width = frame1.getWidth();
+					height = frame1.getHeight();
+					frame.dispose();
+					frame = frame1;
+
+					currentScreen = new SettingScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " setting screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing setting screen.");
+					break;
+
+				case 11:
 					// Credit of TBD devlopers screen
 					currentScreen = new CreditScreen(width, height, FPS);
 					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 							+ " game screen at " + FPS + " fps.");
 					returnCode = frame.setScreen(currentScreen);
 					LOGGER.info("Closing game screen.");
+					break;
+
+				case 12: //12 까지 순서 변경함 날짜:11-30
+					// High scores.
+					currentScreen = new HighScoreScreen(width, height, FPS); //페이지 이동
+					LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+							+ " high score screen at " + FPS + " fps."); //메세지 띄우기
+					returnCode = frame.setScreen(currentScreen); //페이지코드 리턴
+					LOGGER.info("Closing high score screen.");
 					break;
 				default:
 					break;
