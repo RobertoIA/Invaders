@@ -12,9 +12,9 @@ import engine.Score;
 
 /**
  * Implements the score screen.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class ScoreScreen extends Screen {
 
@@ -48,7 +48,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Constructor, establishes the properties of the screen.
-	 * 
+	 *
 	 * @param width
 	 *            Screen width.
 	 * @param height
@@ -59,7 +59,7 @@ public class ScoreScreen extends Screen {
 	 *            Current game state.
 	 */
 	public ScoreScreen(final int width, final int height, final int fps,
-			final GameState gameState) {
+		final GameState gameState) {
 		super(width, height, fps);
 
 		this.score = gameState.getScore();
@@ -75,8 +75,8 @@ public class ScoreScreen extends Screen {
 		try {
 			this.highScores = Core.getFileManager().loadHighScores();
 			if (highScores.size() < MAX_HIGH_SCORE_NUM
-					|| highScores.get(highScores.size() - 1).getScore()
-					< this.score)
+				|| highScores.get(highScores.size() - 1).getScore()
+				< this.score)
 				this.isNewRecord = true;
 
 		} catch (IOException e) {
@@ -86,7 +86,7 @@ public class ScoreScreen extends Screen {
 
 	/**
 	 * Starts the action.
-	 * 
+	 *
 	 * @return Next screen code.
 	 */
 	public final int run() {
@@ -120,25 +120,25 @@ public class ScoreScreen extends Screen {
 			if (this.isNewRecord && this.selectionCooldown.checkFinished()) {
 				if (inputManager.isKeyDown(KeyEvent.VK_RIGHT)) {
 					this.nameCharSelected = this.nameCharSelected == 2 ? 0
-							: this.nameCharSelected + 1;
+						: this.nameCharSelected + 1;
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_LEFT)) {
 					this.nameCharSelected = this.nameCharSelected == 0 ? 2
-							: this.nameCharSelected - 1;
+						: this.nameCharSelected - 1;
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_UP)) {
 					this.name[this.nameCharSelected] =
-							(char) (this.name[this.nameCharSelected]
-									== LAST_CHAR ? FIRST_CHAR
+						(char)(this.name[this.nameCharSelected]
+							== LAST_CHAR ? FIRST_CHAR
 							: this.name[this.nameCharSelected] + 1);
 					this.selectionCooldown.reset();
 				}
 				if (inputManager.isKeyDown(KeyEvent.VK_DOWN)) {
 					this.name[this.nameCharSelected] =
-							(char) (this.name[this.nameCharSelected]
-									== FIRST_CHAR ? LAST_CHAR
+						(char)(this.name[this.nameCharSelected]
+							== FIRST_CHAR ? LAST_CHAR
 							: this.name[this.nameCharSelected] - 1);
 					this.selectionCooldown.reset();
 				}
@@ -170,10 +170,10 @@ public class ScoreScreen extends Screen {
 		drawManager.initDrawing(this);
 
 		drawManager.drawGameOver(this, this.inputDelay.checkFinished(),
-				this.isNewRecord);
+			this.isNewRecord);
 		drawManager.drawResults(this, this.score, this.livesRemaining,
-				this.shipsDestroyed, (float) this.shipsDestroyed
-						/ this.bulletsShot, this.isNewRecord);
+			this.shipsDestroyed, (float)this.shipsDestroyed
+				/ this.bulletsShot, this.isNewRecord);
 
 		if (this.isNewRecord)
 			drawManager.drawNameInput(this, this.name, this.nameCharSelected);

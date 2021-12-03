@@ -8,9 +8,9 @@ import screen.Screen;
 
 /**
  * Implements a frame to show screens on.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -24,7 +24,7 @@ public class Frame extends JFrame {
 
 	/**
 	 * Initializes the new frame.
-	 * 
+	 *
 	 * @param width
 	 *            Frame width.
 	 * @param height
@@ -48,7 +48,7 @@ public class Frame extends JFrame {
 
 	/**
 	 * Sets current screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to show.
 	 * @return Return code of the finished screen.
@@ -61,7 +61,7 @@ public class Frame extends JFrame {
 
 	/**
 	 * Getter for frame width.
-	 * 
+	 *
 	 * @return Frame width.
 	 */
 	public final int getWidth() {
@@ -70,7 +70,7 @@ public class Frame extends JFrame {
 
 	/**
 	 * Getter for frame height.
-	 * 
+	 *
 	 * @return Frame height.
 	 */
 
