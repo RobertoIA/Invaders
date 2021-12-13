@@ -1,5 +1,6 @@
 package screen;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import engine.Cooldown;
 import engine.Core;
@@ -19,6 +20,8 @@ public class SettingsScreen extends Screen {
     private static final int SELECTION_TIME = 200;
     /** Time between changes in user selection. */
     private Cooldown selectionCooldown;
+    /** Get screen size using the Toolkit class */
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     /**
      * Constructor, establishes the properties of the screen.
@@ -86,7 +89,24 @@ public class SettingsScreen extends Screen {
             }
             if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
                 this.isRunning = false;
+
+            // Change screen size
+            if (settingsOption == 1) {
+                changeScreenSize();
+            }
         }
+    }
+
+    /**
+     * Changes the screen size
+     */
+    private void changeScreenSize() {
+        if (this.change == 1)
+            Core.setSize(448, 520);
+        else if (this.change == 2)
+            Core.setSize(1020,520);
+        else if (this.change == 3)
+            Core.setSize(screenSize.width, screenSize.height);
     }
 
     /**
