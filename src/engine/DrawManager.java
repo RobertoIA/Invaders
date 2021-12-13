@@ -283,15 +283,18 @@ public final class DrawManager {
 	 */
 	public void drawTitle(final Screen screen) {
 		String titleString = "Invaders";
-		String instructionsString =
-				"select with w+s / arrows, confirm with space";
+		String[] instructionsStrings = {"Select with w+s / arrows", "Confirm with space"};
+		int i = 0;
 
 		backBufferGraphics.setColor(Color.GRAY);
-		drawCenteredRegularString(screen, instructionsString,
-				screen.getHeight() / 2);
+		for (String instructionString : instructionsStrings) {
+			drawCenteredRegularString(screen, instructionString,
+					screen.getHeight() * 4 / 15 + fontRegularMetrics.getHeight() * 2 * i);
+			i++;
+		}
 
 		backBufferGraphics.setColor(Color.GREEN);
-		drawCenteredBigString(screen, titleString, screen.getHeight() / 3);
+		drawCenteredBigString(screen, titleString, screen.getHeight() / 6);
 	}
 
 	/**
@@ -305,26 +308,40 @@ public final class DrawManager {
 	public void drawMenu(final Screen screen, final int option) {
 		String playString = "Play";
 		String highScoresString = "High scores";
-		String exitString = "exit";
+		String helpString = "Help";
+		String settingsString = "Settings";
+		String exitString = "Exit";
 
 		if (option == 2)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, playString,
-				screen.getHeight() / 3 * 2);
+				screen.getHeight() * 11 / 20);
 		if (option == 3)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, highScoresString, screen.getHeight()
-				/ 3 * 2 + fontRegularMetrics.getHeight() * 2);
+		drawCenteredRegularString(screen, highScoresString,
+				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 2);
+		if (option == 4)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, helpString,
+				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 4);
+		if (option == 5)
+			backBufferGraphics.setColor(Color.GREEN);
+		else
+			backBufferGraphics.setColor(Color.WHITE);
+		drawCenteredRegularString(screen, settingsString,
+				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 6);
 		if (option == 0)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, exitString, screen.getHeight() / 3
-				* 2 + fontRegularMetrics.getHeight() * 4);
+		drawCenteredRegularString(screen, exitString,
+				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 8);
 	}
 
 	/**
@@ -485,6 +502,67 @@ public final class DrawManager {
 					/ 4 + fontRegularMetrics.getHeight() * (i + 1) * 2);
 			i++;
 		}
+	}
+
+	/**
+	 * Draws help screen
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 */
+	public void drawHelp(final Screen screen) {
+		String helpString = "Help";
+		String instructionsString = "Press Space to return";
+		String[] rule1 = {"Press the arrow keys", "(or the A or D keys)", "to move your ship"};
+		String[] rule2 = {"Press space to shoot", "missiles at the enemy ships"};
+		String[] rule3 = {"Avoid the missiles shot", "by the enemy ships"};
+		String[] rule4 = {"The color of an enemy ship", "depends on their remaining", "health points"};
+		String[][] rules = {rule1, rule2, rule3, rule4};
+		int i = 0;
+		int j = 0;
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, helpString, screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(Color.GRAY);
+		drawCenteredRegularString(screen, instructionsString,
+				screen.getHeight() / 5);
+
+		backBufferGraphics.setColor(Color.WHITE);
+		for (String[] rule : rules) {
+			for (String ruleString : rule) {
+				drawCenteredRegularString(screen, ruleString,
+						screen.getHeight() * 3 / 10
+								+ fontRegularMetrics.getHeight() * i
+								+ fontRegularMetrics.getHeight() * 2 * j);
+				i++;
+			}
+			j++;
+		}
+	}
+
+	/**
+	 * Draws settings screen
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 */
+	public void drawSettings(final Screen screen) {
+		String settingsString = "Settings";
+		String[] instructionsStrings = {"Press Space to return", "Use the arrow keys to", "enable/disable settings"};
+		int i = 0;
+
+		backBufferGraphics.setColor(Color.GREEN);
+		drawCenteredBigString(screen, settingsString, screen.getHeight() / 8);
+
+		backBufferGraphics.setColor(Color.GRAY);
+		for (String instructionsString : instructionsStrings) {
+			drawCenteredRegularString(screen, instructionsString,
+					(int) (screen.getHeight() / 5 + Math.round(fontRegularMetrics.getHeight() * 1.5 * i)));
+			i++;
+		}
+
+		backBufferGraphics.setColor(Color.WHITE);
 	}
 
 	/**
