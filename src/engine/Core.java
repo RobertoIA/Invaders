@@ -117,6 +117,7 @@ public final class Core {
 			switch (returnCode) {
 			case 1:
 				// Main menu.
+				Sound.playMusic();
 				currentScreen = new TitleScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " title screen at " + FPS + " fps.");
