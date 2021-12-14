@@ -58,6 +58,14 @@ public class Entity {
 	}
 
 	/**
+	 * Setter for the color of the entity.
+	 *
+	 * @param color
+	 *            New color of the entity.
+	 */
+	public final void setColor(Color color) { this.color = color; }
+
+	/**
 	 * Getter for the X axis position of the entity.
 	 * 
 	 * @return Position of the entity in the X axis.
