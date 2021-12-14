@@ -10,7 +10,7 @@ public class Sound
 
     public static void playMusic() //background music class
     {
-        File musicfile = new File("/Users/josholeary/Documents/KEDDIT/Courses/SoftwareDevPrac/Invaders/sounds/music.wav");
+        File musicfile = new File("sounds/music.wav");
         try
         {
             AudioInputStream Audio = AudioSystem.getAudioInputStream(musicfile);
@@ -27,7 +27,7 @@ public class Sound
 
     public static void shoot() //shooting sound effect
     {
-        File shot = new File("/Users/josholeary/Documents/KEDDIT/Courses/SoftwareDevPrac/Invaders/sounds/shot.wav");
+        File shot = new File("sounds/shot.wav");
         try
         {
             AudioInputStream Audio = AudioSystem.getAudioInputStream(shot);
@@ -43,7 +43,7 @@ public class Sound
 
     public static void death() //shooting sound effect
     {
-        File dead = new File("/Users/josholeary/Documents/KEDDIT/Courses/SoftwareDevPrac/Invaders/sounds/death.wav");
+        File dead = new File("sounds/death.wav");
         try
         {
             AudioInputStream Audio = AudioSystem.getAudioInputStream(dead);
