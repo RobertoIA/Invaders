@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import engine.Cooldown;
 import engine.Core;
 import engine.Sound;
+import entity.EnemyShipFormation;
 
 import javax.sound.sampled.Clip;
 
@@ -19,8 +20,6 @@ public class SettingsScreen extends Screen {
     private static int settingsOption;
     /** Change settings. */
     private static int change;
-    /** Restart music */
-    private static boolean musicRestart;
     /** Milliseconds between changes in user selection. */
     private static final int SELECTION_TIME = 200;
     /** Time between changes in user selection. */
@@ -103,14 +102,14 @@ public class SettingsScreen extends Screen {
                 changeScreenSize();
             }
 
+            // Change difficulty
+            if (this.settingsOption == 2) {
+                changeDifficulty();
+            }
+
             // Adjust volume
             if (this.settingsOption == 3) {
                 adjustVolume();
-            }
-
-            // Change difficulty
-            if (this.settingsOption == 3) {
-                changeDifficulty();
             }
         }
     }
@@ -119,12 +118,24 @@ public class SettingsScreen extends Screen {
      * Change difficulty level
      */
     private void changeDifficulty() {
-        if (this.change == 1)
+        if (this.change == 1) { // Easy
+            EnemyShipFormation.setA_Health(1);
+            EnemyShipFormation.setB_Health(1);
+            EnemyShipFormation.setC_Health(1);
+        }
 
-        if (this.change == 2)
+        if (this.change == 2) { // Medium
+            EnemyShipFormation.setA_Health(1);
+            EnemyShipFormation.setB_Health(3);
+            EnemyShipFormation.setC_Health(5);
+        }
 
-        if (this.change == 3)
-            
+        if (this.change == 3) { // Hard
+            EnemyShipFormation.setA_Health(5);
+            EnemyShipFormation.setB_Health(5);
+            EnemyShipFormation.setC_Health(5);
+        }
+
     }
 
     /**
@@ -228,9 +239,5 @@ public class SettingsScreen extends Screen {
 
     public static int getChange() {
         return change;
-    }
-
-    public static boolean getMusicRestart() {
-        return musicRestart;
     }
 }

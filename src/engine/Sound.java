@@ -60,11 +60,6 @@ public class Sound
             clip.open(Audio);
             setGain(clip);
             clip.start();
-
-            if (SettingsScreen.getMusicRestart()) {
-                clip.stop();
-            }
-
         }
         catch(Exception e)
         {
