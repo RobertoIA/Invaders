@@ -40,7 +40,6 @@ public final class BulletPool {
 			final int positionY, final int speed) {
 		Bullet bullet;
 		if (!pool.isEmpty()) {
-			Sound.shoot();
 			bullet = pool.iterator().next();
 			pool.remove(bullet);
 			bullet.setPositionX(positionX - bullet.getWidth() / 2);
