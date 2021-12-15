@@ -107,7 +107,24 @@ public class SettingsScreen extends Screen {
             if (this.settingsOption == 3) {
                 adjustVolume();
             }
+
+            // Change difficulty
+            if (this.settingsOption == 3) {
+                changeDifficulty();
+            }
         }
+    }
+
+    /**
+     * Change difficulty level
+     */
+    private void changeDifficulty() {
+        if (this.change == 1)
+
+        if (this.change == 2)
+
+        if (this.change == 3)
+            
     }
 
     /**
