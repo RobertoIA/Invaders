@@ -549,7 +549,8 @@ public final class DrawManager {
 	 */
 	public void drawSettings(final Screen screen) {
 		String settingsString = "Settings";
-		String[] instructionsString1 = {"Use A+D / Arrows", "to change settings", "", "Press space to return"};
+		String[] instructionsString1 = {"Use A+D / Arrows", "to change settings", "", "Press space to return",
+				"and show changes"};
 		int i = 0;
 
 		backBufferGraphics.setColor(Color.GREEN);
@@ -573,7 +574,6 @@ public final class DrawManager {
 	 */
 	public void drawSettingsOptions(final Screen screen, final int option) {
 		String screenSizeString = "Screen size";
-		String speedString = "Speed";
 		String difficultyString = "Difficulty";
 		String volumeString = "Volume";
 
@@ -582,20 +582,14 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, screenSizeString,
-				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 2);
-		if (option == 2)
-			backBufferGraphics.setColor(Color.GREEN);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, speedString,
 				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 4);
-		if (option == 3)
+		if (option == 2)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, difficultyString,
 				screen.getHeight() * 11 / 20 + fontRegularMetrics.getHeight() * 6);
-		if (option == 4)
+		if (option == 3)
 			backBufferGraphics.setColor(Color.GREEN);
 		else
 			backBufferGraphics.setColor(Color.WHITE);
@@ -613,9 +607,6 @@ public final class DrawManager {
 		String screenSizeOption1 = "Standard";
 		String screenSizeOption2 = "Extended";
 		String screenSizeOption3 = "Full screen";
-		String speedOption1 = "Slow";
-		String speedOption2 = "Regular";
-		String speedOption3 = "Fast";
 		String difficultyOption1 = "Easy";
 		String difficultyOption2 = "Medium";
 		String difficultyOption3 = "Hard";
@@ -623,7 +614,7 @@ public final class DrawManager {
 		String volumeOption2 = "50%";
 		String volumeOption3 = "75%";
 		String volumeOption4 = "100%";
-
+		String volumeOption5 = "Mute";
 		String displayOption = "Nothing to display";
 
 
@@ -636,17 +627,8 @@ public final class DrawManager {
 			if (change == 3)
 				displayOption = screenSizeOption3;
 		}
-		// Speed
-		else if (option == 2) {
-			if (change == 1)
-				displayOption = speedOption1;
-			if (change == 2)
-				displayOption = speedOption2;
-			if (change == 3)
-				displayOption = speedOption3;
-		}
 		// Difficulty
-		else if (option == 3) {
+		else if (option == 2) {
 			if (change == 1)
 				displayOption = difficultyOption1;
 			if (change == 2)
@@ -655,7 +637,7 @@ public final class DrawManager {
 				displayOption = difficultyOption3;
 		}
 		// Volume
-		else if (option == 4) {
+		else if (option == 3) {
 			if (change == 1)
 				displayOption = volumeOption1;
 			if (change == 2)
@@ -664,6 +646,8 @@ public final class DrawManager {
 				displayOption = volumeOption3;
 			if (change == 4)
 				displayOption = volumeOption4;
+			if (change == 5)
+				displayOption = volumeOption5;
 		}
 		// Default
 		else {
@@ -671,7 +655,7 @@ public final class DrawManager {
 		}
 
 		backBufferGraphics.setColor(Color.darkGray);
-		drawCenteredBigString(screen, displayOption, screen.getHeight() / 2);
+		drawCenteredBigString(screen, displayOption, screen.getHeight() / 2 + fontRegularMetrics.getHeight() * 2);
 	}
 
 		/**

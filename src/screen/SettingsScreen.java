@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import engine.Cooldown;
 import engine.Core;
+import engine.Sound;
+
+import javax.sound.sampled.Clip;
 
 /**
  * Implements the Settings screen, it shows the options to change the settings of the game.
@@ -11,7 +14,7 @@ import engine.Core;
 
 public class SettingsScreen extends Screen {
     /** Number of options in the settings menu. */
-    private static final int NO_OF_OPTIONS = 4;
+    private static final int NO_OF_OPTIONS = 3;
     /** Current settings option. */
     private static int settingsOption;
     /** Change settings. */
@@ -91,10 +94,46 @@ public class SettingsScreen extends Screen {
                 this.isRunning = false;
 
             // Change screen size
-            if (settingsOption == 1) {
+            if (this.settingsOption == 1) {
                 changeScreenSize();
             }
+
+            // Adjust volume
+            if (this.settingsOption == 3) {
+                adjustVolume();
+            }
         }
+    }
+
+    /**
+     * Adjust volume
+     */
+    private void adjustVolume() {
+        // 25% volume
+        if (this.change == 1)
+            Sound.setDecibels(40);
+        // 50% volume
+        if (this.change == 2)
+            Sound.setDecibels(50);
+        // 75% volume
+        if (this.change == 3)
+            Sound.setDecibels(60);
+        // 100% volume
+        if (this.change == 4)
+            Sound.setDecibels(0);
+        // 0% volume
+        if (this.change == 5)
+            Sound.setDecibels(100);
+    }
+
+    /**
+     * Adjust BGM volume
+     */
+    public static void adjustMusicVolume(Clip clip) {
+        if (settingsOption == 3)
+            Sound.setGain(clip);
+        clip.stop();
+        clip.start();
     }
 
     /**
@@ -139,8 +178,8 @@ public class SettingsScreen extends Screen {
     private void nextMenuChange() {
         int no_of_changes = 3;
 
-        if(this.settingsOption == 4)
-            no_of_changes = 4;
+        if(this.settingsOption == 3)
+            no_of_changes = 5;
 
         if (this.change == no_of_changes)
             this.change = 1;
@@ -156,8 +195,8 @@ public class SettingsScreen extends Screen {
     private void previousMenuChange() {
         int no_of_changes;
 
-        if(this.settingsOption == 4)
-            no_of_changes = 4;
+        if(this.settingsOption == 3)
+            no_of_changes = 5;
         else
             no_of_changes = 3;
 
@@ -178,5 +217,9 @@ public class SettingsScreen extends Screen {
         drawManager.drawSettingsChange(this, settingsOption, change);
         drawManager.drawSettingsOptions(this, settingsOption);
         drawManager.completeDrawing(this);
+    }
+
+    public static int getChange() {
+        return change;
     }
 }

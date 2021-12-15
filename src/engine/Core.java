@@ -61,7 +61,7 @@ public final class Core {
 	/** Difficulty settings list. */
 	private static List<GameSettings> gameSettings;
 	/** Application logger. */
-	private static final Logger LOGGER = Logger.getLogger(Core.class
+	public static final Logger LOGGER = Logger.getLogger(Core.class
 			.getSimpleName());
 	/** Logger handler for printing to disk. */
 	private static Handler fileHandler;
@@ -110,6 +110,9 @@ public final class Core {
 		
 		GameState gameState;
 
+		// Play music
+		Sound.playMusic();
+
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
@@ -117,10 +120,8 @@ public final class Core {
 			switch (returnCode) {
 			case 1:
 				// Main menu.
-				/* This makes the old window disappear */
-				frame.setVisible(false);
-				/* This creates a new window with new width & height values */
-				frame = new Frame(WIDTH, HEIGHT);
+				frame.setVisible(false); // This makes the old window disappear
+				frame = new Frame(WIDTH, HEIGHT); // This creates a new window with new width & height values
 				DrawManager.getInstance().setFrame(frame);
 				width = frame.getWidth();
 				height = frame.getHeight();
