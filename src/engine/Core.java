@@ -19,9 +19,9 @@ import screen.*;
 public final class Core {
 
 	/** Width of current screen. */
-	private static final int WIDTH = 448;
+	private static int WIDTH = 448;
 	/** Height of current screen. */
-	private static final int HEIGHT = 520;
+	private static int HEIGHT = 520;
 	/** Max fps of current screen. */
 	private static final int FPS = 60;
 
@@ -109,15 +109,22 @@ public final class Core {
 		gameSettings.add(SETTINGS_LEVEL_7);
 		
 		GameState gameState;
+
 		Sound.playMusic();
+
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
 
-
 			switch (returnCode) {
 			case 1:
-				// Main menu
+				// Main menu.
+				frame.setVisible(false); // This makes the old window disappear
+				frame = new Frame(WIDTH, HEIGHT); // This creates a new window with new width & height values
+				DrawManager.getInstance().setFrame(frame);
+				width = frame.getWidth();
+				height = frame.getHeight();
+
 				currentScreen = new TitleScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " title screen at " + FPS + " fps.");
@@ -262,5 +269,10 @@ public final class Core {
 	public static Cooldown getVariableCooldown(final int milliseconds,
 			final int variance) {
 		return new Cooldown(milliseconds, variance);
+	}
+
+	public static void setSize(int width, int height) {
+		WIDTH = width;
+		HEIGHT = height;
 	}
 }

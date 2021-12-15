@@ -28,7 +28,7 @@ public class EnemyShip extends Entity {
 	private static final HashMap<Integer, Color> HEALTH_COLOR_CODES =
 			new HashMap<Integer, Color>(){{
 				put(1, Color.WHITE);
-				put(3, Color.GREEN);
+				put(3, Color.YELLOW);
 				put(5, Color.BLUE);
 			}};
 

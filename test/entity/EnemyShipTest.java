@@ -35,6 +35,6 @@ class EnemyShipTest {
         testShip.reduceHealth();
         testShip.reduceHealth();
         assertEquals(3, testShip.getHealth());
-        assertEquals(Color.GREEN, testShip.getColor());
+        assertEquals(Color.YELLOW, testShip.getColor());
     }
 }
