@@ -7,6 +7,7 @@ import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
 import engine.Sound;
+import screen.Shakeframe;
 
 /**
  * Implements a ship, to be controlled by the player.
@@ -93,7 +94,9 @@ public class Ship extends Entity {
 	 */
 	public final void destroy() {
 		this.destructionCooldown.reset();
+
 		Sound.death();
+		Shakeframe.vibrate();
 	}
 
 	/**

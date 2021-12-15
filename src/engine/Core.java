@@ -55,7 +55,7 @@ public final class Core {
 			new GameSettings(8, 7, 2, 500);
 	
 	/** Frame to draw the screen on. */
-	private static Frame frame;
+	public static Frame frame;
 	/** Screen currently shown. */
 	private static Screen currentScreen;
 	/** Difficulty settings list. */
