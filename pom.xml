@@ -23,11 +23,13 @@
         </resources>
     </build>
 
-    <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>5.70</version>
-        <scope>test</scope>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>5.70</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
