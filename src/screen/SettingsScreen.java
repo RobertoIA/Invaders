@@ -19,6 +19,8 @@ public class SettingsScreen extends Screen {
     private static int settingsOption;
     /** Change settings. */
     private static int change;
+    /** Restart music */
+    private static boolean musicRestart;
     /** Milliseconds between changes in user selection. */
     private static final int SELECTION_TIME = 200;
     /** Time between changes in user selection. */
@@ -90,8 +92,11 @@ public class SettingsScreen extends Screen {
                 nextMenuChange();
                 this.selectionCooldown.reset();
             }
-            if (inputManager.isKeyDown(KeyEvent.VK_SPACE))
+            if (inputManager.isKeyDown(KeyEvent.VK_SPACE)) {
+                Sound.stop();
+                Sound.playMusic();
                 this.isRunning = false;
+            }
 
             // Change screen size
             if (this.settingsOption == 1) {
@@ -109,20 +114,15 @@ public class SettingsScreen extends Screen {
      * Adjust volume
      */
     private void adjustVolume() {
-        // 25% volume
-        if (this.change == 1)
+        if (this.change == 1) // 25% volume
             Sound.setDecibels(40);
-        // 50% volume
-        if (this.change == 2)
-            Sound.setDecibels(50);
-        // 75% volume
-        if (this.change == 3)
-            Sound.setDecibels(60);
-        // 100% volume
-        if (this.change == 4)
+        if (this.change == 2) // 50% volume
+            Sound.setDecibels(35);
+        if (this.change == 3) // 75% volume
+            Sound.setDecibels(30);
+        if (this.change == 4) // 100% volume
             Sound.setDecibels(0);
-        // 0% volume
-        if (this.change == 5)
+        if (this.change == 5) // Mute
             Sound.setDecibels(100);
     }
 
@@ -130,11 +130,11 @@ public class SettingsScreen extends Screen {
      * Changes the screen size
      */
     private void changeScreenSize() {
-        if (this.change == 1)
+        if (this.change == 1) // Standard
             Core.setSize(448, 520);
-        else if (this.change == 2)
+        else if (this.change == 2) // Extended
             Core.setSize(1020,520);
-        else if (this.change == 3)
+        else if (this.change == 3) // Full Screen
             Core.setSize(screenSize.width, screenSize.height);
     }
 
@@ -211,5 +211,9 @@ public class SettingsScreen extends Screen {
 
     public static int getChange() {
         return change;
+    }
+
+    public static boolean getMusicRestart() {
+        return musicRestart;
     }
 }

@@ -11,6 +11,8 @@ public class Sound
 
     private static float decibels = 0;
 
+    private static Clip musicClip;
+
     public static void playMusic() //background music class
     {
         File musicfile = new File("sounds/music.wav");
@@ -22,6 +24,8 @@ public class Sound
             setGain(clip);
             clip.start();
             clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            musicClip = clip;
         }
         catch(Exception e)
         {
@@ -56,6 +60,11 @@ public class Sound
             clip.open(Audio);
             setGain(clip);
             clip.start();
+
+            if (SettingsScreen.getMusicRestart()) {
+                clip.stop();
+            }
+
         }
         catch(Exception e)
         {
@@ -63,9 +72,7 @@ public class Sound
         }
     }
 
-    public static void setDecibels(float newDecibels) {
-        decibels = newDecibels;
-    }
+
 
     public static void enemydeath() //shooting sound effect
     {
@@ -118,10 +125,17 @@ public class Sound
         }
     }
 
+    public static void stop() {
+        musicClip.stop();
+    }
+
     public static void setGain(Clip clip) {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(-decibels); // Reduce volume by decibels
     }
 
+    public static void setDecibels(float newDecibels) {
+        decibels = newDecibels;
+    }
 
 }

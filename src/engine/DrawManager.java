@@ -550,7 +550,7 @@ public final class DrawManager {
 	public void drawSettings(final Screen screen) {
 		String settingsString = "Settings";
 		String[] instructionsString1 = {"Use A+D / Arrows", "to change settings", "", "Press space to return",
-				"and show changes"};
+				"and apply changes"};
 		int i = 0;
 
 		backBufferGraphics.setColor(Color.GREEN);

@@ -109,7 +109,9 @@ public final class Core {
 		gameSettings.add(SETTINGS_LEVEL_7);
 		
 		GameState gameState;
+
 		Sound.playMusic();
+
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
