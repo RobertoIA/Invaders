@@ -61,7 +61,7 @@ public final class Core {
 	/** Difficulty settings list. */
 	private static List<GameSettings> gameSettings;
 	/** Application logger. */
-	public static final Logger LOGGER = Logger.getLogger(Core.class
+	private static final Logger LOGGER = Logger.getLogger(Core.class
 			.getSimpleName());
 	/** Logger handler for printing to disk. */
 	private static Handler fileHandler;
@@ -109,10 +109,7 @@ public final class Core {
 		gameSettings.add(SETTINGS_LEVEL_7);
 		
 		GameState gameState;
-
-		// Play music
-		//Sound.playMusic();
-
+		Sound.playMusic();
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
