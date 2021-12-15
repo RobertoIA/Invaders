@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import engine.Cooldown;
-import engine.Core;
-import engine.GameState;
-import engine.Score;
+import engine.*;
 
 /**
  * Implements the score screen.
@@ -61,7 +58,7 @@ public class ScoreScreen extends Screen {
 	public ScoreScreen(final int width, final int height, final int fps,
 			final GameState gameState) {
 		super(width, height, fps);
-
+		Sound.gameover();
 		this.score = gameState.getScore();
 		this.livesRemaining = gameState.getLivesRemaining();
 		this.bulletsShot = gameState.getBulletsShot();
