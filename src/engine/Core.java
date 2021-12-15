@@ -109,15 +109,15 @@ public final class Core {
 		gameSettings.add(SETTINGS_LEVEL_7);
 		
 		GameState gameState;
-
+		Sound.playMusic();
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
 
+
 			switch (returnCode) {
 			case 1:
-				// Main menu.
-				Sound.playMusic();
+				// Main menu
 				currentScreen = new TitleScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " title screen at " + FPS + " fps.");
