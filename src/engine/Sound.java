@@ -74,4 +74,52 @@ public class Sound
         decibels = newDecibels;
     }
 
+    public static void enemydeath() //shooting sound effect
+    {
+        File bang = new File("sounds/boom.wav");
+        try
+        {
+            AudioInputStream Audio = AudioSystem.getAudioInputStream(bang);
+            Clip clip = AudioSystem.getClip();
+            clip.open(Audio);
+            clip.start();
+        }
+        catch(Exception e)
+        {
+
+        }
+    }
+
+    public static void enemyshot() //shooting sound effect
+    {
+        File zap = new File("sounds/zap.wav");
+        try
+        {
+            AudioInputStream Audio = AudioSystem.getAudioInputStream(zap);
+            Clip clip = AudioSystem.getClip();
+            clip.open(Audio);
+            clip.start();
+        }
+        catch(Exception e)
+        {
+
+        }
+    }
+
+    public static void gameover() //shooting sound effect
+    {
+        File over = new File("sounds/go.wav");
+        try
+        {
+            AudioInputStream Audio = AudioSystem.getAudioInputStream(over);
+            Clip clip = AudioSystem.getClip();
+            clip.open(Audio);
+            clip.start();
+        }
+        catch(Exception e)
+        {
+
+        }
+    }
+
 }
