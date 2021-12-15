@@ -23,6 +23,7 @@ The following is a list of the features we added.
     - Display HP Color (coordinating colours to reflect monster hp)
     - Add Setting function (screen resizing, game speed selecting etc)
     - Add game summary (controls/manual)
+    - Add pause function
 
  ### CI/CD
 We used Github Actions for CI/CD, these are the specific tools we are using for this project:
