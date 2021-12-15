@@ -111,7 +111,7 @@ public final class Core {
 		GameState gameState;
 
 		// Play music
-		Sound.playMusic();
+		//Sound.playMusic();
 
 		int returnCode = 1;
 		do {

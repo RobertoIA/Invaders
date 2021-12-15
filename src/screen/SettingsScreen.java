@@ -127,16 +127,6 @@ public class SettingsScreen extends Screen {
     }
 
     /**
-     * Adjust BGM volume
-     */
-    public static void adjustMusicVolume(Clip clip) {
-        if (settingsOption == 3)
-            Sound.setGain(clip);
-        clip.stop();
-        clip.start();
-    }
-
-    /**
      * Changes the screen size
      */
     private void changeScreenSize() {
