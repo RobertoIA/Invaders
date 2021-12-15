@@ -1,5 +1,7 @@
 package entity;
 
+import engine.Sound;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -8,11 +8,7 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import screen.GameScreen;
-import screen.HighScoreScreen;
-import screen.ScoreScreen;
-import screen.Screen;
-import screen.TitleScreen;
+import screen.*;
 
 /**
  * Implements core game logic.
@@ -23,9 +19,9 @@ import screen.TitleScreen;
 public final class Core {
 
 	/** Width of current screen. */
-	private static final int WIDTH = 448;
+	private static int WIDTH = 448;
 	/** Height of current screen. */
-	private static final int HEIGHT = 520;
+	private static int HEIGHT = 520;
 	/** Max fps of current screen. */
 	private static final int FPS = 60;
 
@@ -59,7 +55,7 @@ public final class Core {
 			new GameSettings(8, 7, 2, 500);
 	
 	/** Frame to draw the screen on. */
-	private static Frame frame;
+	public static Frame frame;
 	/** Screen currently shown. */
 	private static Screen currentScreen;
 	/** Difficulty settings list. */
@@ -114,6 +110,8 @@ public final class Core {
 		
 		GameState gameState;
 
+		Sound.playMusic();
+
 		int returnCode = 1;
 		do {
 			gameState = new GameState(1, 0, MAX_LIVES, 0, 0);
@@ -121,6 +119,12 @@ public final class Core {
 			switch (returnCode) {
 			case 1:
 				// Main menu.
+				frame.setVisible(false); // This makes the old window disappear
+				frame = new Frame(WIDTH, HEIGHT); // This creates a new window with new width & height values
+				DrawManager.getInstance().setFrame(frame);
+				width = frame.getWidth();
+				height = frame.getHeight();
+
 				currentScreen = new TitleScreen(width, height, FPS);
 				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
 						+ " title screen at " + FPS + " fps.");
@@ -171,6 +175,22 @@ public final class Core {
 						+ " high score screen at " + FPS + " fps.");
 				returnCode = frame.setScreen(currentScreen);
 				LOGGER.info("Closing high score screen.");
+				break;
+			case 4:
+				// Help.
+				currentScreen = new HelpScreen(width, height, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " help screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing help screen.");
+				break;
+			case 5:
+				// Settings.
+				currentScreen = new SettingsScreen(width, height, FPS);
+				LOGGER.info("Starting " + WIDTH + "x" + HEIGHT
+						+ " settings screen at " + FPS + " fps.");
+				returnCode = frame.setScreen(currentScreen);
+				LOGGER.info("Closing settings screen.");
 				break;
 			default:
 				break;
@@ -249,5 +269,10 @@ public final class Core {
 	public static Cooldown getVariableCooldown(final int milliseconds,
 			final int variance) {
 		return new Cooldown(milliseconds, variance);
+	}
+
+	public static void setSize(int width, int height) {
+		WIDTH = width;
+		HEIGHT = height;
 	}
 }

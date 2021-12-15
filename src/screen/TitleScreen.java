@@ -1,6 +1,7 @@
 package screen;
 
 import java.awt.event.KeyEvent;
+import engine.Sound;
 
 import engine.Cooldown;
 import engine.Core;
@@ -77,7 +78,7 @@ public class TitleScreen extends Screen {
 	 * Shifts the focus to the next menu item.
 	 */
 	private void nextMenuItem() {
-		if (this.returnCode == 3)
+		if (this.returnCode == 5)
 			this.returnCode = 0;
 		else if (this.returnCode == 0)
 			this.returnCode = 2;
@@ -90,7 +91,7 @@ public class TitleScreen extends Screen {
 	 */
 	private void previousMenuItem() {
 		if (this.returnCode == 0)
-			this.returnCode = 3;
+			this.returnCode = 5;
 		else if (this.returnCode == 2)
 			this.returnCode = 0;
 		else
@@ -108,4 +109,5 @@ public class TitleScreen extends Screen {
 
 		drawManager.completeDrawing(this);
 	}
+
 }

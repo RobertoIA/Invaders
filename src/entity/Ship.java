@@ -6,6 +6,8 @@ import java.util.Set;
 import engine.Cooldown;
 import engine.Core;
 import engine.DrawManager.SpriteType;
+import engine.Sound;
+import screen.Shakeframe;
 
 /**
  * Implements a ship, to be controlled by the player.
@@ -68,6 +70,7 @@ public class Ship extends Entity {
 	 */
 	public final boolean shoot(final Set<Bullet> bullets) {
 		if (this.shootingCooldown.checkFinished()) {
+			Sound.shoot();
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(positionX + this.width / 2,
 					positionY, BULLET_SPEED));
@@ -91,6 +94,9 @@ public class Ship extends Entity {
 	 */
 	public final void destroy() {
 		this.destructionCooldown.reset();
+
+		Sound.death();
+		Shakeframe.vibrate();
 	}
 
 	/**

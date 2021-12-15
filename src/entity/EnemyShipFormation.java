@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import engine.*;
 import screen.Screen;
-import engine.Cooldown;
-import engine.Core;
-import engine.DrawManager;
 import engine.DrawManager.SpriteType;
-import engine.GameSettings;
 
 /**
  * Groups enemy ships into a formation that moves together.
@@ -94,6 +91,14 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	private List<EnemyShip> shooters;
 	/** Number of not destroyed ships. */
 	private int shipCount;
+	/** Set health of enemy ships. */
+	private static int health;
+	/** Health of enemy ships type A. */
+	private static int A_health = 1;
+	/** Health of enemy ships type B. */
+	private static int B_health = 3;
+	/** Health of enemy ships type C. */
+	private static int C_health = 5;
 
 	/** Directions the formation can move. */
 	private enum Direction {
@@ -103,7 +108,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		LEFT,
 		/** Movement to the bottom of the screen. */
 		DOWN
-	};
+	}
 
 	/**
 	 * Constructor, sets the initial conditions.
@@ -138,18 +143,24 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		for (List<EnemyShip> column : this.enemyShips) {
 			for (int i = 0; i < this.nShipsHigh; i++) {
-				if (i / (float) this.nShipsHigh < PROPORTION_C)
+				if (i / (float) this.nShipsHigh < PROPORTION_C) {
 					spriteType = SpriteType.EnemyShipC1;
+					health = C_health;
+				}
 				else if (i / (float) this.nShipsHigh < PROPORTION_B
-						+ PROPORTION_C)
+						+ PROPORTION_C) {
 					spriteType = SpriteType.EnemyShipB1;
-				else
+					health = B_health;
+				}
+				else {
 					spriteType = SpriteType.EnemyShipA1;
+					health = A_health;
+				}
 
 				column.add(new EnemyShip((SEPARATION_DISTANCE 
 						* this.enemyShips.indexOf(column))
 								+ positionX, (SEPARATION_DISTANCE * i)
-								+ positionY, spriteType));
+								+ positionY, spriteType, health));
 				this.shipCount++;
 			}
 		}
@@ -336,6 +347,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		EnemyShip shooter = this.shooters.get(index);
 
 		if (this.shootingCooldown.checkFinished()) {
+			Sound.enemyshot();
 			this.shootingCooldown.reset();
 			bullets.add(BulletPool.getBullet(shooter.getPositionX()
 					+ shooter.width / 2, shooter.getPositionY(), BULLET_SPEED));
@@ -425,5 +437,26 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 */
 	public final boolean isEmpty() {
 		return this.shipCount <= 0;
+	}
+
+	/**
+	 * Set health for enemy ships type A.
+	 */
+	public static void setA_Health(int newHealth) {
+		A_health = newHealth;
+	}
+
+	/**
+	 * Set health for enemy ships type A.
+	 */
+	public static void setB_Health(int newHealth) {
+		B_health = newHealth;
+	}
+
+	/**
+	 * Set health for enemy ships type A.
+	 */
+	public static void setC_Health(int newHealth) {
+		C_health = newHealth;
 	}
 }
