@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 import engine.Cooldown;
 import engine.Core;
@@ -22,6 +23,13 @@ public class EnemyShip extends Entity {
 	private static final int C_TYPE_POINTS = 30;
 	/** Point value of a bonus enemy. */
 	private static final int BONUS_TYPE_POINTS = 100;
+	/** Different health values with their corresponding colors. */
+	private static final HashMap<Integer, Color> HEALTH_COLOR_CODES =
+			new HashMap<Integer, Color>(){{
+				put(1, Color.WHITE);
+				put(3, Color.GREEN);
+				put(5, Color.BLUE);
+			}};
 
 	/** Cooldown between sprite changes. */
 	private Cooldown animationCooldown;
@@ -29,6 +37,8 @@ public class EnemyShip extends Entity {
 	private boolean isDestroyed;
 	/** Values of the ship, in points, when destroyed. */
 	private int pointValue;
+	/** Health value of the ship, when spawned */
+	private int health;
 
 	/**
 	 * Constructor, establishes the ship's properties.
@@ -39,14 +49,17 @@ public class EnemyShip extends Entity {
 	 *            Initial position of the ship in the Y axis.
 	 * @param spriteType
 	 *            Sprite type, image corresponding to the ship.
+	 * @param health
+	 * 			  Initial health of the ship.
 	 */
 	public EnemyShip(final int positionX, final int positionY,
-			final SpriteType spriteType) {
-		super(positionX, positionY, 12 * 2, 8 * 2, Color.WHITE);
+			final SpriteType spriteType, final int health) {
+		super(positionX, positionY, 12 * 2, 8 * 2, HEALTH_COLOR_CODES.get(health));
 
 		this.spriteType = spriteType;
 		this.animationCooldown = Core.getCooldown(500);
 		this.isDestroyed = false;
+		this.health = health;
 
 		switch (this.spriteType) {
 		case EnemyShipA1:
@@ -142,11 +155,30 @@ public class EnemyShip extends Entity {
 	}
 
 	/**
+	 * Reduces the health of the ship by 1 and changes the
+	 * color of the ship when a specific health was reached.
+	 */
+	public final void reduceHealth() {
+		this.health--;
+		if (HEALTH_COLOR_CODES.containsKey(this.health))
+			this.setColor(HEALTH_COLOR_CODES.get(this.health));
+	}
+
+	/**
 	 * Checks if the ship has been destroyed.
 	 * 
 	 * @return True if the ship has been destroyed.
 	 */
 	public final boolean isDestroyed() {
 		return this.isDestroyed;
+	}
+
+	/**
+	 * Returns the current remaining health.
+	 *
+	 * @return Integer value of the health field.
+	 */
+	public final int getHealth() {
+		return this.health;
 	}
 }
